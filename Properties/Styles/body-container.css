@@ -1,0 +1,102 @@
+article{
+    display: flex;
+        justify-content: center;
+    position: relative;
+    height: fit-content;
+}
+.article-container{
+    width: 100%;
+    position: relative;
+        top: 0;
+    display: none;
+    border: 5px solid rgba(167, 8, 8, 0.897);
+    transition: .5s;
+    height: max-content;
+        justify-content: center;
+}
+    .article-container.active{
+        display: flex;
+        transition: .5s;
+        background-color: beige;
+        padding: 5px;
+        border-radius: 10px;
+    }
+    .article-container.box-in{
+        animation:forwards box_entrance 3s;
+    }
+        @keyframes box_entrance {
+            0%{
+                opacity: 0;
+                overflow: hidden;
+                width: 5px;
+                aspect-ratio: 1/1;
+                transform: translateY(1000%);
+            }
+            10%{
+                opacity: .5;
+                transform: translateY(500%);
+            }
+            30%{
+                width: 5px;
+                aspect-ratio: 1/1;
+                transform: translateY(0);
+            }
+            60%{
+                opacity: 1;
+                width: 5px;
+                height: 5px;
+                transform: translateX(-500px);
+            }
+            70%{
+                transform: translateX(0);
+                width: 100%;
+                height: 5px;
+            }
+            80%{
+                height: 500px;
+            }
+            100%{
+                overflow: hidden;
+                height: fit-content;
+            }
+        }
+    .article-container.box-out{    
+        transition: .5s;
+        position: absolute;
+            right: 0;
+        animation: box_exit ease-out 2s;
+    }
+        @keyframes box_exit {
+            100%{
+                opacity: 0;
+                overflow: hidden;
+                width: 5px;
+                aspect-ratio: 1/1;
+                transform: translateY(1000%);
+            }
+            90%{
+                opacity: 1;
+            }
+            80%{
+                aspect-ratio: 1/1;
+                transform: translateY(100%);
+            }
+            50%{
+                width: 5px;
+                height: 5px;
+            }
+            0%{
+                opacity: 1;
+                overflow: hidden;
+                width: 100%;
+                height: fit-content;
+            }
+        }
+.box-out .content-container{
+        opacity: 0;
+        transition: 1ms;
+    }
+.content-container{
+    transition: .5s;
+    opacity: 1;
+}
