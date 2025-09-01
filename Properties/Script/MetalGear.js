@@ -49,14 +49,15 @@ function article_rotation(data){
     switch(data){
         case 1:
             if(!article1.classList.contains("active")){
-                if(!article2.classList.contains("active")){
+                if(article3.classList.contains("active")){
                     article3.classList.add("box-out");
                     setTimeout(() => {
                         article3.classList.remove("active");
                         article3.classList.remove("box-out");
                     }, out_duration);
                     console.log("Article out 3");
-                }else{
+                }
+                if(article2.classList.contains("active")){
                     article2.classList.add("box-out");
                     setTimeout(() => {
                         article2.classList.remove("active");
@@ -74,14 +75,15 @@ function article_rotation(data){
             break;
         case 2:
             if(!article2.classList.contains("active")){
-                if(!article1.classList.contains("active")){
+                if(article3.classList.contains("active")){
                     article3.classList.add("box-out");
                     setTimeout(() => {
                         article3.classList.remove("active");
                         article3.classList.remove("box-out");
                     }, out_duration);
                     console.log("Article out 3");
-                }else{
+                }
+                if(article1.classList.contains("active")){
                     article1.classList.add("box-out");
                     setTimeout(() => {
                         article1.classList.remove("active");
@@ -99,14 +101,15 @@ function article_rotation(data){
             break;
         case 3:
             if(!article3.classList.contains("active")){
-                if(!article2.classList.contains("active")){
+                if(article1.classList.contains("active")){
                     article1.classList.add("box-out");
                     setTimeout(() => {
                         article1.classList.remove("active");
                         article1.classList.remove("box-out");
                     }, out_duration);
                     console.log("Article out 1");
-                }else{
+                }
+                if(article2.classList.contains("active")){
                     article2.classList.add("box-out");
                     setTimeout(() => {
                         article2.classList.remove("active");

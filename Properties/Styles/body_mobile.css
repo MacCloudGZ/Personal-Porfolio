@@ -18,6 +18,7 @@ article{
     .article-container.active{
         display: flex;
         transition: .5s;
+        background-color: beige;
         padding: 5px;
         border-radius: 10px;
     }
