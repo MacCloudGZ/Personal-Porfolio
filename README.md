@@ -2,11 +2,15 @@
 Personal Project as showing a my knowledge on making a dynamic portfolio
 
 # Website properties
-the color pallets that is used in this website is:
-| color |"hex-color | RGB |
-| ----- | --------- | --- |
-|  red  | #
-
+the default color pallets that is used in this website is:
+| color            |"hex-color |
+| -----            | --------- |
+| red              | #FF0000 |
+| lightish red     | #E3311D |
+| black            | #050507 |
+| lightish-black   | #362E2D |
+| grey             | #7C8685 |
+| lightish grey    | #AAACA1 |
 
 # table section
 Portfolio Table Data
@@ -37,9 +41,10 @@ Login table
 Profile-Image Table
 | profile_img-locale | profile_id | image-part |
 | :--------- | -------- | ------- |
-| ex("/image/..") | <id> | 1 | <!-- this one is for the profile-->
-| ex("/image/..") | <id> | 2 | <!-- this one is for the background profile -->
-
+| ex("/image/..") | <id> | 1 | 
+| ex("/image/..") | <id> | 2 | 
+<!-- 1 is for the profile-->
+<!-- 2 is for the background profile -->
 Projects table <!--dynamic table-->
 | project-id | project_name | description | project_status | layout-type |
 | :--------- | ------------ | ----------- | -------------- | ----------: |

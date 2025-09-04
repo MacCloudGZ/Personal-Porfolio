@@ -3,17 +3,97 @@ body{
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    background: #ecf0f3;
+    background: #362E2D;
 }
 .background-container{
     min-height: 100vh;
     display: flex;
         justify-content: center;
         align-items: center;
+        gap: 50px;
 }
     .background-container article{
         display: flex;
-            flex-direction: row;
-            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 70px;
         width: max-content;
+    }
+    .background-container section{
+        height: 300px;
+        width: 300px;
+        background-color: #AAACA1;
+        border-radius: 20px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        display: flex;
+            justify-content: center;
+            align-items: center;
+    }
+.label-container{
+    height: 50px;
+    width: 300px;
+    background-color: #E3311D;
+    border-radius: 10px;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.profile-container{
+    width: 300px;
+    aspect-ratio: 1/1;
+    position: static;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+    animation: levitate 2s ease-in-out infinite alternate;
+}
+
+@keyframes levitate {
+from {
+    transform: translateY(0);
+}
+to {
+    transform: translateY(-20px);
+}
+}
+.profile-front{
+    position: absolute;
+        z-index: 10;
+    width: 300px;
+    background-color: #E3311D;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+}
+    .profile-front img{
+        width: 95%;
+        height: 95%;
+        border-radius: 50%;
+        object-fit: contain;
+    }
+.border_back {
+    width: 80%;
+    aspect-ratio: 1/1;
+    border: solid 5px #E3311D;
+    transform: rotate(45deg);
+}
+.border_back.spin{
+    animation: rotateBorder 3s linear;
+    animation-iteration-count: 3;
+}
+@keyframes rotateBorder {
+        from {
+            transform: rotate(45deg);
+        }
+        to {
+            transform: rotate(405deg);
+        }
     }
