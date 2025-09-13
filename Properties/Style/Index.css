@@ -6,6 +6,7 @@ body{
     background: #362E2D;
 }
 .background-container{
+    overflow: hidden;
     min-height: 100vh;
     display: flex;
         justify-content: center;
@@ -22,17 +23,56 @@ body{
     }
     .background-container section{
         height: 300px;
-        width: 300px;
+        min-width: 300px;
+        padding: 10px;
         background-color: #AAACA1;
         border-radius: 20px;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
         display: flex;
+            flex-direction: column;
+            gap: 40px;
             justify-content: center;
             align-items: center;
     }
+        article.out{
+            animation: slide-out-blurred-left 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        }
+            @keyframes slide-out-blurred-left {
+                0% {
+                    transform: translateX(0) scaleY(1) scaleX(1);
+                    transform-origin: 50% 50%;
+                    filter: blur(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+                    transform-origin: 100% 50%;
+                    filter: blur(40px);
+                    opacity: 0;
+                }
+            }
+        section.out{
+            animation: slide-out-blurred-right 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        }
+            @keyframes slide-out-blurred-right {
+                0% {
+                    transform: translateX(0) scaleY(1) scaleX(1);
+                    transform-origin: 50% 50%;
+                    filter: blur(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(1000px) scaleX(2) scaleY(0.2);
+                    transform-origin: 0% 50%;
+                    filter: blur(40px);
+                    opacity: 0;
+                }
+            }   
 .label-container{
+    cursor:default;
     height: 50px;
-    width: 300px;
+    min-width: 300px;
+    padding: 0 30px;
     background-color: #E3311D;
     border-radius: 10px;
     display: flex;
@@ -45,7 +85,6 @@ body{
 .profile-container{
     width: 300px;
     aspect-ratio: 1/1;
-    position: static;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     display: flex;
@@ -97,3 +136,72 @@ to {
             transform: rotate(405deg);
         }
     }
+section .top{
+    width: 100%;
+    min-height: 60%;
+    height: fit-content;
+    display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center
+}
+
+section .down{
+    width: 100%;
+    display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+}
+    .down button{   
+        height: 50px;
+        width: 300px;
+        border: none transparent;
+        border-radius: 10px;
+        display: flex;
+            justify-content: center;
+            align-items: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        transition: .5s;
+    }
+    button svg{
+        display: none;
+        color: transparent;
+        transition: 1s;
+    }
+    .down button.cv{
+        background-color: transparent;
+    }
+        .cv:hover{
+            border: solid 5px #E3311D;
+            transition: .5s;
+            cursor: pointer;
+        }
+        .cv:hover span{
+            display: none;
+            transition: .5s;
+        }
+        .cv:hover svg{
+            transition: 1s;
+            display: block;;
+            color: #E3311D;
+        }
+    .down button.view{
+        cursor: zoom-in;
+        color: white;
+        background-color: #E3311D;
+    }
+        .view:hover{
+            border: solid 5px white;
+            transition: .5s;
+            cursor: pointer;
+        }
+        .view:hover span{
+            display: none;
+            transition: .5s;
+        }
+        .view:hover svg{
+            transition: 1s;
+            display: block;;
+            color: white;
+        }
