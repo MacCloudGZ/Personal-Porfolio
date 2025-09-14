@@ -21,7 +21,7 @@ Personal Data Table
 | 1   |   Anon    |  nyms    |  Anonymost |  NULL  | 2000-01-01 | free-lancer |
 
 status has 4 choices
-| ----- | -----|
+| ----- | ----- |
 | | employed |
 | Status | free-lancer |
 | Choices | unemployed |
