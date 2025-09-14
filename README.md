@@ -43,16 +43,20 @@ Profile-Image Table
 | :--------- | -------- | ------- |
 | ex("/image/..") | <id> | 1 | 
 | ex("/image/..") | <id> | 2 | 
+
 <!-- 1 is for the profile-->
 <!-- 2 is for the background profile -->
 Projects table <!--dynamic table-->
+
 | project-id | project_name | description | project_status | layout-type |
 | :--------- | ------------ | ----------- | -------------- | ----------: |
 |      1     |   testing    | loremepstum |   ongoing      |      3      |
 |      2     |   new data   | loremepstum |   completed    |      1      |
 
 project image table <!--dynamic table-->
+
 | *project-id | image-locale | layout |
+| ----------- | ------------ | ------ |
 |     1       | ex("/image/) |   1    |
 |     1       | ex("/image/) |   2    |
 |     1       | ex("/image/) |   3    |
