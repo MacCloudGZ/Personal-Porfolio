@@ -20,9 +20,18 @@ function viewMain(){
         }
         section.style.display = 'none';
         article.style.display = 'none';
-        console.log('Go to main page');
+        console.log('Accessing MainPage');
     }, 400);
     setTimeout(() => {
-        window.location.href = "0/main";
+        console.log('Access Granted!')
+        setTimeout(() => {
+            window.location.href = "0/main";
+        }, 1000);
     }, 1000);
+}
+
+function downloadCV(){
+    console.log('Sending Request for download DV');
+
+    console.log('server disconnected!');
 }

@@ -27,6 +27,12 @@ status has 4 choices
 | Choices | unemployed |
 | ----- | retired |
 
+| choices |
+| ----------- |
+| employed |
+| free-lancer |
+| unemployed |
+| retired |
 Contact table <!--dynamic table-->
 <!-- an account can have more than one contacts depends on the user  -->
 | *id | contact-location | contact    |

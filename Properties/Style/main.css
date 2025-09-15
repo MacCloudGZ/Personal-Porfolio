@@ -1,0 +1,15 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background: #362E2D;
+}
+.background-container{
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+}
