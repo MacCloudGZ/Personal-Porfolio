@@ -1,9 +1,3 @@
-const border_back = document.querySelector('.border_back');
-
-setInterval(() => {
-    border_back.classList.toggle('spin');
-}, 10000);
-
 function viewMain(){
     const article = document.getElementById('article');
     const section = document.getElementById('section');
