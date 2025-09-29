@@ -23,9 +23,12 @@ create table personal_data (
     status_id INT,
     FOREIGN KEY (status_id) REFERENCES job_status(status_id)
 );
-
 INSERT INTO personal_data (id, firstname, middlename, lastname, suffix,birthdate, status_id)
 VALUES (1,'Anon','Anon','anon',NULL,'01-01-2001',2);
+
+CREATE TABLE account (
+    id INT, 
+)
 
 create table message_data (
     id INT,
