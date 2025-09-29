@@ -62,7 +62,7 @@ function transition_editpage(){
     setTimeout(() => {
         console.log('Access Granted!')
         setTimeout(() => {
-            window.location.href = "../edit";
+            window.location.href = "../../edit";
         }, 1000);
     }, 1000);
     
