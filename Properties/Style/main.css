@@ -10,11 +10,12 @@ body{
     min-height: 100vh;
     display: flex;
         justify-content: center;
-        gap: 50px;
+        gap: 70px;
 }
     .background-container article{
         margin-top: 50px;
         position: relative;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
         display: flex;
             align-items: center;
             flex-direction: column;
@@ -22,31 +23,58 @@ body{
         width: max-content;
     }
     .background-container section{
-        min-height: 300px;
-        min-width: 1200px;
-        padding: 10px;
-        background-color: #AAACA1;
-        border-radius: 20px;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        height: 100vh-10px;
+        width: 1200px;
+        padding-top: 10px;
+        min-width: 50%;
+        overflow-y: scroll;
         display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 1rem;
-            align-items: center;
+            gap: 10px;
+    }
+    /* width */
+    .background-container section::-webkit-scrollbar {
+            width: 10px;        }
+    /* Track */
+    .background-container section::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    /* Handle */
+    .background-container section::-webkit-scrollbar-thumb {
+        background: #AAACA1;
+        width: 5px;
+        transition: 1s;
+        border-radius: 10px;
+    }
+    /* Handle on hover */
+    .background-container section::-webkit-scrollbar-thumb:hover {
+        background: #FF0000;
+        transition: .5s;
+        border-radius: 50px;
+        width: 10px;
     }
 .label-container{
     cursor:default;
-    height: 50px;
-    padding: 0 30px;
+    width: 90%;
+    padding: 10px 30px;
     background-color: #E3311D;
     border-radius: 10px;
     display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
     color: white;
     font-size: 1.5rem;
     font-weight: 600;
 }
+    .label-container hr{
+        width: 100%;
+    }
+    .label-container .table{
+        width: 60%;
+        font-size: 1vw;
+        font-weight: none;
+    }
 .profile-container{
     position: sticky;
         top: 10px;
