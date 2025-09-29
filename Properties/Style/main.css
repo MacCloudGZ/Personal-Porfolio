@@ -6,6 +6,7 @@ body{
     background: #362E2D;
 }
 .background-container{
+    position: relative;
     overflow: hidden;
     min-height: 100vh;
     display: flex;
@@ -131,3 +132,68 @@ to {
             transform: rotate(405deg);
         }
     }
+
+    .edit_container{
+        position: absolute;
+            top: 0;
+            left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,.7);
+        display: none;
+            justify-content: center;
+            align-items: center;
+        z-index: 100;
+        transition: 1.5s;
+    }
+    .edit_container.open{
+        display: flex;
+        transition: 1.5s;
+    }
+        .edit-box{
+            background-color: #E3311D;
+            width: 400px;
+            padding: 50px;
+            border-radius: 50px;
+            display: flex;
+                flex-direction: column;
+                gap: 20px;
+        }
+            .edit-box span{
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #f2f2f2;
+            }
+            .edit-box input {
+                background-color: #eee;
+                border: none;
+                padding: 1rem;
+                font-size: 1rem;
+                width: 100%-100px;
+                border-radius: 1rem;
+                color: #FF0000; 
+                box-shadow: 0 0.4rem #dfd9d9;
+                cursor: pointer;
+            }
+            .edit-box input:focus {
+                outline-color: #FF0000;
+            }
+            .edit-action{
+                display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+            }
+            .edit-action button{
+                padding: 10px 20px;
+                font-size: 1.2rem;
+                font-weight: 600;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                transition: .5s;
+            }
+            .edit-action .edit-cancel{
+                background-color: #362E2D;
+                color: white;    
+            }

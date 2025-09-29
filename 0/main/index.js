@@ -9,7 +9,8 @@ function no(targetid){
 }
 
 function edit_function(){
-   no('editicon');
+   const container = document.querySelector('.edit_container');
+   container.classList.add('open');
 }
 
 function access_page(page){
@@ -21,4 +22,12 @@ function access_page(page){
             window.location.href ="../../Error.html";
             break;
     }
+}
+
+function close_edit(){
+    const container = document.querySelector('.edit_container');
+    container.classList.remove('open');
+}
+function submit_edit(){
+    no('edit_submit');
 }
