@@ -13,10 +13,10 @@ function edit_function(){
    container.classList.add('open');
 }
 
-function access_page(page){
-    switch(page){
+function access_page(crruentpage,targetpage){
+    switch(targetpage){
         case 'Home':
-
+            
             break;
         default:
             window.location.href ="../../Error.html";

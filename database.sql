@@ -88,6 +88,16 @@ INSERT INTO educational_background (id, institution_name, degree, field_of_study
 VALUES (1, 'University of Example', 'Bachelor of Science', 'Computer Science', '2015-08-01', '2019-05-15'),
 (1, 'Example High School', 'High School Diploma', NULL, '2011-09-01', '2015-06-15');
 
+CREATE TABLE fun_personal_touch (
+    touch_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT,
+    description TEXT NOT NULL,
+    FOREIGN KEY (id) REFERENCES personal_data(id)
+);
+INSERT INTO fun_personal_touch (id, description)
+VALUES (1, 'I love hiking and outdoor adventures.'),
+(1, 'I play the guitar in my free time.');
+
 -- for data of the site
 
 CREATE TABLE message_data (
