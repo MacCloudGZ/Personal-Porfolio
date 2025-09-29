@@ -1,8 +1,8 @@
-create database MacCloud;
 
-use MacCloud;
+CREATE DATABASE MacCloud;
+USE MacCloud;
 
-create table job_status (
+CREATE TABLE job_status (
     status_id INT PRIMARY KEY,
     status_label VARCHAR(100)
 );
@@ -13,8 +13,8 @@ INSERT INTO job_status (status_id, status_label) VALUES
 (3, 'Unemployed'),
 (4, 'Retired');
 
-create table personal_data (
-    id INT PRIMARY KEY AUTO_INCREAMENT NOT NULL,
+CREATE TABLE personal_data (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     firstname VARCHAR(255) NOT NULL,
     middlename VARCHAR(100),
     lastname VARCHAR(100) NOT NULL,
@@ -23,59 +23,39 @@ create table personal_data (
     status_id INT,
     FOREIGN KEY (status_id) REFERENCES job_status(status_id)
 );
-INSERT INTO personal_data (id, firstname, middlename, lastname, suffix,birthdate, status_id)
-VALUES (1,'Anon','Anon','anon',NULL,'01-01-2001',2);
+INSERT INTO personal_data (id, firstname, middlename, lastname, suffix, birthdate, status_id)
+VALUES (1, 'Anon', 'Anon', 'anon', NULL, '2001-01-01', 2);
 
 CREATE TABLE account (
     id INT, 
     username VARCHAR(50) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     FOREIGN KEY (id) REFERENCES personal_data(id)
-)
+);
 
 INSERT INTO account (id, username, password_hash)
 VALUES (1, 'admin', 'admin');
 
-create table message_data (
-    id INT,
-    message_text VARCHAR(MAX),
-    message_type INT NOT NULL,
-    FOREIGN KEY(id) REFERENCES personal_data(id);
-)
-
-INSERT INTO message_data (id, message_text, message_area, message_type)
-VALUES (1, 'Hello, this is a test message.', 1),
-(1, 'This is another message for testing.', 1);
-
-CREATE TABLE main_images (
-    image_id INT PRIMARY KEY AUTO_INCREMENT,
-    id INT,
-    image_path VARCHAR(255) NOT NULL,
-    FOREIGN KEY (id) REFERENCES personal_data(id)
+CREATE TABLE table_arranger (
+    table_id INT PRIMARY KEY,
+    table_name VARCHAR(255),
+    table_possition INT
 );
 
-INSERT INTO main_images (id, image_path)
-VALUES (1, '~/Properties/Images/test_image.jpg'),
-(1, '~/Properties/Images/another_image.jpg');
-
-CREATE table table_arranger (
-    table_id INT PRIMARY,
-    table_name VARCHAR(255),
-    table_possition INT,
-)
 INSERT INTO table_arranger (table_id, table_name, table_possition)
-VALUES (1,'PERSONAL INFORMATION',1),
-(2,'CONTACT INFO', 2),
-(3,'EDUCATIONAL BACKGROUND', 3),
-(4,'SKILLS',4),
-(5,'FUN / PERSONAL TOUCH',5);
+VALUES (1, 'PERSONAL INFORMATION', 1),
+(2, 'CONTACT INFO', 2),
+(3, 'EDUCATIONAL BACKGROUND', 3),
+(4, 'SKILLS', 4),
+(5, 'FUN / PERSONAL TOUCH', 5);
 
 CREATE TABLE skills (
     skill_id INT PRIMARY KEY AUTO_INCREMENT,
     id INT,
     skill_name VARCHAR(100) NOT NULL,
-    proficiency_level INT CHECK (proficiency_level BETWEEN 1 AND 10),
-    FOREIGN KEY (id) REFERENCES personal_data(id)
+    proficiency_level INT,
+    FOREIGN KEY (id) REFERENCES personal_data(id),
+    CHECK (proficiency_level BETWEEN 1 AND 10)
 );
 
 INSERT INTO skills (id, skill_name, proficiency_level)
@@ -93,3 +73,41 @@ CREATE TABLE contact_info (
 INSERT INTO contact_info (id, contact_type, contact_value)
 VALUES (1, 'Email', 'abx@mmg.com'),
 (1, 'Phone', '+1234567890');
+
+CREATE TABLE educational_background (
+    education_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT,
+    institution_name VARCHAR(255) NOT NULL,
+    degree VARCHAR(100),
+    field_of_study VARCHAR(100),
+    start_date DATE,
+    end_date DATE,
+    FOREIGN KEY (id) REFERENCES personal_data(id)
+);
+INSERT INTO educational_background (id, institution_name, degree, field_of_study, start_date, end_date) 
+VALUES (1, 'University of Example', 'Bachelor of Science', 'Computer Science', '2015-08-01', '2019-05-15'),
+(1, 'Example High School', 'High School Diploma', NULL, '2011-09-01', '2015-06-15');
+
+-- for data of the site
+
+CREATE TABLE message_data (
+    id INT,
+    message_text TEXT,
+    message_type INT NOT NULL,
+    FOREIGN KEY(id) REFERENCES personal_data(id)
+);
+
+INSERT INTO message_data (id, message_text, message_type)
+VALUES (1, 'Hello, this is a test message.', 1),
+(1, 'This is another message for testing.', 1);
+
+CREATE TABLE main_images (
+    image_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT,
+    image_path VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id) REFERENCES personal_data(id)
+);
+
+INSERT INTO main_images (id, image_path)
+VALUES (1, 'Properties/Images/test_image.jpg'),
+(1, 'Properties/Images/another_image.jpg');
