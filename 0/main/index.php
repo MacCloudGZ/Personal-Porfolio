@@ -1,3 +1,8 @@
+<?php 
+    session_start();
+    include_once '../../Properties/database.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +22,7 @@
         <article id="article">
             <div class="profile-container">
                 <div class="profile-front">
-                    <img src="/Properties/Images/Default_Profile.jpg" alt="error 404 image not found" srcset="">
+                    <img src="../../Properties/Images/Default_Profile.jpg" alt="error 404 image not found" srcset="">
                 </div>
                 <div class="border_back"></div>
             </div>

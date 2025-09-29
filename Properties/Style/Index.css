@@ -23,8 +23,8 @@ body{
     }
     .background-container section{
         min-height: 300px;
-        min-width: 300px;
-        padding: 10px;
+        min-width: 700px;
+        padding: 30px;
         background-color: #AAACA1;
         border-radius: 20px;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -71,7 +71,7 @@ body{
 .label-container{
     cursor:default;
     height: 50px;
-    min-width: 300px;
+    width: 100%-60px;
     padding: 0 30px;
     background-color: #E3311D;
     border-radius: 10px;
