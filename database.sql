@@ -28,7 +28,13 @@ VALUES (1,'Anon','Anon','anon',NULL,'01-01-2001',2);
 
 CREATE TABLE account (
     id INT, 
+    username VARCHAR(50) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id) REFERENCES personal_data(id)
 )
+
+INSERT INTO account (id, username, password_hash)
+VALUES (1, 'admin', 'admin');
 
 create table message_data (
     id INT,
