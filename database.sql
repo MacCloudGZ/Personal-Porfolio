@@ -21,10 +21,25 @@ CREATE TABLE personal_data (
     suffix VARCHAR(10),
     birthdate DATE,
     status_id INT,
+    sex enum('Male', 'Female', 'Other'),
     FOREIGN KEY (status_id) REFERENCES job_status(status_id)
 );
-INSERT INTO personal_data (id, firstname, middlename, lastname, suffix, birthdate, status_id)
-VALUES (1, 'Anon', 'Anon', 'anon', NULL, '2001-01-01', 2);
+INSERT INTO personal_data (id, firstname, middlename, lastname, suffix, birthdate, status_id, sex)
+VALUES (1, 'Anon', 'Anon', 'anon', NULL, '2001-01-01', 2, 'Male');
+
+CREATE TABLE address (
+    address_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT,
+    address_line1 VARCHAR(255) NOT NULL,
+    address_line2 VARCHAR(255),
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    zip_code VARCHAR(10) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    FOREIGN KEY (id) REFERENCES personal_data(id)
+);
+INSERT INTO address (id, address_line1, address_line2, city, state, zip_code, country)
+VALUES (1, '123 Main St', 'Apt 4B', 'Anytown', 'CA', '12345', 'USA');  
 
 CREATE TABLE account (
     id INT, 

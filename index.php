@@ -1,23 +1,23 @@
 <?php
     session_start();
     include_once 'Properties/database.php';
-
+    include_once 'Properties/api/getFullname.php';
+    include_once 'Properties/api/getProfileImage.php';
+    include_once 'Properties/api/getMessage.php';
     // Fetch personal data
     // Variable holders for extracted data
     $user_id = 1; // Change as needed
 
-    // 1. personal_data -> CONCAT(lastname, firstname, middlename/middleinitial)
-    $sql_fullname = "SELECT CONCAT(lastname, ', ', firstname, ' ', IF(middlename IS NOT NULL AND LENGTH(middlename) > 0, CONCAT(LEFT(middlename, 1), '.'), '')) AS full_name FROM personal_data WHERE id = ?";
-    $stmt_fullname = $conn->prepare($sql_fullname);
-    $stmt_fullname->bind_param('i', $user_id);
-    $stmt_fullname->execute();
-    $result_fullname = $stmt_fullname->get_result();
-    $row_fullname = $result_fullname->fetch_assoc();
-    $full_name = $row_fullname['full_name'];
+    $full_name = getFullName($conn, $user_id);
+    $main_image_path = getProfileImagePath($conn, $user_id);
+    $messages = getMessagesType1($conn, $user_id);
 
     // 2. skills -> skill_name {if skills_shown is true}
     $sql_skills = "SELECT skill_name FROM skills WHERE id = ? AND skills_shown = TRUE";
     $stmt_skills = $conn->prepare($sql_skills);
+    if (!$stmt_skills) {
+        die('Prepare failed for skills: ' . $conn->error);
+    }
     $stmt_skills->bind_param('i', $user_id);
     $stmt_skills->execute();
     $result_skills = $stmt_skills->get_result();
@@ -28,28 +28,24 @@
     // 3. profession -> job_title {fetch all job titles for the user}
     $sql_profession = "SELECT job_title FROM profession WHERE id = ?";
     $stmt_profession = $conn->prepare($sql_profession);
-    $stmt_profession->bind_param('i', $user_id);
-    $stmt_profession->execute();
-    $result_profession = $stmt_profession->get_result();
-    $row_profession = $result_profession->fetch_assoc();
-    $job_title = $row_profession ? $row_profession['job_title'] : '';
-
-    // 4. message_data -> message_text {target the message_type number 1}
-    $sql_message = "SELECT message_text FROM message_data WHERE id = ? AND message_type = 1";
-    $stmt_message = $conn->prepare($sql_message);
-    $stmt_message->bind_param('i', $user_id);
-    $stmt_message->execute();
-    $result_message = $stmt_message->get_result();
-    $messages = [];
-    while ($row_message = $result_message->fetch_assoc()) {
-        $messages[] = $row_message['message_text'];
+    if (!$stmt_profession) {
+        // If the table doesn't exist, act like there are no professions
+        $job_titles = [];
+        $job_title = '';
+    } else {
+        $stmt_profession->bind_param('i', $user_id);
+        $stmt_profession->execute();
+        $result_profession = $stmt_profession->get_result();
+        $job_titles = [];
+        while ($row_profession = $result_profession->fetch_assoc()) {
+            $job_titles[] = $row_profession['job_title'];
+        }
+        $job_title = implode(',', $job_titles);
     }
 
-    // 5. main_images -> image_path {target the image_id number 1}
-    $sql_image = "SELECT image_path FROM main_images WHERE image_id = 1";
-    $result_image = $conn->query($sql_image);
-    $row_image = $result_image->fetch_assoc();
-    $main_image_path = $row_image['image_path'];
+    // Flags to control which section to show on the highlight page
+    $hasProfessions = !empty($job_titles);
+    $hasSkills = !empty($skills);
 ?>
 
 <!DOCTYPE html>
@@ -110,23 +106,25 @@
                     <h1>Hello, I'm <?php echo $full_name?></h1>
                     <p>"<?php echo implode(" ", $messages); ?>"</p>
                 </div>
-                <p>My Experiences:</p>
-                <div class="roles-container">
-                    <?php
-                        foreach ($job_title ? explode(',', $job_title) : [] as $title) {
-                            echo '<div class="roles">' . htmlspecialchars(trim($title), ENT_QUOTES, 'UTF-8') . '</div>';
-                        }
-                    ?>
-                </div>
-                <p>My Skills:</p>
-                <div class="roles-container">
-                    <!-- for loop -->
-                    <?php
-                        foreach ($skills as $skill) {
-                            echo '<div class="roles">' . htmlspecialchars($skill, ENT_QUOTES, 'UTF-8') . '</div>';
-                        }
-                    ?>
-                </div>
+                <?php if ($hasProfessions): ?>
+                    <p>My Experiences:</p>
+                    <div class="roles-container">
+                        <?php
+                            foreach ($job_titles as $title) {
+                                echo '<div class="roles">' . htmlspecialchars(trim($title), ENT_QUOTES, 'UTF-8') . '</div>';
+                            }
+                        ?>
+                    </div>
+                <?php elseif ($hasSkills): ?>
+                    <p>My Skills:</p>
+                    <div class="roles-container">
+                        <?php
+                            foreach ($skills as $skill) {
+                                echo '<div class="roles">' . htmlspecialchars($skill, ENT_QUOTES, 'UTF-8') . '</div>';
+                            }
+                        ?>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="down">
                 <button class="cv" type="button" onclick="downloadCV()">

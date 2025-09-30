@@ -3,10 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"defer></script>
     <title>Portfolio Editor</title>
 </head>
 <body>
+    <?php
+        session_start();
+        if (!isset($_SESSION['edit_permitted']) || $_SESSION['edit_permitted'] !== true) {
+            header('Location: ../Error.html');
+            exit;
+        }
+    ?>
     <h1>Portfolio Editor</h1>
+    <button id="finished-btn">Finished</button>
+    <?php
+        // Use server-side origin if present to survive refresh
+        $from = isset($_SESSION['edit_origin']) ? $_SESSION['edit_origin'] : null;
+        if ($from) {
+            echo '<script>window.__EDIT_ORIGIN__ = ' . json_encode($from) . ';</script>';
+        }
+    ?>
     
     <!-- Personal Information Section -->
     <section id="personal-info">
@@ -29,6 +46,13 @@
             <label for="birthdate">Birth Date:</label>
             <input type="date" id="birthdate" name="birthdate">
             
+            <label for="sex">Sex:</label>
+            <select id="sex" name="sex">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
             <label for="status_id">Job Status:</label>
             <select id="status_id" name="status_id">
                 <option value="1">Employed</option>
@@ -38,6 +62,27 @@
             </select>
             
             <button type="submit">Update Personal Info</button>
+        </form>
+    </section>
+
+    <!-- Address Section -->
+    <section id="address">
+        <h2>Address</h2>
+        <form id="address-form">
+            <input type="hidden" id="address-person-id" value="1">
+            <label for="address_line1">Address Line 1:</label>
+            <input type="text" id="address_line1" name="address_line1" required>
+            <label for="address_line2">Address Line 2:</label>
+            <input type="text" id="address_line2" name="address_line2">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required>
+            <label for="zip_code">Zip Code:</label>
+            <input type="text" id="zip_code" name="zip_code" required>
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+            <button type="submit">Save Address</button>
         </form>
     </section>
 
@@ -152,23 +197,7 @@
         </form>
     </section>
 
-    <!-- Main Images Section -->
-    <section id="main-images">
-        <h2>Main Images</h2>
-        <div id="images-list">
-            <!-- Images will be dynamically loaded here -->
-        </div>
-        
-        <h3>Add New Image</h3>
-        <form id="images-form">
-            <input type="hidden" id="image-person-id" value="1">
-            
-            <label for="image-path">Image Path:</label>
-            <input type="text" id="image-path" name="image_path" required>
-            
-            <button type="submit">Add Image</button>
-        </form>
-    </section>
+    <!-- Main Images excluded by request -->
 
     <!-- Account Section -->
     <section id="account">
@@ -189,19 +218,6 @@
         </form>
     </section>
 
-    <script>
-        // Basic form handling - you can expand this with actual database operations
-        document.addEventListener("DOMContentLoaded", function() {
-            // Add event listeners to all forms
-            const forms = document.querySelectorAll("form");
-            forms.forEach(form => {
-                form.addEventListener("submit", function(e) {
-                    e.preventDefault();
-                    console.log("Form submitted:", form.id);
-                    // Add your database update logic here
-                });
-            });
-        });
-    </script>
+    <script src="index.js"></script>
 </body>
 </html>

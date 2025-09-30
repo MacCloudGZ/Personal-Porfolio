@@ -36,6 +36,12 @@ body{
                     opacity: 0;
                 }
             }
+        .background-container article.left{
+            animation: slide-out-blurred-left 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        }
+        .background-container article.right{
+            animation: slide-out-blurred-right 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        }
     .background-container section{
         height: 100vh-10px;
         width: 1200px;
@@ -63,6 +69,41 @@ body{
                     opacity: 0;
                 }
             }
+        .background-container section.left{
+            animation: slide-out-blurred-left 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        }
+            @keyframes slide-out-blurred-left {
+                0% {
+                    transform: translateX(0) scaleY(1) scaleX(1);
+                    transform-origin: 50% 50%;
+                    filter: blur(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+                    transform-origin: 100% 50%;
+                    filter: blur(40px);
+                    opacity: 0;
+                }
+            }
+        .background-container section.up{
+            animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        }
+            @keyframes slide-out-blurred-top {
+                0% {
+                    transform: translateY(0) scaleY(1) scaleX(1);
+                    transform-origin: 50% 0%;
+                    filter: blur(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+                    transform-origin: 50% 0%;
+                    filter: blur(40px);
+                    opacity: 0;
+                }
+            }   
+
     /* width */
     .background-container section::-webkit-scrollbar {
             width: 10px;        }
@@ -87,6 +128,7 @@ body{
 .label-container{
     cursor:default;
     width: 90%;
+    max-width: 300px;
     padding: 10px 30px;
     background-color: #E3311D;
     border-radius: 10px;
@@ -102,10 +144,12 @@ body{
         width: 100%;
     }
     .label-container .table{
-        width: 60%;
-        font-size: 1vw;
+        width: 100%;
         font-weight: none;
     }
+     .table tr td{
+        font-size: 1rem;
+     }
 .profile-container{
     position: sticky;
         top: 10px;
@@ -193,6 +237,7 @@ to {
                 font-size: 1.5rem;
                 font-weight: 600;
                 color: #f2f2f2;
+                user-select: none;
             }
             .edit-box input {
                 background-color: #eee;
@@ -203,6 +248,7 @@ to {
                 border-radius: 1rem;
                 color: #FF0000; 
                 box-shadow: 0 0.4rem #dfd9d9;
+                user-select: none;
                 cursor: pointer;
             }
             .edit-box input:focus {
@@ -219,6 +265,7 @@ to {
                 font-weight: 600;
                 border: none;
                 border-radius: 10px;
+                user-select: none ;
                 cursor: pointer;
                 box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
                 transition: .5s;

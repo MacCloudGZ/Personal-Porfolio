@@ -16,11 +16,6 @@
 
     // Extract all table data
     $Main_info = getTargetTable(1);
-    $box1_info = getTargetTable(2);
-    $box2_info = getTargetTable(3);
-    $box3_info = getTargetTable(4);
-    $box4_info = getTargetTable(5);
-    $box5_info = getTargetTable(6);
 ?>
 
 <!DOCTYPE html>
@@ -95,9 +90,9 @@
             <div class="header-section ">
                 <div class="title-cart">PERSONAL PORTFOLIO</div>
                 <div class="tabs-container">
-                    <div class="tabs active" id="activetab" onclick="no('activetab')">MAIN</div>
-                    <div id="Projects" onclick="access_page('Home','Projects')" class="tabs">PROJECTS</div>
-                    <div id="Contacts" onclick="access_page('Home','Contacts')" class="tabs">CONTACTS</div>
+                    <div class="tabs" id="Home" onclick="access_page('Contacts','Home')">MAIN</div>
+                    <div id="Projects" onclick="access_page('Contacts','Projects')" class="tabs">PROJECTS</div>
+                    <div id="activetab" onclick="no('activetab')" class="tabs active">CONTACTS</div>
                 </div>
                 <div class="edit-button" id="edit_button" onclick="edit_function()">
                     <svg id="editicon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" viewBox="0 0 494.936 494.936" xml:space="preserve">
