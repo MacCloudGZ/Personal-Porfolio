@@ -40,13 +40,20 @@ function access_page(currentpage,targetpage){
     }, 1000);
 }
 
-function transition_page(){
+let lastRandomNum = null; // store previous number
+
+function transition_page() {
     const article = document.getElementById('article');
     const idle = document.getElementById('idle');
     const section = document.getElementById('section');
     const background = document.getElementById('background');
-    const randomNum = Math.floor(Math.random() * 3)+1;
-    switch(randomNum){
+    let randomNum;
+    // Keep generating until it's different from lastRandomNum
+    do {
+        randomNum = Math.floor(Math.random() * 3) + 1;
+    } while (randomNum === lastRandomNum);
+    lastRandomNum = randomNum; // update for next call
+    switch (randomNum) {
         case 1:
             article.classList.add('out');
             break;
@@ -57,7 +64,7 @@ function transition_page(){
             article.classList.add('right');
             break;
     }
-    switch(randomNum){
+    switch (randomNum) {
         case 1:
             section.classList.add('out');
             break;
@@ -80,6 +87,7 @@ function transition_page(){
         console.log('Accessing TargetPage');
     }, 400);
 }
+
 
 function close_edit(){
     const container = document.querySelector('.edit_container');
