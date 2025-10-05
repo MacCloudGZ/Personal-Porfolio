@@ -117,18 +117,103 @@
                 <div class="message-box" id="0">
                     <?php echo "<span>". implode(" ",$messages_type2) ."</span>"; ?>
                 </div>
-                <?php if (!empty($box1_info['contacts'])) { ?>
+                <?php if (!empty($box1_info)) { ?>
+                <?php 
+                    $hasContacts = isset($box1_info['contacts']) && is_array($box1_info['contacts']);
+                    $hasSkills = isset($box1_info['skills']) && is_array($box1_info['skills']);
+                    $hasEducation = isset($box1_info['education']) && is_array($box1_info['education']);
+                    $hasDescriptions = isset($box1_info['descriptions']) && is_array($box1_info['descriptions']);
+                    $hasProfessions = isset($box1_info['professions']) && is_array($box1_info['professions']);
+
+                    if ($hasContacts) {
+                        $box1_title = 'CONTACT INFO';
+                    } elseif ($hasSkills) {
+                        $box1_title = 'SKILLS';
+                    } elseif ($hasEducation) {
+                        $box1_title = 'EDUCATIONAL BACKGROUND';
+                    } elseif ($hasDescriptions) {
+                        $box1_title = 'FUN / PERSONAL TOUCH';
+                    } elseif ($hasProfessions) {
+                        $box1_title = 'PROFESSION';
+                    } else {
+                        $box1_title = 'INFO';
+                    }
+
+                    $recognizedKeys = ['contacts','skills','education','descriptions','professions'];
+                ?>
                 <div class="box-container" id="b1">
-                    <div>CONTACT INFO</div>
+                    <div><?php echo $box1_title; ?></div>
                     <hr>
                     <table class="table">
-                        <?php foreach ($box1_info['contacts'] as $contact) { ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($contact['contact_type']); ?></td>
-                                <th>-</th>
-                                <td><?php echo htmlspecialchars($contact['contact_value']); ?></td>
-                            </tr>
-                        <?php } ?>
+                        <?php if ($hasContacts): ?>
+                            <?php foreach ($box1_info['contacts'] as $contact): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($contact['contact_type']); ?></td>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars($contact['contact_value']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php if ($hasSkills): ?>
+                            <?php foreach ($box1_info['skills'] as $skill): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($skill['skill_name']); ?></td>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars($skill['proficiency_level']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php if ($hasEducation): ?>
+                            <?php foreach ($box1_info['education'] as $edu): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($edu['institution_info']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars($edu['degree'] ?? ''); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars(($edu['start_date'] ?? '') . (isset($edu['end_date']) && $edu['end_date'] ? ' to ' . $edu['end_date'] : '')); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php if ($hasDescriptions): ?>
+                            <?php foreach ($box1_info['descriptions'] as $desc): ?>
+                                <tr>
+                                    <td> - <?php echo htmlspecialchars($desc); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php if ($hasProfessions): ?>
+                            <?php foreach ($box1_info['professions'] as $prof): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($prof['job_title']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars($prof['company_name'] ?? ''); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars(($prof['start_date'] ?? '') . (isset($prof['end_date']) && $prof['end_date'] ? ' to ' . $prof['end_date'] : ($prof['is_current'] ? ' (Current)' : ''))); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php foreach ($box1_info as $genericKey => $genericValue): ?>
+                            <?php if (!in_array($genericKey, $recognizedKeys, true)): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars(ucwords(str_replace('_', ' ', (string)$genericKey))); ?></td>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars(is_array($genericValue) ? json_encode($genericValue) : (string)$genericValue); ?></td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </table>
                 </div>
                 <?php } ?>
