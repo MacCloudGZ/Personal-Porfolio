@@ -31,7 +31,13 @@
     // Route per entity
     switch ($entity) {
         case 'personal_data':
-            // update only
+            // get or update
+            if ($action === 'get') {
+                $res = $conn->query('SELECT * FROM personal_data WHERE id='.(int)$userId.' LIMIT 1');
+                $row = $res ? $res->fetch_assoc() : null;
+                echo json_encode(['success' => true, 'data' => $row]);
+                exit;
+            }
             if ($action !== 'update') json_fail('Unsupported action', 405);
             $sql = 'UPDATE personal_data SET firstname=?, middlename=?, lastname=?, suffix=?, birthdate=?, status_id=?, sex=? WHERE id=?';
             $stmt = $conn->prepare($sql);
@@ -50,11 +56,37 @@
 
         case 'address':
             // upsert by id
-            if (!in_array($action, ['upsert','get'])) json_fail('Unsupported action', 405);
+            if (!in_array($action, ['upsert','get','list','update_show_status','delete'])) json_fail('Unsupported action', 405);
+            if ($action === 'list') {
+                $stmt = $conn->prepare('SELECT * FROM address WHERE id=? ORDER BY address_id DESC');
+                $stmt->bind_param('i', $userId);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                $rows = $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
+                echo json_encode(['success' => true, 'data' => $rows]);
+                exit;
+            }
             if ($action === 'get') {
                 $res = $conn->query('SELECT * FROM address WHERE id='.(int)$userId.' LIMIT 1');
                 $row = $res ? $res->fetch_assoc() : null;
                 echo json_encode(['success' => true, 'data' => $row]);
+                exit;
+            }
+            if ($action === 'update_show_status') {
+                $addressId = (int)$data['address_id'];
+                $showAddress = $data['show_Address'] ? 1 : 0;
+                $stmt = $conn->prepare('UPDATE address SET show_Address = ? WHERE address_id = ? AND id = ?');
+                $stmt->bind_param('iii', $showAddress, $addressId, $userId);
+                $ok = $stmt->execute();
+                echo json_encode(['success' => $ok]);
+                exit;
+            }
+            if ($action === 'delete') {
+                $addressId = (int)$data['address_id'];
+                $stmt = $conn->prepare('DELETE FROM address WHERE address_id = ? AND id = ?');
+                $stmt->bind_param('ii', $addressId, $userId);
+                $ok = $stmt->execute();
+                echo json_encode(['success' => $ok]);
                 exit;
             }
             $sql = 'INSERT INTO address (id, address_line1, address_line2, city, state, zip_code, country)
@@ -285,6 +317,12 @@
             json_fail('Unsupported action', 405);
 
         case 'account':
+            if ($action === 'get') {
+                $res = $conn->query('SELECT username FROM account WHERE id='.(int)$userId.' LIMIT 1');
+                $row = $res ? $res->fetch_assoc() : null;
+                echo json_encode(['success' => true, 'data' => $row]);
+                exit;
+            }
             if ($action !== 'update') json_fail('Unsupported action', 405);
             $username = $data['username'] ?? '';
             $password = $data['password'] ?? '';

@@ -36,6 +36,7 @@ CREATE TABLE address (
     state VARCHAR(100) NOT NULL,
     zip_code VARCHAR(10) NOT NULL,
     country VARCHAR(100) NOT NULL,
+    show_Address BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (id) REFERENCES personal_data(id)
 );
 INSERT INTO address (id, address_line1, address_line2, city, state, zip_code, country)

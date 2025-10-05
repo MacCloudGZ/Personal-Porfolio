@@ -106,7 +106,7 @@
                 </div>
             </div>
             <div class="section-container">
-                s
+                projects
             </div>
         </section>
         <div class="edit_container" id="edit_container">

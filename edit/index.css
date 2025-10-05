@@ -1,0 +1,204 @@
+.sections-background-container{
+    display: flex;
+        justify-content: center;
+        flex-direction: column  ;
+        align-items: center;
+        gap: 10px;
+}
+    header{
+        display: flex;
+            justify-content: center;
+        padding: 10px 15px;
+        width: 95%;
+    }
+        header h1{
+            padding: 0 5%;
+            flex-grow: 3;
+            color: #dfd9d9;
+            border-bottom-right-radius: 50px 55%;
+            border-bottom: solid #dfd9d9 5px;
+        }
+        header .con{
+            padding: 0 5%;
+            display: flex;
+                justify-content: center;
+                align-items: center;
+            flex-grow: 1;
+            border-top-left-radius: 50px 55%;
+            border-top: solid 5px #dfd9d9;
+        }
+            .con button{
+                height: 50%;
+                width: 50%;
+                background-color: #dfd9d9;
+                
+            }
+    .sections-background-container section{
+        display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        min-height: 200px;
+        min-width: 700px;
+        padding: 15px 50px 30px 50px;
+        background-color: #E3311D;
+        border-radius: 20px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    }
+        section#contact-info{
+            display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+        }
+            section#contact-info form{
+                width: fit-content;
+                flex-grow: 1;
+            }
+                .contact-item button{
+                    border: none;
+                    padding: 5px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+                .contact-item [data-act="update"]{
+                    background-color: green;
+                }
+                .contact-item [data-act="delete"]{
+                    background-color: transparent;
+                }
+                .contact-item button svg{
+                    aspect-ratio: 1/1;
+                    height: 16px;
+                    stroke: #dfd9d9;
+                }
+        section h2{
+            font-weight: bolder;
+            text-transform: uppercase;
+        }
+        section form {  
+            position: relative;
+            height:fit-content;
+            width: 100%;
+            display: flex;
+                justify-content: center;
+                gap: 10px;
+                flex-wrap: wrap;
+            padding: 20px;
+        } 
+            form .mega_box{
+                display: flex;
+                    flex-grow: 1;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+            }
+                .mega_box .box{
+                    position: relative;
+                    padding-top: 20px;
+                    width: 100%;
+                    height: fit-content;
+                    display: flex;
+                        flex-direction: column;
+                }
+                    .box label{
+                        padding: 10px;
+                        position: absolute;
+                        top: 40%;
+                        left:0;
+                        color: #7e7e7e;
+                        pointer-events: none;
+                        transition: 1s;
+                    }
+                    .box input{
+                        background-color: transparent;
+                        border: none;
+                        border-bottom: 3px solid #000;
+                        padding: 10px;
+                        width: 90%;
+                    }
+                    .box input#suffix{
+                        width: 50%;
+                    }
+                    .box select{
+                        background-color: transparent;
+                        border: none;
+                        padding: 10px 10px 10px 50px;
+                        width: 50%;
+                    }
+                    .box input::placeholder{
+                        color: #9c9292;
+                    }
+                    input:active, input:focus, 
+                    .box select:active, select:focus{
+                        outline: none;
+                        border-bottom: #dfd9d9 solid 2px;
+                    }
+                    .box:hover label, .box input:placeholder-shown{ 
+                        top: 0;
+                        left: 10px;
+                        outline: none;
+                        font-weight: bolder;
+                        color: #dfd9d9;
+                        transition: 1s;
+                    }
+            form button{
+                padding: 10px;
+                position: absolute;
+                border-radius: 10px;
+                border: none;
+                bottom: -15px;
+                right: 0;
+            }
+            
+            /* Address List Styling */
+            .address-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px;
+                margin: 10px 0;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            
+            .address-details {
+                flex-grow: 1;
+                color: #dfd9d9;
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            
+            .address-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-end;
+            }
+            
+            .address-actions label {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                color: #dfd9d9;
+                font-size: 12px;
+                cursor: pointer;
+            }
+            
+            .address-actions button {
+                padding: 5px 10px;
+                font-size: 12px;
+                background-color: #dfd9d9;
+                color: #E3311D;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                position: static;
+                margin: 0;
+            }
+            
+            .address-actions button:hover {
+                background-color: #f0f0f0;
+            }

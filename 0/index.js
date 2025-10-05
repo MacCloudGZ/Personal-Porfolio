@@ -36,8 +36,8 @@ function access_page(currentpage,targetpage){
                     window.location.href ="../../Error.html";
                     break;
             }
-        }, 1000);
-    }, 1000);
+        }, 500);
+    },1000);
 }
 
 let lastRandomNum = null; // store previous number

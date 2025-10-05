@@ -9,7 +9,7 @@
                 $sql_personal = "SELECT pd.birthdate, pd.sex,
                                         COALESCE(TRIM(BOTH ', ' FROM CONCAT_WS(', ', a.address_line1, NULLIF(TRIM(a.address_line2), ''), a.city, a.state, a.zip_code, a.country)), '') AS full_address
                                  FROM personal_data pd
-                                 LEFT JOIN address a ON a.id = pd.id
+                                 LEFT JOIN address a ON a.id = pd.id AND a.show_Address = TRUE
                                  WHERE pd.id = ?";
                 $stmt_personal = $conn->prepare($sql_personal);
                 if ($stmt_personal) {
@@ -26,9 +26,11 @@
                         $table_data = [
                             'birthdate' => $birthdate,
                             'sex' => $row_personal['sex'] ?? '',
-                            'age' => $age,
-                            'address' => $address_full
-                        ];
+                            'age' => $age
+                        ];                    
+                        if (!empty($address_full)) {
+                            $table_data['address'] = $address_full;
+                        }
                     }
                 }
                 break;

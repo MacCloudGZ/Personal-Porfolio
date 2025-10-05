@@ -1,4 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Floating Label Functionality
+    const initFloatingLabels = () => {
+        const boxes = document.querySelectorAll('.box');
+        
+        boxes.forEach(box => {
+            const input = box.querySelector('input');
+            const select = box.querySelector('select');
+            const label = box.querySelector('label');
+            
+            // Check if we have either input or select, and a label
+            const element = input || select;
+            if (!element || !label) return;
+            
+            // Function to update label state
+            const updateLabel = () => {
+                const hasValue = element.value.trim() !== '' && element.value !== '';
+                const isFocused = element === document.activeElement;
+                const hasPlaceholder = element.placeholder && element.placeholder.trim() !== '';
+                const hasPlaceholderClass = element.classList.contains('has-placeholder');
+                
+                if (hasValue || isFocused || hasPlaceholder || hasPlaceholderClass) {
+                    label.style.top = '0';
+                    label.style.left = '10px';
+                    label.style.fontWeight = 'bolder';
+                    label.style.color = '#dfd9d9';
+                } else {
+                    label.style.top = '40%';
+                    label.style.left = '0';
+                    label.style.fontWeight = 'normal';
+                    label.style.color = '#000';
+                }
+            };
+            
+            // Event listeners for both input and select
+            if (input) {
+                input.addEventListener('focus', updateLabel);
+                input.addEventListener('blur', updateLabel);
+                input.addEventListener('input', updateLabel);
+            }
+            
+            if (select) {
+                select.addEventListener('focus', updateLabel);
+                select.addEventListener('blur', updateLabel);
+                select.addEventListener('change', updateLabel);
+            }
+            
+            // Check initial state (in case element has pre-filled value)
+            updateLabel();
+        });
+    };
+    
+    // Initialize floating labels
+    initFloatingLabels();
+    
     // guard: ensure logged in via session; rely on server to redirect if not
 
     const api = async (payload) => {
@@ -52,8 +106,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Address upsert
+    // Address CRUD
+    const addressList = document.getElementById('address-list');
     const addressForm = document.getElementById('address-form');
+    
+    const loadAddresses = async () => {
+        const res = await api({ entity: 'address', action: 'list', id: userId });
+        if (!addressList) return;
+        addressList.innerHTML = '';
+        res.data.forEach(addr => {
+            const div = document.createElement('div');
+            div.className = 'address-item';
+            div.innerHTML = `
+                <div class="address-details">
+                    <strong>${addr.address_line1}${addr.address_line2 ? ', ' + addr.address_line2 : ''}</strong><br>
+                    ${addr.city}, ${addr.state} ${addr.zip_code}<br>
+                    ${addr.country}
+                </div>
+                <div class="address-actions">
+                    <label>
+                        <input type="checkbox" ${addr.show_Address ? 'checked' : ''} data-address-id="${addr.address_id}"> 
+                        Show in Portfolio
+                    </label>
+                    <button data-act="update" data-id="${addr.address_id}">Update</button>
+                    <button data-act="delete" data-id="${addr.address_id}">Delete</button>
+                </div>
+            `;
+            addressList.appendChild(div);
+        });
+    };
+    
     if (addressForm) {
         addressForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -67,7 +149,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 country: document.getElementById('country').value
             };
             await api(payload);
+            document.getElementById('address_line1').value = '';
+            document.getElementById('address_line2').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('state').value = '';
+            document.getElementById('zip_code').value = '';
+            document.getElementById('country').value = '';
+            await loadAddresses();
             alert('Address saved');
+        });
+    }
+    
+    if (addressList) {
+        addressList.addEventListener('click', async (e) => {
+            if (e.target.type === 'checkbox') {
+                const addressId = e.target.dataset.addressId;
+                const showAddress = e.target.checked;
+                // Update show_Address status
+                await api({ 
+                    entity: 'address', 
+                    action: 'update_show_status', 
+                    id: userId, 
+                    address_id: addressId, 
+                    show_Address: showAddress 
+                });
+            }
+            
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const addressId = btn.dataset.id;
+            const action = btn.dataset.act;
+            
+            if (action === 'delete') {
+                if (confirm('Are you sure you want to delete this address?')) {
+                    await api({ entity: 'address', action: 'delete', id: userId, address_id: addressId });
+                    await loadAddresses();
+                }
+            }
         });
     }
 
@@ -84,8 +202,20 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <input value="${c.contact_type}">
                 <input value="${c.contact_value}">
-                <button data-act="update" data-id="${c.contact_id}">Update</button>
-                <button data-act="delete" data-id="${c.contact_id}">Delete</button>
+                <button data-act="update" data-id="${c.contact_id}">
+                    <svg role="img" aria-labelledby="uploadOutlineTitle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <title id="uploadOutlineTitle">Upload</title>
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <path d="M12 3v12"/>
+                        <path d="M8 7l4-4 4 4"/>
+                    </svg>
+                </button>
+                <button data-act="delete" data-id="${c.contact_id}">
+                    <svg role="img" aria-labelledby="deleteFilledTitle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"> 
+                        <title id="deleteFilledTitle">Delete</title>
+                        <path d="M9 3h6l1 2h5v2H3V5h5l1-2zM6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8z"/>
+                    </svg>
+                </button>
             `;
             contactList.appendChild(div);
         });
@@ -380,7 +510,90 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Load current data for placeholders
+    const loadCurrentData = async () => {
+        try {
+            // Load personal data
+            const personalRes = await api({ entity: 'personal_data', action: 'get', id: userId });
+            if (personalRes.data) {
+                const data = personalRes.data;
+                
+                // Set placeholders and add CSS class
+                const setPlaceholderWithClass = (elementId, value) => {
+                    const element = document.getElementById(elementId);
+                    if (element && value) {
+                        element.placeholder = value;
+                        element.classList.add('has-placeholder');
+                    }
+                };
+                
+                setPlaceholderWithClass('firstname', data.firstname);
+                setPlaceholderWithClass('middlename', data.middlename);
+                setPlaceholderWithClass('lastname', data.lastname);
+                setPlaceholderWithClass('suffix', data.suffix);
+                setPlaceholderWithClass('birthdate', data.birthdate);
+                
+                if (data.sex) {
+                    const sexElement = document.getElementById('sex');
+                    if (sexElement) {
+                        sexElement.value = data.sex;
+                        sexElement.classList.add('has-placeholder');
+                    }
+                }
+                if (data.status_id) {
+                    const statusElement = document.getElementById('status_id');
+                    if (statusElement) {
+                        statusElement.value = data.status_id;
+                        statusElement.classList.add('has-placeholder');
+                    }
+                }
+            }
+
+            // Load address data (for form placeholders)
+            const addressRes = await api({ entity: 'address', action: 'get', id: userId });
+            if (addressRes.data) {
+                const data = addressRes.data;
+                
+                // Set placeholders and add CSS class for address inputs
+                const setPlaceholderWithClass = (elementId, value) => {
+                    const element = document.getElementById(elementId);
+                    if (element && value) {
+                        element.placeholder = value;
+                        element.classList.add('has-placeholder');
+                    }
+                };
+                
+                setPlaceholderWithClass('address_line1', data.address_line1);
+                setPlaceholderWithClass('address_line2', data.address_line2);
+                setPlaceholderWithClass('city', data.city);
+                setPlaceholderWithClass('state', data.state);
+                setPlaceholderWithClass('zip_code', data.zip_code);
+                setPlaceholderWithClass('country', data.country);
+            }
+
+            // Load account data
+            const accountRes = await api({ entity: 'account', action: 'get', id: userId });
+            if (accountRes.data) {
+                const data = accountRes.data;
+                
+                const usernameElement = document.getElementById('username');
+                if (usernameElement && data.username) {
+                    usernameElement.placeholder = data.username;
+                    usernameElement.classList.add('has-placeholder');
+                }
+            }
+            
+            // Reinitialize floating labels after setting placeholders
+            initFloatingLabels();
+            
+        } catch (error) {
+            console.error('Error loading current data:', error);
+        }
+    };
+
     // Initial loads
+    loadCurrentData();
+    loadAddresses();
     loadContacts();
     loadEducation();
     loadSkills();
