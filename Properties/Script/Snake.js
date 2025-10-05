@@ -25,7 +25,12 @@ function viewMain(){
 }
 
 function downloadCV(){
-    console.log('Sending Request for download DV');
-
-    console.log('server disconnected!');
+    try{
+        // Find selected CV if any from radio list (if present on landing it won't exist). Fallback to latest.
+        const chosen = document.querySelector('input[name="cvChoice"]:checked');
+        const qs = chosen ? ('&file_id=' + encodeURIComponent(chosen.value)) : '';
+        window.location.href = 'Properties/api/download_cv.php?id=1' + qs;
+    }catch(e){
+        window.location.href = 'Properties/api/download_cv.php?id=1';
+    }
 }

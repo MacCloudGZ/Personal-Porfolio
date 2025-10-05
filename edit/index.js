@@ -624,6 +624,66 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // CV list and upload
+    const cvList = document.getElementById('cv-list');
+    const cvUploadForm = document.getElementById('cv-upload-form');
+    const loadCVs = async () => {
+        if (!cvList) return;
+        try {
+            const res = await fetch('../Properties/api/list_files.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: userId })
+            });
+            const data = await res.json();
+            if (!data.success) throw new Error(data.message || 'Failed to list files');
+            cvList.innerHTML = '';
+            // Show latest first with radio to choose active download
+            const wrapper = document.createElement('div');
+            wrapper.className = 'cv-items';
+            data.data.forEach((f, idx) => {
+                const row = document.createElement('div');
+                row.className = 'cv-item';
+                row.innerHTML = `
+                    <label>
+                        <input type="radio" name="cvChoice" value="${f.file_id}" ${idx === 0 ? 'checked' : ''}>
+                        ${f.file_name}
+                    </label>
+                    <a href="../Properties/api/download_cv.php?id=${userId}&file_id=${f.file_id}">Download</a>
+                `;
+                wrapper.appendChild(row);
+            });
+            cvList.appendChild(wrapper);
+        } catch (e) {
+            // ignore list errors
+        }
+    };
+
+    if (cvUploadForm) {
+        cvUploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('cv-file');
+            const file = fileInput && fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+            if (!file) { alert('Please choose a file'); return; }
+            const okTypes = ['application/pdf','application/zip','application/x-zip-compressed'];
+            if (!okTypes.includes(file.type)) { alert('Only PDF/ZIP allowed'); return; }
+            if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB)'); return; }
+            const formData = new FormData(cvUploadForm);
+            try {
+                const res = await fetch('../Properties/api/upload_cv.php', { method: 'POST', body: formData });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success) throw new Error(data.message || 'Upload failed');
+                alert('File uploaded');
+                await loadCVs();
+            } catch (err) {
+                alert(err.message || 'Upload failed');
+            }
+        });
+    }
+
+    // Initial load of CV list
+    loadCVs();
 });
 
 
