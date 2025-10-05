@@ -15,12 +15,12 @@
 
 
     // Extract all table data
-    $Main_info = getTargetTable(1);
-    $box1_info = getTargetTable(2);
-    $box2_info = getTargetTable(3);
-    $box3_info = getTargetTable(4);
-    $box4_info = getTargetTable(5);
-    $box5_info = getTargetTable(6);
+    $Main_info = getTargetTable($conn,$user_id,1);
+    $box1_info = getTargetTable($conn,$user_id,2);
+    $box2_info = getTargetTable($conn,$user_id,3);
+    $box3_info = getTargetTable($conn,$user_id,4);
+    $box4_info = getTargetTable($conn,$user_id,5);
+    $box5_info = getTargetTable($conn,$user_id,6);
 ?>
 
 <!DOCTYPE html>
