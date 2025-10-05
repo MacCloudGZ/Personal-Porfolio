@@ -22,3 +22,33 @@ body {
         flex-direction: column;
         gap: 20px;
 }
+
+/* Boxes moved to main container */
+.info-container{
+    display: flex;
+        align-items: center;
+        gap: 20px;
+    padding: 0 10px;
+}
+
+.info-container .box{
+    width: max-content;
+    min-height: 100px;
+    display: flex;
+        align-items: center;
+    padding: 2px 55px 2px 100px;
+    background-color: rgba(167, 8, 8, 0.897);
+    border-top-left-radius: 95px 120px;
+    border-bottom-right-radius: 50px 100px;
+    position: relative;
+}
+
+.info-container .box.white{
+    background-color: white;
+    border-bottom-left-radius: 100px 100px;
+    min-height: 120px;
+}
+
+.info-container .box.white span{
+    color: black;
+}
