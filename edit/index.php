@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +30,21 @@
         </div>
     </header>
     <div class="sections-background-container"> 
+        <section id="profile-image">
+            <h2>Profile Image</h2>
+            <form id="image-upload-form" enctype="multipart/form-data">
+                <input type="hidden" name="entity" value="main_images">
+                <input type="hidden" name="action" value="upload">
+                <input type="hidden" name="id" value="1">
+                <div class="mega_box">
+                    <div class="box">
+                        <label for="profile-image-file">Choose image (JPG/PNG/WEBP, max 5MB)</label>
+                        <input type="file" id="profile-image-file" name="file" accept="image/*" required>
+                    </div>
+                </div>
+                <button type="submit">Upload Image</button>
+            </form>
+        </section>
         <section id="personal-info">
             <h2>Personal Information</h2>
             <form id="personal-form">
@@ -252,6 +267,21 @@
                 <input type="password" id="confirm-password" name="confirm_password">
                 
                 <button type="submit">Update Account</button>
+            </form>
+        </section>
+
+        <section id="cv-files">
+            <h2>CV / Files</h2>
+            <div id="cv-list"></div>
+            <form id="cv-upload-form" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="1">
+                <div class="mega_box">
+                    <div class="box">
+                        <label for="cv-file">Choose file (PDF/ZIP, max 10MB)</label>
+                        <input type="file" id="cv-file" name="file" accept=".pdf,.zip" required>
+                    </div>
+                </div>
+                <button type="submit">Upload CV/File</button>
             </form>
         </section>
     </div>
