@@ -600,6 +600,30 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTouches();
     loadMessages();
     loadProfession();
+
+    // Image upload
+    const imageForm = document.getElementById('image-upload-form');
+    if (imageForm) {
+        imageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('profile-image-file');
+            const file = fileInput && fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+            if (!file) { alert('Please choose an image file.'); return; }
+            if (file.size > 5 * 1024 * 1024) { alert('Image too large (max 5MB).'); return; }
+            const okTypes = ['image/jpeg','image/png','image/webp'];
+            if (!okTypes.includes(file.type)) { alert('Unsupported image type. Use JPG, PNG, or WEBP.'); return; }
+
+            const formData = new FormData(imageForm);
+            try {
+                const res = await fetch('../Properties/api/upload_image.php', { method: 'POST', body: formData });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success) throw new Error(data.message || 'Upload failed');
+                alert('Image uploaded successfully');
+            } catch (err) {
+                alert(err.message || 'Upload failed');
+            }
+        });
+    }
 });
 
 

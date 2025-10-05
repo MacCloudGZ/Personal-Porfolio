@@ -111,9 +111,96 @@
                 </div>
             </div>
             <div class="section-container">
-                <!-- Place your edits -->
-                    main
-                <!-- End of edits -->
+                <!-- Main content boxes -->
+                <?php if (!empty($box1_info['contacts'])) { ?>
+                <div class="label-container">
+                    <div>CONTACT INFO</div>
+                    <hr>
+                    <table class="table">
+                        <?php foreach ($box1_info['contacts'] as $contact) { ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($contact['contact_type']); ?></td>
+                                <th>-</th>
+                                <td><?php echo htmlspecialchars($contact['contact_value']); ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </div>
+                <?php } ?>
+
+                <?php if (!empty($box2_info['education'])) { ?>
+                <div class="label-container">
+                    <div>EDUCATIONAL BACKGROUND</div>
+                    <hr>
+                    <table class="table">
+                        <?php foreach ($box2_info['education'] as $edu) { ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($edu['institution_info']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>-</th>
+                                <td><?php echo htmlspecialchars($edu['degree'] ?? ''); ?></td>
+                            </tr>
+                            <tr>
+                                <th>-</th>
+                                <td><?php echo htmlspecialchars(($edu['start_date'] ?? '') . (isset($edu['end_date']) && $edu['end_date'] ? ' to ' . $edu['end_date'] : '')); ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </div>
+                <?php } ?>
+
+                <?php if (!empty($box3_info['skills'])) { ?>
+                <div class="label-container">
+                    <div>SKILLS</div>
+                    <hr>
+                    <table class="table">
+                        <?php foreach ($box3_info['skills'] as $skill) { ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($skill['skill_name']); ?></td>
+                                <th>-</th>
+                                <td><?php echo htmlspecialchars($skill['proficiency_level']); ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </div>
+                <?php } ?>
+
+                <?php if (!empty($box4_info['descriptions'])) { ?>
+                <div class="label-container">
+                    <div>FUN / PERSONAL TOUCH</div>
+                    <hr>
+                    <table class="table">
+                        <?php foreach ($box4_info['descriptions'] as $desc) { ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($desc); ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </div>
+                <?php } ?>
+
+                <?php if (!empty($box5_info['professions'])) { ?>
+                <div class="label-container">
+                    <div>PROFESSION</div>
+                    <hr>
+                    <table class="table">
+                        <?php foreach ($box5_info['professions'] as $prof) { ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($prof['job_title']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>-</th>
+                                <td><?php echo htmlspecialchars($prof['company_name'] ?? ''); ?></td>
+                            </tr>
+                            <tr>
+                                <th>-</th>
+                                <td><?php echo htmlspecialchars(($prof['start_date'] ?? '') . (isset($prof['end_date']) && $prof['end_date'] ? ' to ' . $prof['end_date'] : ($prof['is_current'] ? ' (Current)' : ''))); ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </div>
+                <?php } ?>
             </div>
         </section>
         <div class="edit_container" id="edit_container">
