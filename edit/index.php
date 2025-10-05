@@ -269,6 +269,21 @@
                 <button type="submit">Update Account</button>
             </form>
         </section>
+
+        <section id="cv-files">
+            <h2>CV / Files</h2>
+            <div id="cv-list"></div>
+            <form id="cv-upload-form" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="1">
+                <div class="mega_box">
+                    <div class="box">
+                        <label for="cv-file">Choose file (PDF/ZIP, max 10MB)</label>
+                        <input type="file" id="cv-file" name="file" accept=".pdf,.zip" required>
+                    </div>
+                </div>
+                <button type="submit">Upload CV/File</button>
+            </form>
+        </section>
     </div>
 
     <script src="index.js"></script>
