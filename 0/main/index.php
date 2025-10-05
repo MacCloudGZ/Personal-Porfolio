@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="../../Properties/Style/Loader.css">
     <link rel="stylesheet" href="../../Properties/Style/placeholder.css">
     <link rel="stylesheet" href="../../Properties/Style/main.css">
+    <link rel="stylesheet" href="../header.css">
     <link rel="stylesheet" href="section.css">
     <script src="../../Properties/Script/spin.js" defer></script>
     <script src="../index.js" defer></script>
@@ -45,18 +46,19 @@
                     <img id="profile-img" alt="image_profile">
                     <script>
                         <?php
-                            echo "const mainImagePath = '" . addslashes($main_image_path) . "';";
+                            // echo "const mainImagePath = '" . addslashes($main_image_path) . "';";
+                            echo "const mainImagePath = '" . addslashes("/Personal-Porfolio/" . ltrim($main_image_path, '/')) . "';";
                         ?>
-                        const imgEl = document.getElementById("profile-img");
-                        const fallbackPath = "Properties/Images/Default_Profile.webp";
+                        const imgEl =document.getElementById("profile-img");
+                        const fallbackPath = "../../Properties/Images/Default_Profile.webp";
 
                         if (mainImagePath) {
                             fetch(mainImagePath, { method: 'HEAD' })
                                 .then(response => {
                                     if (response.ok) {
-                                        imgEl.src = "../" + mainImagePath;
+                                        imgEl.src = mainImagePath;
                                     } else {
-                                        imgEl.src = "../../" + fallbackPath;
+                                        imgEl.src =fallbackPath;
                                     }
                                 })
                                 .catch(() => {
@@ -112,8 +114,11 @@
             </div>
             <div class="section-container">
                 <!-- Main content boxes -->
+                <div class="message-box" id="0">
+                    <?php echo "<span>". implode(" ",$messages_type2) ."</span>"; ?>
+                </div>
                 <?php if (!empty($box1_info['contacts'])) { ?>
-                <div class="label-container">
+                <div class="box-container" id="b1">
                     <div>CONTACT INFO</div>
                     <hr>
                     <table class="table">
@@ -127,31 +132,8 @@
                     </table>
                 </div>
                 <?php } ?>
-
-                <?php if (!empty($box2_info['education'])) { ?>
-                <div class="label-container">
-                    <div>EDUCATIONAL BACKGROUND</div>
-                    <hr>
-                    <table class="table">
-                        <?php foreach ($box2_info['education'] as $edu) { ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($edu['institution_info']); ?></td>
-                            </tr>
-                            <tr>
-                                <th>-</th>
-                                <td><?php echo htmlspecialchars($edu['degree'] ?? ''); ?></td>
-                            </tr>
-                            <tr>
-                                <th>-</th>
-                                <td><?php echo htmlspecialchars(($edu['start_date'] ?? '') . (isset($edu['end_date']) && $edu['end_date'] ? ' to ' . $edu['end_date'] : '')); ?></td>
-                            </tr>
-                        <?php } ?>
-                    </table>
-                </div>
-                <?php } ?>
-
                 <?php if (!empty($box3_info['skills'])) { ?>
-                <div class="label-container">
+                <div class="box-container" id="b2">
                     <div>SKILLS</div>
                     <hr>
                     <table class="table">
@@ -165,37 +147,55 @@
                     </table>
                 </div>
                 <?php } ?>
-
+                <div class="box-container" id="b3">
+                    <?php if (!empty($box5_info['professions'])) { ?>
+                        <div>PROFESSION</div>
+                        <hr>
+                        <table class="table">
+                            <?php foreach ($box5_info['professions'] as $prof) { ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($prof['job_title']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars($prof['company_name'] ?? ''); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars(($prof['start_date'] ?? '') . (isset($prof['end_date']) && $prof['end_date'] ? ' to ' . $prof['end_date'] : ($prof['is_current'] ? ' (Current)' : ''))); ?></td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+                    <?php } ?>
+                    <br>
+                    <?php if (!empty($box2_info['education'])) { ?>
+                        <div>EDUCATIONAL BACKGROUND</div>
+                        <hr>
+                        <table class="table">
+                            <?php foreach ($box2_info['education'] as $edu) { ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($edu['institution_info']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars($edu['degree'] ?? ''); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <td><?php echo htmlspecialchars(($edu['start_date'] ?? '') . (isset($edu['end_date']) && $edu['end_date'] ? ' to ' . $edu['end_date'] : '')); ?></td>
+                                </tr>
+                            <?php } ?>
+                        </table>                    
+                    <?php } ?>
+                </div>
                 <?php if (!empty($box4_info['descriptions'])) { ?>
-                <div class="label-container">
+                <div class="box-container" id="b4">
                     <div>FUN / PERSONAL TOUCH</div>
                     <hr>
                     <table class="table">
                         <?php foreach ($box4_info['descriptions'] as $desc) { ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($desc); ?></td>
-                            </tr>
-                        <?php } ?>
-                    </table>
-                </div>
-                <?php } ?>
-
-                <?php if (!empty($box5_info['professions'])) { ?>
-                <div class="label-container">
-                    <div>PROFESSION</div>
-                    <hr>
-                    <table class="table">
-                        <?php foreach ($box5_info['professions'] as $prof) { ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($prof['job_title']); ?></td>
-                            </tr>
-                            <tr>
-                                <th>-</th>
-                                <td><?php echo htmlspecialchars($prof['company_name'] ?? ''); ?></td>
-                            </tr>
-                            <tr>
-                                <th>-</th>
-                                <td><?php echo htmlspecialchars(($prof['start_date'] ?? '') . (isset($prof['end_date']) && $prof['end_date'] ? ' to ' . $prof['end_date'] : ($prof['is_current'] ? ' (Current)' : ''))); ?></td>
+                                <td> - <?php echo htmlspecialchars($desc); ?></td>
                             </tr>
                         <?php } ?>
                     </table>

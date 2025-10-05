@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -285,7 +285,5 @@
             </form>
         </section>
     </div>
-
-    <script src="index.js"></script>
 </body>
 </html>

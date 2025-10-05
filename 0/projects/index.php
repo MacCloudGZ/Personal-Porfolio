@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="../../Properties/Style/Loader.css">
     <link rel="stylesheet" href="../../Properties/Style/placeholder.css">
     <link rel="stylesheet" href="../../Properties/Style/main.css">
+    <link rel="stylesheet" href="../header.css">
     <link rel="stylesheet" href="section.css">
     <script src="../../Properties/Script/spin.js" defer></script>
     <script src="../index.js" defer></script>
@@ -40,18 +41,20 @@
                     <img id="profile-img" alt="image_profile">
                     <script>
                         <?php
-                            echo "const mainImagePath = '" . addslashes($main_image_path) . "';";
+                            // echo "const mainImagePath = '" . addslashes($main_image_path) . "';";
+                            echo "const mainImagePath = '" . addslashes("/Personal-Porfolio/" . ltrim($main_image_path, '/')) . "';";
+
                         ?>
-                        const imgEl = document.getElementById("profile-img");
-                        const fallbackPath = "Properties/Images/Default_Profile.webp";
+                        const imgEl =document.getElementById("profile-img");
+                        const fallbackPath = "../../Properties/Images/Default_Profile.webp";
 
                         if (mainImagePath) {
                             fetch(mainImagePath, { method: 'HEAD' })
                                 .then(response => {
                                     if (response.ok) {
-                                        imgEl.src = "../" + mainImagePath;
+                                        imgEl.src = mainImagePath;
                                     } else {
-                                        imgEl.src = "../../" + fallbackPath;
+                                        imgEl.src =fallbackPath;
                                     }
                                 })
                                 .catch(() => {
