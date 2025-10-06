@@ -35,10 +35,16 @@
 
 .message-box{
     background-color: red;
+    display: flex;
+        align-items: center;
+        justify-content: center;
     width: calc(100% - 500px);
     min-height: 100px;
     height: auto;
 }
+    /* .message-box span{
+        font-size: ;
+    } */
 .box-container{
     min-height: 200px;
     height: auto;
