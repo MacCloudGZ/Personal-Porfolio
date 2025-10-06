@@ -16,6 +16,7 @@
 
     // Extract all table data
     $Main_info = getTargetTable(1);
+    $box4_info = getTargetTable(2);
 ?>
 
 <!DOCTYPE html>
@@ -109,7 +110,15 @@
                 </div>
             </div>
             <div class="section-container">
-                contracts   
+                <?php if (!empty($box4_info)) { ?>
+                <div class="box-container" id="b4">
+                    <div><?php echo getBoxTitle($box4_info); ?></div>
+                    <hr>
+                    <table class="table">
+                        <?php renderBoxRows($box4_info); ?>
+                    </table>
+                </div>
+                <?php } ?> 
             </div>
         </section>
         <div class="edit_container" id="edit_container">

@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="section-container">
-                projects
+                no data yet
             </div>
         </section>
         <div class="edit_container" id="edit_container">

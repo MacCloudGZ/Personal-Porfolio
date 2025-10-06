@@ -34,7 +34,6 @@
 }
 
 .message-box{
-    background-color: red;
     display: flex;
         align-items: center;
         justify-content: center;
@@ -42,22 +41,89 @@
     min-height: 100px;
     height: auto;
 }
-    /* .message-box span{
-        font-size: ;
-    } */
+    .message-box span{
+        font-size: 2rem;
+        color: #E3311D;
+    }
 .box-container{
     min-height: 200px;
-    height: auto;
+    height: fit-content;
     width: fit-content;
     min-width: 200px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: solid 2px white;
-    border-radius: 10px;
-    padding: 20px;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
 }
+    .box-container hr{
+        border: 1px solid white;
+        width: 98%;
+        margin: 10px 0;
+    }
+    .box-container .table{
+        height: 100%;
+        color: white;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+    .box-container div{
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        width: 95%;
+        padding: 10px 0;
+        background-color: #E3311D;
+        border-radius: 10px;
+        color: white;
+    }
+    .table tbody{
+        height: 100%;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+    }
+        .table tbody tr{
+            width: 100%;
+            display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+        }
+            .table tbody tr td{
+                border-radius: 10px;
+                width: 100%;
+                padding: 10px;
+            }
 .box-container#b1{
     flex-grow: 1;
-}
+}   
 .box-container#b3{
-    width: 800px;
+    flex-grow: 1;
 }
+
+.box-container#b2 .table tbody tr td:last-child{
+    background-color: aliceblue;
+    font-family: 'Courier New', Courier, monospace;
+    width: 20px;
+}   
+.box-container#b2 .table tbody tr td:first-child{
+    color: aliceblue;
+}
+.box-container#b2 table tbody tr th{
+    color: #E3311D;
+}
+    .box-container#b2 .table tbody{
+        color: #000;
+        margin-left: auto;
+        margin-right: auto;
+        /* Or the shorthand: */
+        margin: auto;
+        display: flex;
+    }

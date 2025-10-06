@@ -16,11 +16,11 @@
 
     // Extract all table data
     $Main_info = getTargetTable(1);
-    $box1_info = getTargetTable(2);
+    $box1_info = getTargetTable(5);
     $box2_info = getTargetTable(3);
     $box3_info = getTargetTable(4);
-    $box4_info = getTargetTable(5);
-    $box5_info = getTargetTable(1);
+    $box4_info = getTargetTable(2);
+    $box5_info = getTargetTable(0);
 ?>
 
 <!DOCTYPE html>
@@ -115,7 +115,7 @@
             <div class="section-container">
                 <!-- Main content boxes -->
                 <div class="message-box" id="0">
-                    <?php echo "<span>". implode(" ",$messages_type2) ."</span>"; ?>
+                    <span>" <?php echo implode(" ",$messages_type2); ?>"</span>
                 </div>
                 <?php if (!empty($box1_info)) { ?>
                 <div class="box-container" id="b1">
@@ -136,11 +136,11 @@
                 </div>
                 <?php } ?>
                 <div class="box-container" id="b3">
-                    <?php if (!empty($box5_info)) { ?>
-                        <div><?php echo getBoxTitle($box5_info); ?></div>
+                    <?php if (!empty($box2_info)) { ?>
+                        <div><?php echo getBoxTitle($box2_info); ?></div>
                         <hr>
                         <table class="table">
-                            <?php renderBoxRows($box5_info); ?>
+                            <?php renderBoxRows($box2_info); ?>
                         </table>
                     <?php } ?>
                     <br>
@@ -152,15 +152,6 @@
                         </table>                    
                     <?php } ?>
                 </div>
-                <?php if (!empty($box4_info)) { ?>
-                <div class="box-container" id="b4">
-                    <div><?php echo getBoxTitle($box4_info); ?></div>
-                    <hr>
-                    <table class="table">
-                        <?php renderBoxRows($box4_info); ?>
-                    </table>
-                </div>
-                <?php } ?>
             </div>
         </section>
         <div class="edit_container" id="edit_container">
