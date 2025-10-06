@@ -201,8 +201,20 @@
         if (isset($box_info['skills']) && is_array($box_info['skills'])) {
             foreach ($box_info['skills'] as $skill) {
                 $name = isset($skill['skill_name']) ? htmlspecialchars($skill['skill_name']) : '';
-                $level = isset($skill['proficiency_level']) ? htmlspecialchars($skill['proficiency_level']) : '';
-                echo "<tr><td>{$name}</td><th>-</th><td>{$level}</td></tr>";
+                $levelRaw = isset($skill['proficiency_level']) ? $skill['proficiency_level'] : 0;
+                $levelInt = is_numeric($levelRaw) ? (int)$levelRaw : 0;
+
+                if ($levelInt <= 0) {
+                    $iconHtml = "<i class=\"fa-solid fa-stop\"></i>";
+                } elseif ($levelInt <= 5) {
+                    $iconHtml = "<i class=\"fa-solid fa-crown bronze\"></i>";
+                } elseif ($levelInt <= 9) {
+                    $iconHtml = "<i class=\"fa-solid fa-crown silver\"></i>";
+                } else { // 10 or above
+                    $iconHtml = "<i class=\"fa-solid fa-crown gold\"></i>";
+                }
+
+                echo "<tr><td>{$name}</td><th>-</th><td>{$iconHtml}</td></tr>";
             }
         }
 

@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="../../Properties/Style/Loader.css">
     <link rel="stylesheet" href="../../Properties/Style/placeholder.css">
     <link rel="stylesheet" href="../../Properties/Style/main.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfK8l+Jk8S2hWnZ3Y6mVJ9g7v1Qz8a0j8GvkpzxxEe7dZg6Y5qX+4o2g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../header.css">
     <link rel="stylesheet" href="section.css">
     <script src="../../Properties/Script/spin.js" defer></script>
