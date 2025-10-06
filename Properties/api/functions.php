@@ -161,4 +161,102 @@
         return getTableData($conn, $user_id, $table_id);
     }
 
+    // Determine a display title for a box based on known keys
+    function getBoxTitle($box_info) {
+        if (!is_array($box_info) || empty($box_info)) {
+            return 'INFO';
+        }
+        $hasContacts = isset($box_info['contacts']) && is_array($box_info['contacts']);
+        $hasSkills = isset($box_info['skills']) && is_array($box_info['skills']);
+        $hasEducation = isset($box_info['education']) && is_array($box_info['education']);
+        $hasDescriptions = isset($box_info['descriptions']) && is_array($box_info['descriptions']);
+        $hasProfessions = isset($box_info['professions']) && is_array($box_info['professions']);
+
+        if ($hasContacts) return 'CONTACT INFO';
+        if ($hasSkills) return 'SKILLS';
+        if ($hasEducation) return 'EDUCATIONAL BACKGROUND';
+        if ($hasDescriptions) return 'FUN / PERSONAL TOUCH';
+        if ($hasProfessions) return 'PROFESSION';
+        return 'INFO';
+    }
+
+    // Render table rows for any box structure; echoes HTML <tr> rows
+    function renderBoxRows($box_info) {
+        if (!is_array($box_info) || empty($box_info)) {
+            return;
+        }
+
+        $recognizedKeys = ['contacts','skills','education','descriptions','professions'];
+
+        // contacts
+        if (isset($box_info['contacts']) && is_array($box_info['contacts'])) {
+            foreach ($box_info['contacts'] as $contact) {
+                $type = isset($contact['contact_type']) ? htmlspecialchars($contact['contact_type']) : '';
+                $value = isset($contact['contact_value']) ? htmlspecialchars($contact['contact_value']) : '';
+                echo "<tr><td>{$type}</td><th>-</th><td>{$value}</td></tr>";
+            }
+        }
+
+        // skills
+        if (isset($box_info['skills']) && is_array($box_info['skills'])) {
+            foreach ($box_info['skills'] as $skill) {
+                $name = isset($skill['skill_name']) ? htmlspecialchars($skill['skill_name']) : '';
+                $level = isset($skill['proficiency_level']) ? htmlspecialchars($skill['proficiency_level']) : '';
+                echo "<tr><td>{$name}</td><th>-</th><td>{$level}</td></tr>";
+            }
+        }
+
+        // education
+        if (isset($box_info['education']) && is_array($box_info['education'])) {
+            foreach ($box_info['education'] as $edu) {
+                $institution = isset($edu['institution_info']) ? htmlspecialchars($edu['institution_info']) : '';
+                $degree = isset($edu['degree']) ? htmlspecialchars($edu['degree']) : '';
+                $start = isset($edu['start_date']) ? htmlspecialchars($edu['start_date']) : '';
+                $end = isset($edu['end_date']) ? htmlspecialchars($edu['end_date']) : '';
+                echo "<tr><td>{$institution}</td></tr>";
+                echo "<tr><th>-</th><td>{$degree}</td></tr>";
+                $range = $start . ($end ? ' to ' . $end : '');
+                echo "<tr><th>-</th><td>{$range}</td></tr>";
+            }
+        }
+
+        // descriptions
+        if (isset($box_info['descriptions']) && is_array($box_info['descriptions'])) {
+            foreach ($box_info['descriptions'] as $desc) {
+                $text = htmlspecialchars($desc);
+                echo "<tr><td> - {$text}</td></tr>";
+            }
+        }
+
+        // professions
+        if (isset($box_info['professions']) && is_array($box_info['professions'])) {
+            foreach ($box_info['professions'] as $prof) {
+                $job = isset($prof['job_title']) ? htmlspecialchars($prof['job_title']) : '';
+                $company = isset($prof['company_name']) ? htmlspecialchars($prof['company_name']) : '';
+                $start = isset($prof['start_date']) ? htmlspecialchars($prof['start_date']) : '';
+                $end = isset($prof['end_date']) ? htmlspecialchars($prof['end_date']) : '';
+                $isCurrent = !empty($prof['is_current']);
+                echo "<tr><td>{$job}</td></tr>";
+                echo "<tr><th>-</th><td>{$company}</td></tr>";
+                $range = $start . ($end ? ' to ' . $end : ($isCurrent ? ' (Current)' : ''));
+                echo "<tr><th>-</th><td>{$range}</td></tr>";
+            }
+        }
+
+        // Generic fallback rows for any other keys
+        foreach ($box_info as $key => $value) {
+            if (in_array($key, $recognizedKeys, true)) {
+                continue;
+            }
+            $label = htmlspecialchars(ucwords(str_replace('_', ' ', (string)$key)));
+            if (is_array($value)) {
+                $encoded = htmlspecialchars(json_encode($value));
+                echo "<tr><td>{$label}</td><th>-</th><td>{$encoded}</td></tr>";
+            } else {
+                $text = htmlspecialchars((string)$value);
+                echo "<tr><td>{$label}</td><th>-</th><td>{$text}</td></tr>";
+            }
+        }
+    }
+
 ?>
