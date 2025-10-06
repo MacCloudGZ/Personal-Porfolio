@@ -150,6 +150,18 @@ body{
      .table tr td{
         font-size: 1rem;
      }
+     .table i.fa-crown.bronze {
+        color: #cd7f32;
+     }
+     .table i.fa-crown.silver {
+        color: #c0c0c0;
+     }
+     .table i.fa-crown.gold {
+        color: #ffd700;
+     }
+     .table i.fa-stop {
+        color: #ff4d4f;
+     }
 .profile-container{
     position: sticky;
         top: 10px;
