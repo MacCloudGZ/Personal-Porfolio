@@ -38,7 +38,7 @@
                 <input type="hidden" name="id" value="1">
                 <div class="mega_box">
                     <div class="box">
-                        <label for="profile-image-file">Choose image (JPG/PNG/WEBP, max 5MB)</label>
+                        <label for="profile-image-file .bns">Choose image (JPG/PNG/WEBP, max 5MB)</label>
                         <input type="file" id="profile-image-file" name="file" accept="image/*" required>
                     </div>
                 </div>

@@ -135,7 +135,7 @@
                         outline: none;
                         border-bottom: #dfd9d9 solid 2px;
                     }
-                    .box:hover label, .box input:placeholder-shown{ 
+                    .box:hover label, .box input:placeholder-shown, .bns{ 
                         top: 0;
                         left: 10px;
                         outline: none;

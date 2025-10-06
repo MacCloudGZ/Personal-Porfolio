@@ -42,7 +42,7 @@
     height: auto;
 }
     .message-box span{
-        font-size: 2rem;
+        font-size: 2vh;
         color: #E3311D;
     }
 .box-container{
@@ -109,18 +109,18 @@
 }
 
 .box-container#b2 .table tbody tr td:last-child{
-    height: 100%;
+    width: 10px;
     aspect-ratio: 1/1;
     padding: 0;
 }   
-    .box-container#b2 .table tbody tr td:last-child i{
-        font-size: 100px;
+    .box-container#b2 .table tbody tr td:last-child svg{
+        font-size: 100%;
         color: #FF0000;
     }
 .box-container#b2 .table tbody tr td:first-child{
     color: aliceblue;
 }
-.box-container#b2 table tbody tr th{
+.box-container#b2 .table tbody tr th{
     color: #E3311D;
 }
     .box-container#b2 .table tbody{

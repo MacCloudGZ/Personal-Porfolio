@@ -77,7 +77,7 @@
             </div>
             <div class="label-container">
 				<hr>
-                <table class="table">
+                <table class="tables">
                     <?php foreach ($Main_info as $key => $value) { ?>
                         <tr>
                             <td><?php echo $key?></td> 
