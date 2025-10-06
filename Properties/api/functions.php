@@ -205,13 +205,13 @@
                 $levelInt = is_numeric($levelRaw) ? (int)$levelRaw : 0;
 
                 if ($levelInt <= 0) {
-                    $iconHtml = "<i class=\"fa-solid fa-stop\"></i>";
+                    $iconHtml = '<svg role="img" aria-label="No skill" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>No skill</title><rect x="4" y="4" width="16" height="16" rx="3" fill="#ff4d4f"/></svg>';
                 } elseif ($levelInt <= 5) {
-                    $iconHtml = "<i class=\"fa-solid fa-crown bronze\"></i>";
+                    $iconHtml = '<svg role="img" aria-label="Bronze crown" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>Bronze crown</title><path d="M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z" fill="#cd7f32"/></svg>';
                 } elseif ($levelInt <= 9) {
-                    $iconHtml = "<i class=\"fa-solid fa-crown silver\"></i>";
+                    $iconHtml = '<svg role="img" aria-label="Silver crown" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>Silver crown</title><path d="M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z" fill="#c0c0c0"/></svg>';
                 } else { // 10 or above
-                    $iconHtml = "<i class=\"fa-solid fa-crown gold\"></i>";
+                    $iconHtml = '<svg role="img" aria-label="Gold crown" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>Gold crown</title><path d="M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z" fill="#ffd700"/></svg>';
                 }
 
                 echo "<tr><td>{$name}</td><th>-</th><td>{$iconHtml}</td></tr>";
