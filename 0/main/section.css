@@ -109,10 +109,14 @@
 }
 
 .box-container#b2 .table tbody tr td:last-child{
-    background-color: aliceblue;
-    font-family: 'Courier New', Courier, monospace;
-    width: 20px;
+    height: 100%;
+    aspect-ratio: 1/1;
+    padding: 0;
 }   
+    .box-container#b2 .table tbody tr td:last-child i{
+        font-size: 100px;
+        color: #FF0000;
+    }
 .box-container#b2 .table tbody tr td:first-child{
     color: aliceblue;
 }
