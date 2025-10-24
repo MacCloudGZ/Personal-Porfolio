@@ -22,10 +22,10 @@ Personal Data Table
 
 status has 4 choices
 | -----: | ----- |
-|   | employed |
+|  /; | employed |
 | Status | free-lancer |
 | Choices | unemployed |
-|   | retired |
+|  /; | retired |
 
 | choices |
 | ----------- |
