@@ -1,46 +1,189 @@
-.sections-background-container{
+body{
+    height: 100vh;
     display: flex;
-        justify-content: center;
-        flex-direction: column  ;
-        align-items: center;
+        flex-direction: column;
+        justify-content: space-around;
         gap: 10px;
 }
-    header{
+header{
+    display: flex;
+        justify-content: center;
+    padding: 10px 15px;
+    width: calc(100%-10px);
+}
+    header h1{
+        padding: 0 5%;
+        flex-grow: 3;
+        color: #dfd9d9;
+        border-bottom-right-radius: 50px 55%;
+        border-bottom: solid #dfd9d9 5px;
+    }
+    header .con{
+        padding: 0 5%;
         display: flex;
             justify-content: center;
-        padding: 10px 15px;
-        width: 95%;
+            align-items: center;
+        flex-grow: 1;
+        border-top-left-radius: 50px 55%;
+        border-top: solid 5px #dfd9d9;
     }
-        header h1{
-            padding: 0 5%;
-            flex-grow: 3;
+        .con button{
+            cursor: pointer;
+            border: none;
+            height:70%;
+            width: 70%;
+            background-color: transparent;
             color: #dfd9d9;
-            border-bottom-right-radius: 50px 55%;
-            border-bottom: solid #dfd9d9 5px;
-        }
-        header .con{
-            padding: 0 5%;
+            transition: 1s;
             display: flex;
                 justify-content: center;
                 align-items: center;
-            flex-grow: 1;
-            border-top-left-radius: 50px 55%;
-            border-top: solid 5px #dfd9d9;
         }
-            .con button{
-                height: 50%;
-                width: 50%;
-                background-color: #dfd9d9;
-                
+        .con button span{
+            font-weight: bolder;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        .con button svg{
+            transition: 1s;
+        }
+            .con button:hover{
+                color: #E3311D;
             }
-    .sections-background-container section{
+            .con button:hover svg{
+                transform: translateX(20px);
+                transition: .5s;
+            }
+article{
+    flex-grow: 1;
+    display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+    height: 85vh;
+    width: 100%;
+}
+    article aside{
+        width: 15%;
+        height: 100%;
+    }
+        .icons-container{
+            border-radius: 50px;
+            width: 100px;
+            height: fit-content;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+            display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 50px;
+            padding: 5px 0 50px 0;
+            background-color: #483f3f;
+        }
+            .icon-handler{
+                width: fit-content;
+                height: 50px;
+                position: relative;
+                display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                cursor: pointer;
+            }
+                .icon-handler .icon{
+                    --background: #dfd9d9;
+                    width: 50px;
+                    height: 50px;
+                        z-index: 10;
+                    display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    border-radius: 50%;
+                    padding: 10px;
+                    background-color: var(--background);
+                    border: solid 2px var(--background);
+                    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                }
+                .icon-handler.active .icon, .icon-handler.active:hover .icon{
+                    --background: #E3311D;
+                }
+                .icon-handler:hover .icon{
+                    --background: #7c180d;
+                    transition: 1s;
+                }
+                    .icon-handler .icon svg{
+                        width: 100%;
+                        height: 100%;
+                        stroke: #dfd9d9;
+                    }
+                .icon-handler .icon-name{
+                    --bg:transparent;
+                    background-color: var(--bg);
+                    display: none;
+                    border-radius: 50px;
+                    position: absolute;
+                        left: 0;
+                    display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    color: transparent;
+                    font-size: 0;
+                    transition: 1s;
+                    font-size: 14px;
+                    font-weight: bolder;
+                    text-align: center;
+                    height: 100%;
+                    aspect-ratio: 1/1;
+                }
+                .icon-handler:hover .icon-name, .icon-handler.active .icon-name{
+                    color: #dfd9d9; 
+                    --bg: #484848;
+                    transition: 1s;
+                    padding: 10px 10px 10px 100px;
+                    width: max-content;
+                    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                }
+.sections-background-container{
+    overflow-y: scroll;
+    width: 80%;
+    min-height: 80vh;
+    display: none;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-content: flex-start;
+}
+.sections-background-container::-webkit-scrollbar {
+  width: 5px;
+}
+/* Track */
+.sections-background-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Handle */
+.sections-background-container::-webkit-scrollbar-thumb {
+  background: #888;
+}
+/* Handle on hover */
+.sections-background-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.sections-background-container.active{
+    display: flex;
+}
+        .sections-background-container section{
+        flex-grow: 1;
         display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 10px;
         min-height: 200px;
-        min-width: 700px;
+        height: fit-content;
+        min-width: 500px;
+        width: fit-content;
         padding: 15px 50px 30px 50px;
         background-color: #E3311D;
         border-radius: 20px;
@@ -144,12 +287,13 @@
                         transition: 1s;
                     }
             form button{
+                height: fit-content;
                 padding: 10px;
-                position: absolute;
                 border-radius: 10px;
                 border: none;
+                /* position: absolute;
                 bottom: -15px;
-                right: 0;
+                right: 0; */
             }
             
             /* Address List Styling */

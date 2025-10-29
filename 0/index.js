@@ -54,15 +54,16 @@ function transition_page() {
     } while (randomNum === lastRandomNum);
     lastRandomNum = randomNum; // update for next call
     switch (randomNum) {
-        case 1:
+        // case 1:
+        default:
             article.classList.add('out');
             break;
-        case 2:
-            article.classList.add('left');
-            break;
-        case 3:
-            article.classList.add('right');
-            break;
+        // case 2:
+        //     article.classList.add('left');
+        //     break;
+        // case 3:
+        //     article.classList.add('right');
+        //     break;
     }
     switch (randomNum) {
         case 1:

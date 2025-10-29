@@ -25,7 +25,7 @@ CREATE TABLE personal_data (
     FOREIGN KEY (status_id) REFERENCES job_status(status_id)
 );
 INSERT INTO personal_data (id, firstname, middlename, lastname, suffix, birthdate, status_id, sex)
-VALUES (1, 'Anon', 'Anon', 'anon', NULL, '2001-01-01', 2, 'Male');
+VALUES (1, 'Kurt Gabrielle', 'Bermejo', 'Zabala', NULL, '2005-05-09', 2, 'Male');
 
 CREATE TABLE address (
     address_id INT PRIMARY KEY AUTO_INCREMENT,

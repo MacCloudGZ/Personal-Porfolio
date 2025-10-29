@@ -17,10 +17,10 @@
     // Extract all table data
     $Main_info = getTargetTable(1);
     $box1_info = getTargetTable(5);
-    $box2_info = getTargetTable(3);
+    $box2_info = getTargetTable(6);
     $box3_info = getTargetTable(4);
     $box4_info = getTargetTable(2);
-    $box5_info = getTargetTable(0);
+    $box5_info = getTargetTable(3);
 ?>
 
 <!DOCTYPE html>
@@ -145,11 +145,11 @@
                         </table>
                     <?php } ?>
                     <br>
-                    <?php if (!empty($box2_info)) { ?>
-                        <div><?php echo getBoxTitle($box2_info); ?></div>
+                    <?php if (!empty($box5_info)) { ?>
+                        <div><?php echo getBoxTitle($box5_info); ?></div>
                         <hr>
                         <table class="table">
-                            <?php renderBoxRows($box2_info); ?>
+                            <?php renderBoxRows($box5_info); ?>
                         </table>                    
                     <?php } ?>
                 </div>
