@@ -134,9 +134,14 @@ article{
                     height: 100%;
                     aspect-ratio: 1/1;
                 }
+                .icon-handler:hover .icon-name{
+                    --bg: #484848;
+                }
+                .icon-handler.active .icon-name{
+                    --bg: #710404;
+                }
                 .icon-handler:hover .icon-name, .icon-handler.active .icon-name{
                     color: #dfd9d9; 
-                    --bg: #484848;
                     transition: 1s;
                     padding: 10px 10px 10px 100px;
                     width: max-content;

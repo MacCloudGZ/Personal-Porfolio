@@ -164,5 +164,4 @@ CREATE TABLE file_manager (
 );
 
 INSERT INTO file_manager (id, file_name, file_path)
-VALUES (1, 'Resume.pdf', 'Properties/files/Resume.pdf'),
-(1, 'Portfolio.zip', 'Properties/files/Portfolio.zip');
+VALUES (1, 'Resume.pdf', 'Properties/files/Resume.pdf');
