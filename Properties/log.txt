@@ -2,3 +2,10 @@
 {"time":"2025-10-31 09:52:25","ip":"::1","user":"guest","origin":"Projects","action":"address_update_show","details":{"id":1,"address_id":2,"show":true}}
 {"time":"2025-10-31 09:55:13","ip":"::1","user":"guest","origin":"Projects","action":"address_update_show","details":{"id":1,"address_id":2,"show":false}}
 {"time":"2025-10-31 09:55:32","ip":"::1","user":"guest","origin":"Projects","action":"address_update_show","details":{"id":1,"address_id":2,"show":true}}
+{"time":"2025-10-31 10:56:34","ip":"::1","user":"guest","origin":"Projects","action":"bind_create","details":{"account_bind_id":1,"account_link":"https://github.com/MacCloudGZ"}}
+{"time":"2025-10-31 10:56:48","ip":"::1","user":"guest","origin":"Projects","action":"bind_request_verify","details":{"account_bind_id":1}}
+{"time":"2025-10-31 12:29:41","ip":"::1","user":"guest","origin":"Projects","action":"bind_request_verify","details":{"account_bind_id":1}}
+{"time":"2025-10-31 12:30:22","ip":"::1","user":"guest","origin":"Projects","action":"bind_request_verify","details":{"account_bind_id":1}}
+{"time":"2025-10-31 12:30:39","ip":"::1","user":"guest","origin":"Projects","action":"bind_verified","details":{"account_bind_id":1,"username":"MacCloudGZ"}}
+{"time":"2025-10-31 12:32:17","ip":"::1","user":"guest","origin":"Projects","action":"github_sync","details":[]}
+{"time":"2025-10-31 12:33:47","ip":"::1","user":"guest","origin":"Projects","action":"logout","details":[]}

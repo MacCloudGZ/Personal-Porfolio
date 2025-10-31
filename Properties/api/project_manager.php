@@ -1,6 +1,8 @@
 <?php
     session_start();
     header('Content-Type: application/json');
+    @ini_set('display_errors', '0');
+    @ini_set('html_errors', '0');
 
     // Only allow if edit is permitted for mutating actions; allow public list_all for frontend projects page
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
