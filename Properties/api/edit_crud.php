@@ -8,6 +8,7 @@
     }
 
     include_once '../database.php';
+    include_once 'logger.php';
 
     // helper
     function json_fail($msg, $code = 400) {
@@ -51,6 +52,7 @@
             $sex = $data['sex'] ?? null;
             $stmt->bind_param('sssssiis', $firstname, $middlename, $lastname, $suffix, $birthdate, $status_id, $sex, $userId);
             $ok = $stmt->execute();
+            if ($ok) log_event('personal_data_update', ['id' => $userId]);
             echo json_encode(['success' => $ok]);
             exit;
 
@@ -78,6 +80,7 @@
                 $stmt = $conn->prepare('UPDATE address SET show_Address = ? WHERE address_id = ? AND id = ?');
                 $stmt->bind_param('iii', $showAddress, $addressId, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('address_update_show', ['id' => $userId, 'address_id' => $addressId, 'show' => (bool)$showAddress]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -86,6 +89,7 @@
                 $stmt = $conn->prepare('DELETE FROM address WHERE address_id = ? AND id = ?');
                 $stmt->bind_param('ii', $addressId, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('address_delete', ['id' => $userId, 'address_id' => $addressId]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -105,6 +109,7 @@
                 $data['country']
             );
             $ok = $stmt->execute();
+            if ($ok) log_event('address_upsert', ['id' => $userId]);
             echo json_encode(['success' => $ok]);
             exit;
 
@@ -122,6 +127,7 @@
                 $stmt = $conn->prepare('INSERT INTO contact_info (id, contact_type, contact_value) VALUES (?, ?, ?)');
                 $stmt->bind_param('iss', $userId, $data['contact_type'], $data['contact_value']);
                 $ok = $stmt->execute();
+                if ($ok) log_event('contact_create', ['id' => $userId, 'contact_id' => $conn->insert_id]);
                 echo json_encode(['success' => $ok, 'insert_id' => $conn->insert_id]);
                 exit;
             }
@@ -130,6 +136,7 @@
                 $stmt = $conn->prepare('UPDATE contact_info SET contact_type=?, contact_value=? WHERE contact_id=? AND id=?');
                 $stmt->bind_param('ssii', $data['contact_type'], $data['contact_value'], $cid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('contact_update', ['id' => $userId, 'contact_id' => $cid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -138,6 +145,7 @@
                 $stmt = $conn->prepare('DELETE FROM contact_info WHERE contact_id=? AND id=?');
                 $stmt->bind_param('ii', $cid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('contact_delete', ['id' => $userId, 'contact_id' => $cid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -156,6 +164,7 @@
                 $stmt = $conn->prepare('INSERT INTO educational_background (id, institution_name, degree, field_of_study, start_date, end_date) VALUES (?,?,?,?,?,?)');
                 $stmt->bind_param('isssss', $userId, $data['institution_name'], $data['degree'], $data['field_of_study'], $data['start_date'], $data['end_date']);
                 $ok = $stmt->execute();
+                if ($ok) log_event('education_create', ['id' => $userId, 'education_id' => $conn->insert_id]);
                 echo json_encode(['success' => $ok, 'insert_id' => $conn->insert_id]);
                 exit;
             }
@@ -164,6 +173,7 @@
                 $stmt = $conn->prepare('UPDATE educational_background SET institution_name=?, degree=?, field_of_study=?, start_date=?, end_date=? WHERE education_id=? AND id=?');
                 $stmt->bind_param('sssssis', $data['institution_name'], $data['degree'], $data['field_of_study'], $data['start_date'], $data['end_date'], $eid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('education_update', ['id' => $userId, 'education_id' => $eid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -172,6 +182,7 @@
                 $stmt = $conn->prepare('DELETE FROM educational_background WHERE education_id=? AND id=?');
                 $stmt->bind_param('ii', $eid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('education_delete', ['id' => $userId, 'education_id' => $eid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -191,6 +202,7 @@
                 $stmt = $conn->prepare('INSERT INTO skills (id, skill_name, proficiency_level, skills_shown) VALUES (?,?,?,?)');
                 $stmt->bind_param('issi', $userId, $data['skill_name'], $data['proficiency_level'], $skillsShown);
                 $ok = $stmt->execute();
+                if ($ok) log_event('skills_create', ['id' => $userId, 'skill_id' => $conn->insert_id]);
                 echo json_encode(['success' => $ok, 'insert_id' => $conn->insert_id]);
                 exit;
             }
@@ -200,6 +212,7 @@
                 $stmt = $conn->prepare('UPDATE skills SET skill_name=?, proficiency_level=?, skills_shown=? WHERE skill_id=? AND id=?');
                 $stmt->bind_param('siiii', $data['skill_name'], $data['proficiency_level'], $skillsShown, $sid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('skills_update', ['id' => $userId, 'skill_id' => $sid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -208,6 +221,7 @@
                 $stmt = $conn->prepare('DELETE FROM skills WHERE skill_id=? AND id=?');
                 $stmt->bind_param('ii', $sid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('skills_delete', ['id' => $userId, 'skill_id' => $sid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -226,6 +240,7 @@
                 $stmt = $conn->prepare('INSERT INTO fun_personal_touch (id, description) VALUES (?, ?)');
                 $stmt->bind_param('is', $userId, $data['description']);
                 $ok = $stmt->execute();
+                if ($ok) log_event('fun_create', ['id' => $userId, 'touch_id' => $conn->insert_id]);
                 echo json_encode(['success' => $ok, 'insert_id' => $conn->insert_id]);
                 exit;
             }
@@ -234,6 +249,7 @@
                 $stmt = $conn->prepare('UPDATE fun_personal_touch SET description=? WHERE touch_id=? AND id=?');
                 $stmt->bind_param('sii', $data['description'], $tid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('fun_update', ['id' => $userId, 'touch_id' => $tid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -242,6 +258,7 @@
                 $stmt = $conn->prepare('DELETE FROM fun_personal_touch WHERE touch_id=? AND id=?');
                 $stmt->bind_param('ii', $tid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('fun_delete', ['id' => $userId, 'touch_id' => $tid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -260,6 +277,7 @@
                 $stmt = $conn->prepare('INSERT INTO message_data (id, message_text, message_type) VALUES (?,?,?)');
                 $stmt->bind_param('isi', $userId, $data['message_text'], $data['message_type']);
                 $ok = $stmt->execute();
+                if ($ok) log_event('message_create', ['id' => $userId, 'message_type' => $data['message_type']]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -268,6 +286,7 @@
                 $stmt = $conn->prepare('UPDATE message_data SET message_text=? WHERE id=? AND message_type=?');
                 $stmt->bind_param('sii', $data['message_text'], $userId, $data['message_type']);
                 $ok = $stmt->execute();
+                if ($ok) log_event('message_update', ['id' => $userId, 'message_type' => $data['message_type']]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -275,6 +294,7 @@
                 $stmt = $conn->prepare('DELETE FROM message_data WHERE id=? AND message_type=?');
                 $stmt->bind_param('ii', $userId, $data['message_type']);
                 $ok = $stmt->execute();
+                if ($ok) log_event('message_delete', ['id' => $userId, 'message_type' => $data['message_type']]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -294,6 +314,7 @@
                 $stmt = $conn->prepare('INSERT INTO profession (id, job_title, company_name, start_date, end_date, is_current) VALUES (?,?,?,?,?,?)');
                 $stmt->bind_param('issssi', $userId, $data['job_title'], $data['company_name'], $data['start_date'], $data['end_date'], $isCurrent);
                 $ok = $stmt->execute();
+                if ($ok) log_event('profession_create', ['id' => $userId, 'profession_id' => $conn->insert_id]);
                 echo json_encode(['success' => $ok, 'insert_id' => $conn->insert_id]);
                 exit;
             }
@@ -303,6 +324,7 @@
                 $stmt = $conn->prepare('UPDATE profession SET job_title=?, company_name=?, start_date=?, end_date=?, is_current=? WHERE profession_id=? AND id=?');
                 $stmt->bind_param('ssssiii', $data['job_title'], $data['company_name'], $data['start_date'], $data['end_date'], $isCurrent, $pid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('profession_update', ['id' => $userId, 'profession_id' => $pid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -311,6 +333,7 @@
                 $stmt = $conn->prepare('DELETE FROM profession WHERE profession_id=? AND id=?');
                 $stmt->bind_param('ii', $pid, $userId);
                 $ok = $stmt->execute();
+                if ($ok) log_event('profession_delete', ['id' => $userId, 'profession_id' => $pid]);
                 echo json_encode(['success' => $ok]);
                 exit;
             }
@@ -339,6 +362,11 @@
             }
             if (!$stmt) json_fail('Prepare failed', 500);
             $ok = $stmt->execute();
+            if ($ok) {
+                if ($password !== '') log_event('account_password_change', ['id' => $userId, 'username' => $username]);
+                else log_event('account_username_change', ['id' => $userId, 'username' => $username]);
+                $_SESSION['edit_user'] = $username;
+            }
             echo json_encode(['success' => $ok]);
             exit;
 

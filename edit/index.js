@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Finished button: return to referrer section if provided
     const finishedBtn = document.getElementById('finished-btn');
     if (finishedBtn) {
-        finishedBtn.addEventListener('click', () => {
+        finishedBtn.addEventListener('click', async () => {
+            try { await fetch('../Properties/api/logout.php', { method: 'POST' }); } catch(e) {}
             const url = new URL(window.location.href);
             const qsFrom = url.searchParams.get('from');
             const sessionFrom = (typeof window.__EDIT_ORIGIN__ !== 'undefined') ? window.__EDIT_ORIGIN__ : null;

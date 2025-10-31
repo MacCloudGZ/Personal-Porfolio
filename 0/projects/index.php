@@ -109,8 +109,37 @@
                 </div>
             </div>
             <div class="section-container">
-                no data yet
+                <div class="box-container" id="projects-list">
+                    <div>PROJECTS</div>
+                    <hr>
+                    <table class="table" id="projects-table"></table>
+                </div>
             </div>
+            <script>
+                (function(){
+                    const api = '../../Properties/api/project_manager.php?action=list_all';
+                    function fmtDate(d){ return (d||'').slice(0,10); }
+                    fetch(api)
+                        .then(r=>r.json())
+                        .then(j=>{
+                            if (!j.success) return;
+                            const rows = j.data || [];
+                            const t = document.getElementById('projects-table');
+                            let html = '<tr><th>Source</th><th>Name</th><th>Description</th><th>Created</th><th>Visibility</th></tr>';
+                            for (const r of rows){
+                                html += `<tr>`+
+                                    `<td>${r.source}</td>`+
+                                    `<td>${r.name ?? ''}</td>`+
+                                    `<td>${r.description ?? ''}</td>`+
+                                    `<td>${fmtDate(r.created)}</td>`+
+                                    `<td>${r.isvisible ?? ''}</td>`+
+                                `</tr>`;
+                            }
+                            t.innerHTML = html;
+                        })
+                        .catch(console.error);
+                })();
+            </script>
         </section>
         <div class="edit_container" id="edit_container">
             <div class="edit-box">

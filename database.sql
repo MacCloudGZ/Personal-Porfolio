@@ -165,3 +165,37 @@ CREATE TABLE file_manager (
 
 INSERT INTO file_manager (id, file_name, file_path)
 VALUES (1, 'Resume.pdf', 'Properties/files/Resume.pdf');
+
+-- Project manager tables
+
+CREATE TABLE IF NOT EXISTS add_project_manual (
+    project_id INT PRIMARY KEY AUTO_INCREMENT,
+    project_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    date_creation DATE NOT NULL,
+    isvisible ENUM('public','private','partially') DEFAULT 'public'
+);
+
+CREATE TABLE IF NOT EXISTS config_update (
+    update_time TIME NOT NULL,
+    schedule ENUM('day','week','month') DEFAULT 'day'
+);
+
+-- Seed a default config if not exists
+INSERT INTO config_update (update_time, schedule)
+SELECT '03:00:00', 'day'
+WHERE NOT EXISTS (SELECT 1 FROM config_update);
+
+CREATE TABLE IF NOT EXISTS accounts_bind (
+    account_bind_id INT PRIMARY KEY AUTO_INCREMENT,
+    account_link VARCHAR(512) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS temp_github_project (
+    account_bind_id INT,
+    gitproject_id INT PRIMARY KEY,
+    gitproject_name VARCHAR(255) NOT NULL,
+    gitdescription TEXT,
+    gitdate_creation DATE NOT NULL,
+    gitisvisible ENUM('public','private','partially') DEFAULT 'public'
+);

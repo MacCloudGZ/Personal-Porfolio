@@ -3,6 +3,7 @@
     header('Content-Type: application/json');
 
     include_once '../database.php';
+    include_once 'logger.php';
 
     // Basic rate limiting (session-based) to mitigate DoS/brute force
     $now = time();
@@ -72,7 +73,9 @@
         // Success: mark session and clear attempts
         $_SESSION['edit_permitted'] = true;
         $_SESSION['edit_origin'] = in_array($origin, ['Home','Projects','Contacts'], true) ? $origin : 'Home';
+        $_SESSION['edit_user'] = $username;
         $_SESSION['login_attempts'] = [];
+        log_event('login_success', ['username' => $username, 'origin' => $_SESSION['edit_origin']]);
         echo json_encode([
             'success' => true,
             'message' => 'Access granted.'
@@ -83,6 +86,7 @@
     // Failure path
     $_SESSION['edit_permitted'] = false;
     $_SESSION['login_attempts'][] = $now;
+    log_event('login_failed', ['username' => $username]);
     echo json_encode([
         'success' => false,
         'message' => 'Invalid credentials.'

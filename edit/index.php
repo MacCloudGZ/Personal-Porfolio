@@ -86,6 +86,12 @@
                     </div>
                     <div class="icon-name">Projects Managers</div>
                 </div>
+                <div class="icon-handler" data-target="project-catalog">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h12v2H3v-2zm0 4h12v2H3v-2z"/></svg>
+                    </div>
+                    <div class="icon-name">Projects Catalog</div>
+                </div>
                 <div class="icon-handler" data-target="edit-access">
                     <div class="icon">
                         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000">
@@ -399,6 +405,320 @@
         <div class="sections-background-container" id="project-managers-section">
             <section id="projects">
                 <h2>Projects</h2>
+                <div class="mega_box">
+                    <h3>Manual Projects</h3>
+                    <form id="manual-project-form">
+                        <input type="hidden" id="manual-project-id">
+                        <div class="box">
+                            <label for="manual-project-name">Project Name:</label>
+                            <input type="text" id="manual-project-name" required>
+                        </div>
+                        <div class="box">
+                            <label for="manual-project-desc">Description:</label>
+                            <textarea id="manual-project-desc" rows="3"></textarea>
+                        </div>
+                        <div class="box">
+                            <label for="manual-project-date">Date Created:</label>
+                            <input type="date" id="manual-project-date" required>
+                        </div>
+                        <div class="box">
+                            <label for="manual-project-visible">Visibility:</label>
+                            <select id="manual-project-visible">
+                                <option value="public">public</option>
+                                <option value="private">private</option>
+                                <option value="partially">partially</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="manual-save-btn">Save Project</button>
+                        <button type="button" id="manual-reset-btn">Reset</button>
+                    </form>
+                    <table class="table" id="manual-projects-table"></table>
+                </div>
+
+                <div class="mega_box">
+                    <h3>GitHub Account Binds</h3>
+                    <form id="bind-form">
+                        <input type="hidden" id="bind-id">
+                        <div class="box">
+                            <label for="bind-link">GitHub Profile URL:</label>
+                            <input type="url" id="bind-link" placeholder="https://github.com/<username>" required>
+                        </div>
+                        <button type="submit" id="bind-save-btn">Add Bind</button>
+                        <button type="button" id="bind-reset-btn">Reset</button>
+                    </form>
+                    <table class="table" id="binds-table"></table>
+                </div>
+
+                <div class="mega_box">
+                    <h3>Sync Settings</h3>
+                    <form id="config-form">
+                        <div class="box">
+                            <label for="cfg-time">Update Time:</label>
+                            <input type="time" id="cfg-time" required>
+                        </div>
+                        <div class="box">
+                            <label for="cfg-schedule">Schedule:</label>
+                            <select id="cfg-schedule">
+                                <option value="day">day</option>
+                                <option value="week">week</option>
+                                <option value="month">month</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="cfg-save-btn">Save Config</button>
+                        <button type="button" id="sync-now-btn">Sync Now</button>
+                    </form>
+                    <div class="box">
+                        <small>Sync Now sequence: clears `temp_github_project`, then refills from GitHub using bound accounts.</small>
+                    </div>
+                </div>
+
+                
+
+                <div class="mega_box">
+                    <h3>Temporary GitHub Projects (Read-only)</h3>
+                    <table class="table" id="temp-github-table"></table>
+                </div>
+
+                <script>
+                    (function(){
+                        const api = '../Properties/api/project_manager.php';
+
+                        function fmtDate(d){
+                            if (!d) return '';
+                            return String(d).slice(0,10);
+                        }
+
+                        function renderManualProjects(rows){
+                            const t = document.getElementById('manual-projects-table');
+                            let html = '<tr><th>ID</th><th>Name</th><th>Date</th><th>Visible</th><th>Actions</th></tr>';
+                            for (const r of rows){
+                                html += `<tr>`+
+                                    `<td>${r.project_id}</td>`+
+                                    `<td>${r.project_name ?? ''}</td>`+
+                                    `<td>${fmtDate(r.date_creation)}</td>`+
+                                    `<td>${r.isvisible ?? ''}</td>`+
+                                    `<td>`+
+                                        `<button data-act="edit" data-id="${r.project_id}" data-name="${encodeURIComponent(r.project_name ?? '')}" data-desc="${encodeURIComponent(r.description ?? '')}" data-date="${fmtDate(r.date_creation)}" data-vis="${r.isvisible}">Edit</button>`+
+                                        `<button data-act="del" data-id="${r.project_id}">Delete</button>`+
+                                    `</td>`+
+                                `</tr>`;
+                            }
+                            t.innerHTML = html;
+                            t.onclick = (e) => {
+                                const btn = e.target.closest('button');
+                                if (!btn) return;
+                                const act = btn.getAttribute('data-act');
+                                const id = parseInt(btn.getAttribute('data-id')); 
+                                if (act === 'edit'){
+                                    document.getElementById('manual-project-id').value = id;
+                                    document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name'));
+                                    document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc'));
+                                    document.getElementById('manual-project-date').value = btn.getAttribute('data-date');
+                                    document.getElementById('manual-project-visible').value = btn.getAttribute('data-vis') || 'public';
+                                } else if (act === 'del'){
+                                    fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_delete', project_id:id }) })
+                                        .then(r => r.json()).then(loadAll).catch(console.error);
+                                }
+                            };
+                        }
+
+                        function renderBinds(rows){
+                            const t = document.getElementById('binds-table');
+                            let html = '<tr><th>ID</th><th>GitHub URL</th><th>Status</th><th>Actions</th></tr>';
+                            for (const r of rows){
+                                html += `<tr>`+
+                                    `<td>${r.account_bind_id}</td>`+
+                                    `<td>${r.account_link ?? ''}</td>`+
+                                    `<td>${(parseInt(r.is_verified)?'Verified':'Not verified')}</td>`+
+                                    `<td>`+
+                                        `${parseInt(r.is_verified)? '' : `<button data-act="req" data-id="${r.account_bind_id}">Request Code</button><button data-act=\"check\" data-id=\"${r.account_bind_id}\">Verify Now</button>`}`+
+                                        `<button data-act="del" data-id="${r.account_bind_id}">Delete</button>`+
+                                    `</td>`+
+                                `</tr>`;
+                            }
+                            t.innerHTML = html;
+                            t.onclick = (e) => {
+                                const btn = e.target.closest('button');
+                                if (!btn) return;
+                                const act = btn.getAttribute('data-act');
+                                const id = parseInt(btn.getAttribute('data-id'));
+                                if (act === 'del'){
+                                    if (!confirm('Remove this GitHub account bind?')) return;
+                                    fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'bind_delete', account_bind_id:id }) })
+                                        .then(r => r.json()).then(loadAll).catch(console.error);
+                                } else if (act === 'req'){
+                                    fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'bind_request_verify', account_bind_id:id }) })
+                                        .then(r=>r.json()).then(j=>{
+                                            if (!j.success) return;
+                                            alert('Add this code to your GitHub bio, then click Verify Now: '+ (j.challenge||''));
+                                        }).catch(console.error);
+                                } else if (act === 'check'){
+                                    fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'bind_check_verify', account_bind_id:id }) })
+                                        .then(r=>r.json()).then(j=>{
+                                            if (j && j.success){
+                                                alert('Bind verified!');
+                                                loadAll();
+                                            } else {
+                                                alert((j && j.message) || 'Verification failed');
+                                            }
+                                        }).catch(console.error);
+                                }
+                            };
+                        }
+
+                        function renderTempGithub(rows){
+                            const t = document.getElementById('temp-github-table');
+                            let html = '<tr><th>ID</th><th>Name</th><th>Created</th><th>Visibility</th></tr>';
+                            for (const r of rows){
+                                html += `<tr>`+
+                                    `<td>${r.id}</td>`+
+                                    `<td>${r.name ?? ''}</td>`+
+                                    `<td>${fmtDate(r.created)}</td>`+
+                                    `<td>${r.isvisible ?? ''}</td>`+
+                                `</tr>`;
+                            }
+                            t.innerHTML = html;
+                        }
+
+                        function loadAll(){
+                            // manual
+                            fetch(`${api}?action=manual_list`).then(r=>r.json()).then(j=>{ if(j.success) renderManualProjects(j.data||[]); });
+                            // binds
+                            fetch(`${api}?action=bind_list`).then(r=>r.json()).then(j=>{ if(j.success) renderBinds(j.data||[]); });
+                            // config
+                            fetch(`${api}?action=config_get`).then(r=>r.json()).then(j=>{ if(j.success && j.data){
+                                document.getElementById('cfg-time').value = (j.data.update_time || '').slice(0,5);
+                                document.getElementById('cfg-schedule').value = j.data.schedule || 'day';
+                            }});
+                            // temp list from combined but filter source=github
+                            fetch(`${api}?action=list_all`).then(r=>r.json()).then(j=>{ if(j.success){
+                                const g = (j.data||[]).filter(x => x.source==='github');
+                                renderTempGithub(g);
+                            }});
+                        }
+
+                        // Manual form
+                        document.getElementById('manual-project-form').addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const pid = (document.getElementById('manual-project-id').value||'').trim();
+                            const payload = {
+                                action: pid ? 'manual_update' : 'manual_create',
+                                project_id: pid ? parseInt(pid) : undefined,
+                                project_name: document.getElementById('manual-project-name').value.trim(),
+                                description: document.getElementById('manual-project-desc').value.trim(),
+                                date_creation: document.getElementById('manual-project-date').value,
+                                isvisible: document.getElementById('manual-project-visible').value
+                            };
+                            fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+                                .then(r=>r.json()).then(() => { resetManual(); loadAll(); }).catch(console.error);
+                        });
+                        document.getElementById('manual-reset-btn').addEventListener('click', (e)=>{ e.preventDefault(); resetManual(); });
+                        function resetManual(){
+                            document.getElementById('manual-project-id').value='';
+                            document.getElementById('manual-project-name').value='';
+                            document.getElementById('manual-project-desc').value='';
+                            document.getElementById('manual-project-date').value='';
+                            document.getElementById('manual-project-visible').value='public';
+                        }
+
+                        // Bind form
+                        document.getElementById('bind-form').addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const link = document.getElementById('bind-link').value.trim();
+                            if (!link) return;
+                            fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'bind_create', account_link: link }) })
+                                .then(r=>r.json()).then(()=>{ document.getElementById('bind-link').value=''; loadAll(); }).catch(console.error);
+                        });
+                        document.getElementById('bind-reset-btn').addEventListener('click', (e)=>{ e.preventDefault(); document.getElementById('bind-link').value=''; });
+
+                        // Config form
+                        document.getElementById('config-form').addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const update_time = document.getElementById('cfg-time').value || '03:00';
+                            const schedule = document.getElementById('cfg-schedule').value || 'day';
+                            fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'config_update', update_time: update_time+':00', schedule }) })
+                                .then(r=>r.json()).then(()=>{ loadAll(); }).catch(console.error);
+                        });
+                        document.getElementById('sync-now-btn').addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const btn = e.currentTarget;
+                            const prevText = btn.textContent;
+                            btn.disabled = true;
+                            btn.textContent = 'Syncing...';
+                            fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'sync_now' }) })
+                                .then(r=>r.json())
+                                .then(j=>{ if (!j.success) throw new Error(j.message || 'Sync failed'); loadAll(); })
+                                .catch((err)=>{ console.error(err); alert(err.message || 'Sync failed'); })
+                                .finally(()=>{ btn.disabled=false; btn.textContent = prevText; });
+                        });
+
+                        // Initial load
+                        loadAll();
+                    })();
+                </script>
+            </section>
+        </div>
+        <div class="sections-background-container" id="project-catalog-section">
+            <section id="project-catalog">
+                <h2>Projects Catalog</h2>
+                <div class="mega_box">
+                    <table class="table" id="catalog-table"></table>
+                </div>
+                <script>
+                    (function(){
+                        const api = '../Properties/api/project_manager.php';
+                        function fmtDate(d){ return (d||'').slice(0,10); }
+                        function loadCatalog(){
+                            fetch(`${api}?action=list_all`).then(r=>r.json()).then(j=>{
+                                if (!j.success) return;
+                                const rows = j.data || [];
+                                const t = document.getElementById('catalog-table');
+                                let html = '<tr><th>Source</th><th>Name</th><th>Description</th><th>Created</th><th>Visibility</th><th>Actions</th></tr>';
+                                for (const r of rows){
+                                    const isManual = r.source === 'manual';
+                                    html += `<tr>`+
+                                        `<td>${r.source}</td>`+
+                                        `<td>${r.name ?? ''}</td>`+
+                                        `<td>${r.description ?? ''}</td>`+
+                                        `<td>${fmtDate(r.created)}</td>`+
+                                        `<td>${r.isvisible ?? ''}</td>`+
+                                        `<td>`+
+                                            `${isManual ? `<button data-act=\"edit\" data-id=\"${r.id}\" data-name=\"${encodeURIComponent(r.name||'')}\" data-desc=\"${encodeURIComponent(r.description||'')}\" data-date=\"${fmtDate(r.created)}\" data-vis=\"${r.isvisible}\">Edit</button><button data-act=\"del\" data-id=\"${r.id}\">Delete</button>` : `<button data-act=\"import\" data-id=\"${r.id}\">Import to Manual</button>`}`+
+                                        `</td>`+
+                                    `</tr>`;
+                                }
+                                t.innerHTML = html;
+                                t.onclick = (e)=>{
+                                    const btn = e.target.closest('button');
+                                    if (!btn) return;
+                                    const act = btn.getAttribute('data-act');
+                                    const id = parseInt(btn.getAttribute('data-id'));
+                                    if (act === 'edit'){
+                                        // prefill manual edit form in the manager section
+                                        document.querySelector('[data-target="project-managers"]').click();
+                                        document.getElementById('manual-project-id').value = id;
+                                        document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name'));
+                                        document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc'));
+                                        document.getElementById('manual-project-date').value = btn.getAttribute('data-date');
+                                        document.getElementById('manual-project-visible').value = btn.getAttribute('data-vis') || 'public';
+                                    } else if (act === 'del'){
+                                        if (!confirm('Delete this manual project?')) return;
+                                        fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_delete', project_id:id }) })
+                                            .then(r=>r.json()).then(()=>{ loadCatalog(); }).catch(console.error);
+                                    } else if (act === 'import'){
+                                        fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_import_from_temp', gitproject_id:id }) })
+                                            .then(r=>r.json()).then(j=>{
+                                                if (!j.success) { alert(j.message||'Import failed'); return; }
+                                                loadCatalog();
+                                            }).catch(console.error);
+                                    }
+                                };
+                            });
+                        }
+                        // Load once on render; switching tabs will keep content until refreshed
+                        loadCatalog();
+                    })();
+                </script>
             </section>
         </div>
         <div class="sections-background-container" id="edit-access-section">
@@ -424,6 +744,39 @@
         <div class="sections-background-container" id="logs-history-section">
             <section id="log-history">
                 <h2>Log History</h2>
+                <div class="mega_box">
+                    <div class="box">
+                        <button id="logs-refresh">Refresh</button>
+                        <button id="logs-clear">Clear</button>
+                    </div>
+                    <table class="table" id="logs-table"></table>
+                </div>
+                <script>
+                    (function(){
+                        const api = '../Properties/api/logs.php';
+                        function renderLogs(rows){
+                            const t = document.getElementById('logs-table');
+                            let html = '<tr><th>Time</th><th>User</th><th>Action</th><th>Details</th><th>IP</th></tr>';
+                            for (const r of rows){
+                                const time = r.time || '';
+                                const user = r.user || '';
+                                const action = r.action || '';
+                                const ip = r.ip || '';
+                                const det = r.details ? JSON.stringify(r.details) : '';
+                                html += `<tr><td>${time}</td><td>${user}</td><td>${action}</td><td>${det}</td><td>${ip}</td></tr>`;
+                            }
+                            t.innerHTML = html;
+                        }
+                        function loadLogs(){
+                            fetch(`${api}?action=list&limit=300`).then(r=>r.json()).then(j=>{ if(j.success) renderLogs(j.data||[]); });
+                        }
+                        const btnR = document.getElementById('logs-refresh');
+                        if (btnR) btnR.addEventListener('click', (e)=>{ e.preventDefault(); loadLogs(); });
+                        const btnC = document.getElementById('logs-clear');
+                        if (btnC) btnC.addEventListener('click', (e)=>{ e.preventDefault(); fetch(api, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:'action=clear' }).then(()=>loadLogs()); });
+                        loadLogs();
+                    })();
+                </script>
             </section>
         </div>
     </article>
