@@ -13,9 +13,18 @@
             'action' => $action,
             'details' => $details
         ];
-        $line = json_encode($payload, JSON_UNESCAPED_SLASHES);
-        // best-effort append
-        @file_put_contents($logFile, $line . PHP_EOL, FILE_APPEND | LOCK_EX);
+        $line = json_encode($payload, JSON_UNESCAPED_SLASHES) . PHP_EOL;
+
+        // Explicit file handling using fopen/fwrite/fclose with lock
+        $fh = @fopen($logFile, 'ab');
+        if ($fh === false) { return; }
+        if (@flock($fh, LOCK_EX)) {
+            @fwrite($fh, $line);
+            @flock($fh, LOCK_UN);
+        } else {
+            @fwrite($fh, $line);
+        }
+        @fclose($fh);
     }
 ?>
 

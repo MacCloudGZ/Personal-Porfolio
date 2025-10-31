@@ -10,7 +10,24 @@
     if ($action === 'list') {
         $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 200;
         if (!file_exists($logFile)) { echo json_encode(['success'=>true,'data'=>[]]); exit; }
-        $lines = @file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+        $content = '';
+        $fh = @fopen($logFile, 'rb');
+        if ($fh !== false) {
+            // Read entire file (small logs), or last ~1MB for large files
+            $size = @filesize($logFile);
+            if ($size !== false && $size > 1024*1024) {
+                // seek to last 1MB to avoid memory blowups
+                @fseek($fh, -1024*1024, SEEK_END);
+            }
+            $chunk = '';
+            while (!feof($fh)) {
+                $chunk = fread($fh, 8192);
+                if ($chunk === false) break;
+                $content .= $chunk;
+            }
+            @fclose($fh);
+        }
+        $lines = preg_split('/\r?\n/', $content, -1, PREG_SPLIT_NO_EMPTY) ?: [];
         $slice = array_slice($lines, -$limit);
         $parsed = [];
         foreach ($slice as $line) {
@@ -27,7 +44,7 @@
     }
 
     if ($action === 'clear') {
-        @file_put_contents($logFile, '');
+        if (file_exists($logFile)) { @unlink($logFile); }
         echo json_encode(['success'=>true]);
         exit;
     }

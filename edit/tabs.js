@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetButton) {
             targetButton.classList.add('active');
         }
+        try { localStorage.setItem('edit_active_tab', targetId); } catch(e) {}
     };
 
     // Add click event listeners to all tab buttons
@@ -33,8 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initialize with the first tab active (if none is active)
-    if (!document.querySelector('.sections-background-container.active')) {
+    // Initialize with persisted tab or first tab
+    const persisted = (() => { try { return localStorage.getItem('edit_active_tab'); } catch(e) { return null; } })();
+    if (persisted && document.getElementById(`${persisted}-section`)) {
+        switchTab(persisted);
+    } else if (!document.querySelector('.sections-background-container.active')) {
         const firstButton = tabButtons[0];
         if (firstButton) {
             switchTab(firstButton.dataset.target);
