@@ -182,10 +182,8 @@
                 <form id="cv-upload-form" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="1">
                     <div class="mega_box">
-                        <div class="box">
-                            <label for="cv-file">Choose file (PDF/ZIP, max 10MB)</label>
-                            <input type="file" id="cv-file" name="file" accept=".pdf,.zip" required>
-                        </div>
+                        <label for="cv-file">Choose file (PDF/ZIP, max 10MB)</label>
+                        <input type="file" id="cv-file" name="file" accept=".pdf,.zip" required>
                     </div>
                     <button type="submit">Upload CV/File</button>
                 </form>

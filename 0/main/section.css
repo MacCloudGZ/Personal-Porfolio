@@ -79,7 +79,7 @@
         border-radius: 10px;
         color: white;
     }
-    .table tbody{
+    .box-container .table tbody{
         height: 100%;
         width: 90%;
         display: flex;
@@ -89,14 +89,14 @@
             flex-wrap: wrap;
             gap: 5px;
     }
-        .table tbody tr{
+        .box-container .table tbody tr{
             width: 100%;
             display: flex;
                 justify-content: center;
                 align-items: center;
                 gap: 10px;
         }
-            .table tbody tr td{
+            .box-container .table tbody tr td{
                 border-radius: 10px;
                 width: 100%;
                 padding: 10px;
