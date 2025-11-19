@@ -111,10 +111,11 @@ function submit_edit(){
     }
 
     submitBtn.disabled = true;
-    fetch('../../Properties/api/logins_submittion.php', {
+	fetch('../../Properties/api/logins_submittion.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, origin })
+		credentials: 'same-origin',
+		body: JSON.stringify({ username, password, origin })
     })
     .then(async (res) => {
         let data = {};
@@ -157,10 +158,11 @@ function transition_editpage(origin){
     }, 400);
     setTimeout(() => {
         console.log('Access Granted!')
-        setTimeout(() => {
-            const from = origin || 'Home';
-            window.location.href = `../../edit/?from=${encodeURIComponent(from)}`;
-        }, 1000);
+		setTimeout(() => {
+			const from = origin || 'Home';
+			const base = `${window.location.origin}/Personal-Porfolio`;
+			window.location.href = `${base}/edit/?from=${encodeURIComponent(from)}`;
+		}, 500);
     }, 1000);
     
 }

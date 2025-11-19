@@ -17,8 +17,7 @@
     .header-section .tabs-container{
         height: 100%;
         display: flex;
-            justify-content: space-around;
-            gap: 30px;
+            justify-content: space-evenly;
             align-items: center;
         flex-grow: 3;
         /* border-left: solid 1px white; */
@@ -89,6 +88,7 @@
     .header-section .edit-button{
         border-top: solid 5px white;
         height: 100%;
+        min-width: 30px;
         flex-grow: 1;
         padding-inline: 50px;
         display: flex;

@@ -9,3 +9,6 @@
 {"time":"2025-10-31 12:30:39","ip":"::1","user":"guest","origin":"Projects","action":"bind_verified","details":{"account_bind_id":1,"username":"MacCloudGZ"}}
 {"time":"2025-10-31 12:32:17","ip":"::1","user":"guest","origin":"Projects","action":"github_sync","details":[]}
 {"time":"2025-10-31 12:33:47","ip":"::1","user":"guest","origin":"Projects","action":"logout","details":[]}
+{"time":"2025-11-19 08:30:54","ip":"::1","user":"admin","origin":"Home","action":"login_success","details":{"username":"admin","origin":"Home"}}
+{"time":"2025-11-19 08:37:33","ip":"::1","user":"admin","origin":"Home","action":"logout","details":[]}
+{"time":"2025-11-19 08:38:47","ip":"::1","user":"admin","origin":"Home","action":"login_success","details":{"username":"admin","origin":"Home"}}
