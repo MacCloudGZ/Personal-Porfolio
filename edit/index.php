@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿<?php
+    session_start();
+    if (!isset($_SESSION['edit_permitted']) || $_SESSION['edit_permitted'] !== true) {
+        header('Location: ../Error.html');
+        exit;
+    }
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,13 +17,6 @@
     <title>Portfolio Editor</title>
 </head>
 <body>
-    <?php
-        session_start();
-        if (!isset($_SESSION['edit_permitted']) || $_SESSION['edit_permitted'] !== true) {
-            header('Location: ../Error.html');
-            exit;
-        }
-    ?>
     <header>
         <h1>PORTFOLIO EDIT</h1>
         <div class="con">
