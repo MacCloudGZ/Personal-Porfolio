@@ -1,0 +1,110 @@
+.section-container{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+.section-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+.section-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.section-container::-webkit-scrollbar-thumb {
+    background: white;
+    width: 5px;
+    transition: 1s;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.section-container::-webkit-scrollbar-thumb:hover {
+    background: #FF0000;
+    transition: .5s;
+    border-radius: 50px;
+    width: 10px;
+}
+div#projects-items{
+    --padding-left: 40px;
+    padding-inline: var(--padding-left);
+    width: calcu( 100% - var(--padding-left) );
+    display: flex;
+        justify-content: flex-start;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        gap: 10px;
+}
+.box-container {
+    padding: 29px;
+}
+    .box-container div{
+        --header-padding: 20px;
+        padding: var(--header-padding);
+        width: calcu(100% - var(--header-padding));
+        background-color: #E3311D;
+        color: white;
+        font-weight: bolder;
+        font-size: 30px;
+        border-radius: 10px;       
+    }
+
+#projects-items .project_box{
+    --pi-width: 520px;
+    width: 100%;
+    max-width: var(--pi-width);
+    display: flex;
+    position: relative;
+    flex-wrap: nowrap;
+    padding: 10px;
+    border-radius: 10px;
+}
+#projects-items  .project_box.github{
+    background-color: rgb(34, 34, 34);
+    overflow: visible;
+    border-top-left-radius: 50% 100%;
+    color: white;
+}
+#projects-items  .project_box.manual{
+    background-color: white;
+}
+    .project_box .project_source{
+        height: 100%;
+        position: relative;
+        min-height: 150px;
+        display: flex;
+            justify-content: center;
+            align-items: center;
+        aspect-ratio: 1/1;
+    }
+        .project_source img{
+            width: 150px;
+            filter: invert(5);
+        }
+    .project_box .project_created{
+        position: absolute;
+            bottom: 0;
+            right: 10px;
+    }
+    .project_box .project_visibility{
+        position: absolute;
+            right: 10px;
+    }
+    .project_box .project_details{
+        padding: 0 var(--padding-left);
+        display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            gap: 10px;    
+    }
+        .project_box .project_details .project_name{
+            font-size: x-large;
+            font-weight: bold;
+            border-bottom: blec;
+        }
+        .project_box .project_details .project_description{
+            font-size: medium;
+            overflow-x:hidden;
+        }

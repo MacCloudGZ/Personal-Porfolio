@@ -272,9 +272,34 @@
             $github = [];
             if ($r1 = $conn->query("SELECT project_id AS id, project_name AS name, description, date_creation AS created, isvisible, 'manual' AS source FROM add_project_manual")) {
                 $manual = $r1->fetch_all(MYSQLI_ASSOC);
+                // Add null url for manual projects
+                foreach ($manual as &$m) {
+                    $m['url'] = null;
+                }
+                unset($m);
             }
-            if ($r2 = $conn->query("SELECT gitproject_id AS id, gitproject_name AS name, gitdescription AS description, gitdate_creation AS created, gitisvisible AS isvisible, 'github' AS source FROM temp_github_project")) {
+            // Join with accounts_bind to get account_link and construct GitHub URL
+            if ($r2 = $conn->query("SELECT t.gitproject_id AS id, t.gitproject_name AS name, t.gitdescription AS description, t.gitdate_creation AS created, t.gitisvisible AS isvisible, 'github' AS source, b.account_link FROM temp_github_project t INNER JOIN accounts_bind b ON t.account_bind_id = b.account_bind_id")) {
                 $github = $r2->fetch_all(MYSQLI_ASSOC);
+                // Construct GitHub repository URL from account_link and repo name
+                foreach ($github as &$g) {
+                    $accountLink = $g['account_link'] ?? '';
+                    $repoName = $g['name'] ?? '';
+                    if ($accountLink && $repoName) {
+                        // Parse username from account_link
+                        $username = parseGithubUsername($accountLink);
+                        if ($username) {
+                            $g['url'] = 'https://github.com/' . $username . '/' . $repoName;
+                        } else {
+                            $g['url'] = null;
+                        }
+                    } else {
+                        $g['url'] = null;
+                    }
+                    // Remove account_link from output
+                    unset($g['account_link']);
+                }
+                unset($g);
             }
             $all = array_merge($manual, $github);
             // sort by created desc, then name

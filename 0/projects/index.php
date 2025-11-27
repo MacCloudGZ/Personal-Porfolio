@@ -112,8 +112,8 @@
                 <div class="box-container" id="projects-list">
                     <div>PROJECTS</div>
                     <hr>
-                    <table class="table" id="projects-table"></table>
                 </div>
+                <div id="projects-items"></div>
             </div>
             <script>
                 (function(){
@@ -123,17 +123,56 @@
                         .then(r=>r.json())
                         .then(j=>{
                             if (!j.success) return;
+                            let globe_icon = '';
+                            let lock_icon = '';
+                            globe_icon += `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">` +
+                                    `<circle cx="12" cy="12" r="10"/>`+
+                                    `<path d="M2 12h20"/>`+
+                                    `<path d="M12 2c3 3 4.5 6.5 4.5 10s-1.5 7-4.5 10c-3-3-4.5-6.5-4.5-10S9 5 12 2z"/>`+
+                                `</svg>`;
+                            lock_icon += `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">`+
+                                `<rect x="5" y="10" width="14" height="11" rx="2" stroke="#000000" stroke-width="2"/>`+
+                                `<path d="M7 10V7C7 4.79086 8.79086 3 11 3H13C15.2091 3 17 4.79086 17 7V10" stroke="#000000" stroke-width="2" stroke-linecap="round"/>`+
+                                `<path d="M12 18V15" stroke="#000000" stroke-width="2" stroke-linecap="round"/>`+
+                                `</svg>`;
                             const rows = j.data || [];
-                            const t = document.getElementById('projects-table');
-                            let html = '<tr><th>Source</th><th>Name</th><th>Description</th><th>Created</th><th>Visibility</th></tr>';
+                            const t = document.getElementById('projects-items');
+                            let github_image = `<img src="../../Properties/Images/Github-logo.png"/>`;
+                            let default_image = `<img src="../../Properties/Images/manual-default-icon.png"/>`; 
+                            let html = '';
                             for (const r of rows){
-                                html += `<tr>`+
-                                    `<td>${r.source}</td>`+
-                                    `<td>${r.name ?? ''}</td>`+
-                                    `<td>${r.description ?? ''}</td>`+
-                                    `<td>${fmtDate(r.created)}</td>`+
-                                    `<td>${r.isvisible ?? ''}</td>`+
-                                `</tr>`;
+                                const projectUrl = r.url || '';
+                                html += `<div class="project_box ${r.source}" data-url="${projectUrl}">`+
+                                    `<div class="project_source">`;
+                                switch(r.source){
+                                    case "github":
+                                        html += github_image +`</div>`;
+                                        break;
+                                    case "manual":
+                                    default:
+                                        html += `${r.source}</div>`;
+                                        break;
+                                }
+                                html += `<div class="project_details">`+
+                                    `<div class="project_name">${r.name ?? ''}</div>`+
+                                    `<div class="project_discription">${r.description ?? ''}</div>`+
+                                    `</div>`+
+                                    `<div class="project_created">${fmtDate(r.created)}</div>`+
+                                    `<div class="project_visibility">`;
+                                switch(r.isvisible){
+                                    case "public":
+                                        html += globe_icon+`</div>`+
+                                        `</div>`;
+                                        break;
+                                    case "private":
+                                        html += lock_icon+`</div>`+
+                                        `</div>`;
+                                        break;5
+                                    default:
+                                        html += globe_icon + `/` + lock_icon+`</div>`+
+                                        `</div>`;
+                                        break;
+                                }
                             }
                             t.innerHTML = html;
                         })

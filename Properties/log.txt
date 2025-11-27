@@ -18,3 +18,16 @@
 {"time":"2025-11-21 06:39:42","ip":"::1","user":"admin","origin":"Home","action":"logout","details":[]}
 {"time":"2025-11-21 06:39:55","ip":"::1","user":"admin","origin":"Home","action":"login_success","details":{"username":"admin","origin":"Home"}}
 {"time":"2025-11-21 06:40:02","ip":"::1","user":"admin","origin":"Home","action":"logout","details":[]}
+{"time":"2025-11-26 16:29:39","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
+{"time":"2025-11-26 16:29:52","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
+{"time":"2025-11-26 16:31:42","ip":"::1","user":"admin","origin":"Projects","action":"logout","details":[]}
+{"time":"2025-11-26 16:32:02","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
+{"time":"2025-11-26 18:04:33","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
+{"time":"2025-11-26 18:05:19","ip":"::1","user":"admin","origin":"Projects","action":"manual_project_create","details":{"project_id":1,"project_name":"Tumbang-Preso"}}
+{"time":"2025-11-26 18:05:23","ip":"::1","user":"admin","origin":"Projects","action":"logout","details":[]}
+{"time":"2025-11-26 18:05:47","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
+{"time":"2025-11-26 18:07:36","ip":"::1","user":"admin","origin":"Projects","action":"logout","details":[]}
+{"time":"2025-11-27 15:41:10","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
+{"time":"2025-11-27 15:42:13","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
+{"time":"2025-11-27 15:42:35","ip":"::1","user":"admin","origin":"Projects","action":"manual_project_create","details":{"project_id":2,"project_name":"tESTING"}}
+{"time":"2025-11-27 15:42:37","ip":"::1","user":"admin","origin":"Projects","action":"logout","details":[]}
