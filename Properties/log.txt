@@ -31,3 +31,11 @@
 {"time":"2025-11-27 15:42:13","ip":"::1","user":"admin","origin":"Projects","action":"login_success","details":{"username":"admin","origin":"Projects"}}
 {"time":"2025-11-27 15:42:35","ip":"::1","user":"admin","origin":"Projects","action":"manual_project_create","details":{"project_id":2,"project_name":"tESTING"}}
 {"time":"2025-11-27 15:42:37","ip":"::1","user":"admin","origin":"Projects","action":"logout","details":[]}
+{"time":"2025-11-29 07:57:56","ip":"::1","user":"admin","origin":"Contacts","action":"login_success","details":{"username":"admin","origin":"Contacts"}}
+{"time":"2025-11-29 10:05:12","ip":"::1","user":"admin","origin":"Contacts","action":"logout","details":[]}
+{"time":"2025-11-29 10:12:23","ip":"::1","user":"admin","origin":"Contacts","action":"login_success","details":{"username":"admin","origin":"Contacts"}}
+{"time":"2025-11-29 10:12:38","ip":"::1","user":"admin","origin":"Contacts","action":"login_success","details":{"username":"admin","origin":"Contacts"}}
+{"time":"2025-11-29 10:17:47","ip":"::1","user":"admin","origin":"Contacts","action":"logout","details":[]}
+{"time":"2025-11-30 06:37:39","ip":"::1","user":"admin","origin":"Home","action":"login_success","details":{"username":"admin","origin":"Home"}}
+{"time":"2025-11-30 18:09:19","ip":"::1","user":"admin","origin":"Home","action":"logout","details":[]}
+{"time":"2025-12-01 02:38:21","ip":"::1","user":"admin","origin":"Home","action":"login_success","details":{"username":"admin","origin":"Home"}}

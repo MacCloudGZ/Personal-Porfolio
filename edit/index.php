@@ -168,9 +168,16 @@
                 </div>
             </div>
         </aside>
-        <div class="sections-background-container active" id="file-image-section"> 
-            <section id="profile-image">
-                <h2>Profile Image</h2>
+        <div class="sections-background-container active" id="file-image-section">
+            <div class="header-tab-handler">
+                <div class="header-tab current-tab" id="fis-tab-1" onclick="areafunction('fis','profile-image')">
+                    <h3>Profile Image</h3>
+                </div>
+                <div class="header-tab" id="fis-tab-2" onclick="areafunction('fis','cv-files')">
+                    <h3>CV / Files</h3>
+                </div>
+            </div> 
+            <section id="profile-image" class="current-section">
                 <form id="image-upload-form" enctype="multipart/form-data">
                     <input type="hidden" name="entity" value="main_images">
                     <input type="hidden" name="action" value="upload">
@@ -183,7 +190,6 @@
                 </form>
             </section>
             <section id="cv-files">
-                <h2>CV / Files</h2>
                 <div id="cv-list"></div>
                 <form id="cv-upload-form" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="1">
@@ -196,8 +202,30 @@
             </section>
         </div>
         <div class="sections-background-container" id="personal-information-section">
-            <section id="personal-info">
-                <h2>Personal Information</h2>
+            <div class="header-tab-handler">
+                <div class="header-tab current-tab" id="pis-tab-1" onclick="areafunction('pis','personal-info')">
+                    <h3>Personal Information</h3>
+                </div>
+                <div class="header-tab" id="pis-tab-2" onclick="areafunction('pis','address')">
+                    <h3>Address</h3>
+                </div>
+                <div class="header-tab" id="pis-tab-3" onclick="areafunction('pis','contact-info')">
+                    <h3>Contact Information</h3>
+                </div>
+                <div class="header-tab" id="pis-tab-4" onclick="areafunction('pis','education')">
+                    <h3>Educational Background</h3>
+                </div>
+                <div class="header-tab" id="pis-tab-5" onclick="areafunction('pis','skills')">
+                    <h3>Skills</h3>
+                </div>
+                <div class="header-tab" id="pis-tab-6" onclick="areafunction('pis','personal-touch')">
+                    <h3>Fun / Personal Touch</h3>
+                </div>
+                <div class="header-tab" id="pis-tab-7" onclick="areafunction('pis','messages')">
+                    <h3>Message Data</h3>
+                </div>
+            </div> 
+            <section id="personal-info" class="current-section">
                 <form id="personal-form">
                     <input type="hidden" id="personal-id" value="1">
                     <div class="mega_box">
@@ -246,7 +274,6 @@
                 </form>
             </section>
             <section id="address">
-                <h2>Address</h2>
                 <form id="address-form">
                     <div class="mega_box">
                         <div id="address-list">
@@ -285,10 +312,9 @@
                     <button type="submit">Save Address</button>
                 </form>
             </section>
-
             <section id="contact-info">
                     <div class="mega_box">
-                        <h2>Contact Information</h2>
+                        <h3>Contact Information</h3>
                         <div id="contact-list">
                             <!-- Contact items will be dynamically loaded here -->
                         </div>
@@ -296,7 +322,7 @@
                 <form id="contact-form">
                     <input type="hidden" id="contact-person-id" value="1">
                     <div class="mega_box">
-                        <h2>Add New Contact</h2>
+                        <h3>Add New Contact</h3>
                         <div class="box">
                             <label for="contact-type">Contact Type:</label>
                             <input type="text" id="contact-type" name="contact_type" required>                
@@ -309,10 +335,7 @@
                     <button type="submit">Add Contact</button>
                 </form>
             </section>
-
-            <!-- Educational Background Section -->
             <section id="education">
-                <h2>Educational Background</h2>
                 <div id="education-list">
                     <!-- Education items will be dynamically loaded here -->
                 </div>
@@ -339,10 +362,7 @@
                     <button type="submit">Add Education</button>
                 </form>
             </section>
-
-            <!-- Skills Section -->
             <section id="skills">
-                <h2>Skills</h2>
                 <div id="skills-list">
                     <!-- Skills will be dynamically loaded here -->
                 </div>
@@ -360,10 +380,7 @@
                     <button type="submit">Add Skill</button>
                 </form>
             </section>
-
-            <!-- Fun/Personal Touch Section -->
             <section id="personal-touch">
-                <h2>Fun / Personal Touch</h2>
                 <div id="personal-touch-list">
                     <!-- Personal touch items will be dynamically loaded here -->
                 </div>
@@ -378,10 +395,7 @@
                     <button type="submit">Add Personal Touch</button>
                 </form>
             </section>
-
-            <!-- Message Data Section -->
             <section id="messages">
-                <h2>Message Data</h2>
                 <div id="messages-list">
                     <!-- Messages will be dynamically loaded here -->
                 </div>
@@ -403,10 +417,19 @@
             <!-- Main Images excluded by request -->
         </div>
         <div class="sections-background-container" id="project-managers-section">
-            <section id="projects">
-                <h2>Projects</h2>
-                <div class="mega_box">
+            <div class="header-tab-handler">
+                <div class="header-tab current-tab" id="pms-tab-1" onclick="areafunction('pms','projects')">
                     <h3>Manual Projects</h3>
+                </div>
+                <div class="header-tab" id="pms-tab-2" onclick="areafunction('pms','github-bind')">
+                    <h3>GitHub Account Binds</h3>
+                </div>
+                <div class="header-tab" id="pms-tab-2" onclick="areafunction('pms','git-sync-settings')">
+                    <h3>Sync Settings</h3>
+                </div>
+            </div> 
+            <section id="projects" class="current-section">
+                <div class="mega_box">
                     <form id="manual-project-form">
                         <input type="hidden" id="manual-project-id">
                         <div class="box">
@@ -434,9 +457,9 @@
                     </form>
                     <table class="table" id="manual-projects-table"></table>
                 </div>
-
+            </section>
+            <section id="github-bind">
                 <div class="mega_box">
-                    <h3>GitHub Account Binds</h3>
                     <form id="bind-form">
                         <input type="hidden" id="bind-id">
                         <div class="box">
@@ -448,9 +471,9 @@
                     </form>
                     <table class="table" id="binds-table"></table>
                 </div>
-
+            </section>
+            <section id="git-sync-settings">
                 <div class="mega_box">
-                    <h3>Sync Settings</h3>
                     <form id="config-form">
                         <div class="box">
                             <label for="cfg-time">Update Time:</label>
@@ -471,14 +494,81 @@
                         <small>Sync Now sequence: clears `temp_github_project`, then refills from GitHub using bound accounts.</small>
                     </div>
                 </div>
-
-                
-
+            </section>
+        </div>
+        <div class="sections-background-container" id="project-catalog-section">
+            <div class="header-tab-handler">
+                <div class="header-tab current-tab" id="pcs-tab-1" onclick="areafunction('pcs','project-catalog')">
+                    <h3>Projects Catalog</h3>
+                </div>
+                <div class="header-tab" id="pcs-tab-2" onclick="areafunction('pcs','github-projects')">
+                    <h3>GitHub Projects (Read-only)</h3>
+                </div>
+            </div> 
+            <section id="project-catalog" class="current-section">
                 <div class="mega_box">
-                    <h3>Temporary GitHub Projects (Read-only)</h3>
+                    <table class="table" id="catalog-table"></table>
+                </div>
+                <script>
+                    (function(){
+                        const api = '../Properties/api/project_manager.php';
+                        function fmtDate(d){ return (d||'').slice(0,10); }
+                        function loadCatalog(){
+                            fetch(`${api}?action=list_all`).then(r=>r.json()).then(j=>{
+                                if (!j.success) return;
+                                const rows = j.data || [];
+                                const t = document.getElementById('catalog-table');
+                                let html = '<tr><th>Source</th><th>Name</th><th>Description</th><th>Created</th><th>Visibility</th><th>Actions</th></tr>';
+                                for (const r of rows){
+                                    const isManual = r.source === 'manual';
+                                    html += `<tr>`+
+                                        `<td>${r.source}</td>`+
+                                        `<td>${r.name ?? ''}</td>`+
+                                        `<td>${r.description ?? ''}</td>`+
+                                        `<td>${fmtDate(r.created)}</td>`+
+                                        `<td>${r.isvisible ?? ''}</td>`+
+                                        `<td>`+
+                                            `${isManual ? `<button data-act=\"edit\" data-id=\"${r.id}\" data-name=\"${encodeURIComponent(r.name||'')}\" data-desc=\"${encodeURIComponent(r.description||'')}\" data-date=\"${fmtDate(r.created)}\" data-vis=\"${r.isvisible}\">Edit</button><button data-act=\"del\" data-id=\"${r.id}\">Delete</button>` : `<button data-act=\"import\" data-id=\"${r.id}\">Import to Manual</button>`}`+
+                                        `</td>`+
+                                    `</tr>`;
+                                }
+                                t.innerHTML = html;
+                                t.onclick = (e)=>{
+                                    const btn = e.target.closest('button');
+                                    if (!btn) return;
+                                    const act = btn.getAttribute('data-act');
+                                    const id = parseInt(btn.getAttribute('data-id'));
+                                    if (act === 'edit'){
+                                        // prefill manual edit form in the manager section
+                                        document.querySelector('[data-target="project-managers"]').click();
+                                        document.getElementById('manual-project-id').value = id;
+                                        document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name'));
+                                        document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc'));
+                                        document.getElementById('manual-project-date').value = btn.getAttribute('data-date');
+                                        document.getElementById('manual-project-visible').value = btn.getAttribute('data-vis') || 'public';
+                                    } else if (act === 'del'){
+                                        if (!confirm('Delete this manual project?')) return;
+                                        fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_delete', project_id:id }) })
+                                            .then(r=>r.json()).then(()=>{ loadCatalog(); }).catch(console.error);
+                                    } else if (act === 'import'){
+                                        fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_import_from_temp', gitproject_id:id }) })
+                                            .then(r=>r.json()).then(j=>{
+                                                if (!j.success) { alert(j.message||'Import failed'); return; }
+                                                loadCatalog();
+                                            }).catch(console.error);
+                                    }
+                                };
+                            });
+                        }
+                        // Load once on render; switching tabs will keep content until refreshed
+                        loadCatalog();
+                    })();
+                </script>
+            </section>
+            <section id="github-projects">
+                <div class="mega_box">
                     <table class="table" id="temp-github-table"></table>
                 </div>
-
                 <script>
                     (function(){
                         const api = '../Properties/api/project_manager.php';
@@ -658,73 +748,13 @@
                 </script>
             </section>
         </div>
-        <div class="sections-background-container" id="project-catalog-section">
-            <section id="project-catalog">
-                <h2>Projects Catalog</h2>
-                <div class="mega_box">
-                    <table class="table" id="catalog-table"></table>
-                </div>
-                <script>
-                    (function(){
-                        const api = '../Properties/api/project_manager.php';
-                        function fmtDate(d){ return (d||'').slice(0,10); }
-                        function loadCatalog(){
-                            fetch(`${api}?action=list_all`).then(r=>r.json()).then(j=>{
-                                if (!j.success) return;
-                                const rows = j.data || [];
-                                const t = document.getElementById('catalog-table');
-                                let html = '<tr><th>Source</th><th>Name</th><th>Description</th><th>Created</th><th>Visibility</th><th>Actions</th></tr>';
-                                for (const r of rows){
-                                    const isManual = r.source === 'manual';
-                                    html += `<tr>`+
-                                        `<td>${r.source}</td>`+
-                                        `<td>${r.name ?? ''}</td>`+
-                                        `<td>${r.description ?? ''}</td>`+
-                                        `<td>${fmtDate(r.created)}</td>`+
-                                        `<td>${r.isvisible ?? ''}</td>`+
-                                        `<td>`+
-                                            `${isManual ? `<button data-act=\"edit\" data-id=\"${r.id}\" data-name=\"${encodeURIComponent(r.name||'')}\" data-desc=\"${encodeURIComponent(r.description||'')}\" data-date=\"${fmtDate(r.created)}\" data-vis=\"${r.isvisible}\">Edit</button><button data-act=\"del\" data-id=\"${r.id}\">Delete</button>` : `<button data-act=\"import\" data-id=\"${r.id}\">Import to Manual</button>`}`+
-                                        `</td>`+
-                                    `</tr>`;
-                                }
-                                t.innerHTML = html;
-                                t.onclick = (e)=>{
-                                    const btn = e.target.closest('button');
-                                    if (!btn) return;
-                                    const act = btn.getAttribute('data-act');
-                                    const id = parseInt(btn.getAttribute('data-id'));
-                                    if (act === 'edit'){
-                                        // prefill manual edit form in the manager section
-                                        document.querySelector('[data-target="project-managers"]').click();
-                                        document.getElementById('manual-project-id').value = id;
-                                        document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name'));
-                                        document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc'));
-                                        document.getElementById('manual-project-date').value = btn.getAttribute('data-date');
-                                        document.getElementById('manual-project-visible').value = btn.getAttribute('data-vis') || 'public';
-                                    } else if (act === 'del'){
-                                        if (!confirm('Delete this manual project?')) return;
-                                        fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_delete', project_id:id }) })
-                                            .then(r=>r.json()).then(()=>{ loadCatalog(); }).catch(console.error);
-                                    } else if (act === 'import'){
-                                        fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_import_from_temp', gitproject_id:id }) })
-                                            .then(r=>r.json()).then(j=>{
-                                                if (!j.success) { alert(j.message||'Import failed'); return; }
-                                                loadCatalog();
-                                            }).catch(console.error);
-                                    }
-                                };
-                            });
-                        }
-                        // Load once on render; switching tabs will keep content until refreshed
-                        loadCatalog();
-                    })();
-                </script>
-            </section>
-        </div>
         <div class="sections-background-container" id="edit-access-section">
-            <!-- Account Section -->
-            <section id="account">
-                <h2>Account Settings</h2>
+            <div class="header-tab-handler">
+                <div class="header-tab current-tab" id="eas-tab-1" onclick="areafunction('eas','account')">                
+                    <h3>Account Settings</h3>
+                </div>
+            </div> 
+            <section id="account" class="current-section">
                 <form id="account-form">
                     <input type="hidden" id="account-person-id" value="1">
                     
@@ -742,8 +772,12 @@
             </section>
         </div>
         <div class="sections-background-container" id="logs-history-section">
-            <section id="log-history">
-                <h2>Log History</h2>
+            <div class="header-tab-handler">
+                <div class="header-tab current-tab" id="lhs-tab-1" onclick="areafunction('lhs','log-history')">                
+                    <h3>Log History</h3>
+                </div>
+            </div> 
+            <section id="log-history" class="current-section">
                 <div class="mega_box">
                     <div class="box">
                         <button id="logs-refresh">Refresh</button>

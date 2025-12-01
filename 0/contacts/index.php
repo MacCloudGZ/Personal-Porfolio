@@ -114,7 +114,7 @@
                 <div class="box-container" id="b4">
                     <div><?php echo getBoxTitle($box4_info); ?></div>
                     <hr>
-                    <table class="table">
+                    <table class="datable">
                         <?php renderBoxRows($box4_info); ?>
                     </table>
                 </div>

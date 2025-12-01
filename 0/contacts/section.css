@@ -1,0 +1,53 @@
+.section-container{
+    height: 100%;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+}
+.box-container{
+    width: 50%;
+    margin-top: -10%;
+    display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+    .box-container div{
+        --line-p: 20px;
+        display: flex;
+            align-items: center;
+            justify-content: center;
+        background-color: #E3311D;
+        padding:var(--line-p);
+        width: calc(100% - var(--line-p));
+        color: white;
+        border-radius: 10px;
+        font-weight: bolder;
+        font-size:xx-large;
+    }
+    .box-container hr{
+        width: 100% ;
+    }
+    .box-container .datable{
+        width: 100%;
+        display: flex;
+            justify-content: center;
+            align-items: center;
+    }
+    .datable tbody{
+        padding: 20px;
+        display: flex;
+            flex-direction: column;
+            gap: 10px;
+    }
+        .datable tbody tr{
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        .datable tbody tr td{
+            min-width: 50px;
+        }
+        .datable tbody tr th{
+            min-width: 10px;
+        }

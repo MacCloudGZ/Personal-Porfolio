@@ -140,15 +140,18 @@
                             let github_image = `<img src="../../Properties/Images/Github-logo.png"/>`;
                             let default_image = `<img src="../../Properties/Images/manual-default-icon.png"/>`; 
                             let html = '';
+                            // `<div class="project_link" onclick="window.location.href='${projectUrl}'">Link</div>
                             for (const r of rows){
                                 const projectUrl = r.url || '';
-                                html += `<div class="project_box ${r.source}" data-url="${projectUrl}">`+
+                                html += `<div class="project_box ${r.source} ${r.isvisible}" >`+
                                     `<div class="project_source">`;
                                 switch(r.source){
                                     case "github":
                                         html += github_image +`</div>`;
                                         break;
                                     case "manual":
+                                        html += default_image + `</div>`;
+                                        break;
                                     default:
                                         html += `${r.source}</div>`;
                                         break;
@@ -162,6 +165,7 @@
                                 switch(r.isvisible){
                                     case "public":
                                         html += globe_icon+`</div>`+
+                                        `<div class="project_redirect" onclick="window.location.href='${projectUrl}'" title="Redirect to ${r.source}">link</div>`+
                                         `</div>`;
                                         break;
                                     case "private":
@@ -170,6 +174,7 @@
                                         break;5
                                     default:
                                         html += globe_icon + `/` + lock_icon+`</div>`+
+                                        `<div class="project_redirect" onclick="window.location.href='${projectUrl}'" title="Redirect to Link">link</div>`+
                                         `</div>`;
                                         break;
                                 }

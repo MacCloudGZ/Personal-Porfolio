@@ -153,11 +153,7 @@ article{
     min-height: 80vh;
     display: none;
         justify-content: flex-start;
-        flex-direction: row;
-        align-items: stretch;
-        gap: 10px;
-        flex-wrap: wrap;
-        align-content: flex-start;
+        flex-direction: column;
 }
 .sections-background-container::-webkit-scrollbar {
   width: 5px;
@@ -178,14 +174,21 @@ article{
 .sections-background-container.active{
     display: flex;
 }
+    .sections-background-container .header-tab-handler{
+        --inline-pad-h: 20px;
+        display: flex;
+            gap: 10px;
+        width: calc(fit-content - var(--inline-pad-h));
+        padding: 0 var(--inline-pad-h);
+        user-select: none;
+    }
         .sections-background-container section{
         flex-grow: 1;
-        display: flex;
+        display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 10px;
-        min-height: 200px;
         height: fit-content;
         min-width: 500px;
         width: fit-content;
@@ -194,8 +197,10 @@ article{
         border-radius: 20px;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     }
+    .sections-background-container section.current-section{
+        display: flex;
+    }
         section#contact-info{
-            display: flex;
                 flex-direction: row;
                 align-items: flex-start;
         }

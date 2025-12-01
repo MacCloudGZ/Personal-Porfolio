@@ -50,7 +50,6 @@ div#projects-items{
         font-size: 30px;
         border-radius: 10px;       
     }
-
 #projects-items .project_box{
     --pi-width: 520px;
     width: 100%;
@@ -65,10 +64,16 @@ div#projects-items{
     background-color: rgb(34, 34, 34);
     overflow: visible;
     border-top-left-radius: 50% 100%;
+    transition: .5s;
     color: white;
+}
+#projects-items .project_box.github:hover{
+    border-top-right-radius:25% 50%;
+    transition: .5s;
 }
 #projects-items  .project_box.manual{
     background-color: white;
+    border-top-left-radius: 50% 100%;
 }
     .project_box .project_source{
         height: 100%;
@@ -89,11 +94,40 @@ div#projects-items{
             right: 10px;
     }
     .project_box .project_visibility{
+        transition: .5s;
         position: absolute;
             right: 10px;
+    } 
+    .public:hover .project_visibility{
+        display: none;
+        transition: .5s;
     }
+    .project_box .project_redirect{
+        position: absolute;
+            top: 0;
+            right: 0;
+            z-index: -1;
+        cursor: pointer;
+        transition: 1s ease-out;
+        font-size: large;
+        padding: 5px 5px 50px 50px;
+        border-bottom-left-radius: 100%;
+        border-bottom-right-radius: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: lime;
+        transition: background-color 0.3s ease;
+    }
+        .project_box.public:hover .project_redirect{
+            padding: 5px 50px 50px 5px;
+                top: -10px;
+                z-index: 1;
+                right: -10px;
+            transition: 1s ease-in;
+            border-bottom-left-radius: 10px;
+        }
     .project_box .project_details{
-        padding: 0 var(--padding-left);
+        padding-left: var(--padding-left);
         display: flex;
             flex-direction: column;
             justify-content: space-evenly;
