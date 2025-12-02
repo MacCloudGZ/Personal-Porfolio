@@ -32,15 +32,19 @@ $finfo = new finfo(FILEINFO_MIME_TYPE);
 $mime = $finfo->file($file['tmp_name']);
 $allowed = [
     'application/pdf' => 'pdf',
-    'application/zip' => 'zip',
-    'application/x-zip-compressed' => 'zip',
 ];
 if (!isset($allowed[$mime])) {
-    fail_cv('Unsupported file type (allowed: PDF, ZIP)');
+    fail_cv('Unsupported file type (only PDF files are allowed)');
+}
+
+// Additional check: verify file extension is .pdf
+$original = basename($file['name']);
+$fileExtension = strtolower(pathinfo($original, PATHINFO_EXTENSION));
+if ($fileExtension !== 'pdf') {
+    fail_cv('Only PDF files are allowed');
 }
 
 // Sanitize filename
-$original = basename($file['name']);
 $original = preg_replace('/[^A-Za-z0-9._-]/', '_', $original);
 
 // Enforce no duplicate filename for this user

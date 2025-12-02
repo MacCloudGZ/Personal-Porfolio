@@ -171,58 +171,76 @@
         <div class="sections-background-container active" id="file-image-section">
             <div class="header-tab-handler">
                 <div class="header-tab current-tab" id="fis-tab-1" onclick="areafunction('fis','profile-image')">
-                    <h3>Profile Image</h3>
+                    <h4>Profile Image</h4>
                 </div>
                 <div class="header-tab" id="fis-tab-2" onclick="areafunction('fis','cv-files')">
-                    <h3>CV / Files</h3>
+                    <h4>CV / Files</h4>
                 </div>
             </div> 
             <section id="profile-image" class="current-section">
-                <form id="image-upload-form" enctype="multipart/form-data">
-                    <input type="hidden" name="entity" value="main_images">
-                    <input type="hidden" name="action" value="upload">
-                    <input type="hidden" name="id" value="1">
-                    <div class="mega_box">
-                            <label for="profile-image-file .bns">Choose image (JPG/PNG/WEBP, max 5MB)</label>
-                            <input type="file" id="profile-image-file" name="file" accept="image/*" required>
+                <div class="mega_box">
+                    <h3>Upload New Image</h3>
+                    <form id="image-upload-form" enctype="multipart/form-data">
+                        <input type="hidden" name="entity" value="main_images">
+                        <input type="hidden" name="action" value="upload">
+                        <input type="hidden" name="id" value="1">
+                        <div class="mega_box">
+                                <label for="profile-image-file .bns">Choose image (JPG/PNG/WEBP, max 5MB)</label>
+                                <input type="file" id="profile-image-file" name="file" accept="image/*" required>
+                        </div>
+                        <button type="submit">Upload Image</button>
+                    </form>
+                </div>
+                <div class="mega_box">
+                    <h3>Select Current Profile Image</h3>
+                    <div id="profile-images-list">
+                        <!-- Images will be loaded here -->
                     </div>
-                    <button type="submit">Upload Image</button>
-                </form>
+                </div>
             </section>
             <section id="cv-files">
-                <div id="cv-list"></div>
-                <form id="cv-upload-form" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="1">
-                    <div class="mega_box">
-                        <label for="cv-file">Choose file (PDF/ZIP, max 10MB)</label>
-                        <input type="file" id="cv-file" name="file" accept=".pdf,.zip" required>
-                    </div>
-                    <button type="submit">Upload CV/File</button>
-                </form>
+                <div class="mega_box">
+                    <h3>Upload new CV files</h3>
+                    <form id="cv-upload-form" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="1">
+                        <div class="mega_box">
+                            <label for="cv-file">Choose file (PDF only, max 10MB)</label>
+                            <input type="file" id="cv-file" name="file" accept=".pdf,application/pdf" required>
+                        </div>
+                        <button type="submit">Upload CV/File</button>
+                    </form>
+                </div>
+                <div class="mega_box">
+                    <h3>Select Current Profile Image</h3>
+                    <div id="cv-list"></div>
+                </div>
             </section>
         </div>
         <div class="sections-background-container" id="personal-information-section">
             <div class="header-tab-handler">
                 <div class="header-tab current-tab" id="pis-tab-1" onclick="areafunction('pis','personal-info')">
-                    <h3>Personal Information</h3>
+                    <h4>Personal Information</h4>
                 </div>
                 <div class="header-tab" id="pis-tab-2" onclick="areafunction('pis','address')">
-                    <h3>Address</h3>
+                    <h4>Address</h4>
                 </div>
                 <div class="header-tab" id="pis-tab-3" onclick="areafunction('pis','contact-info')">
-                    <h3>Contact Information</h3>
+                    <h4>Contact Information</h4>
                 </div>
                 <div class="header-tab" id="pis-tab-4" onclick="areafunction('pis','education')">
-                    <h3>Educational Background</h3>
+                    <h4>Educational Background</h4>
                 </div>
                 <div class="header-tab" id="pis-tab-5" onclick="areafunction('pis','skills')">
-                    <h3>Skills</h3>
+                    <h4>Skills</h4>
                 </div>
                 <div class="header-tab" id="pis-tab-6" onclick="areafunction('pis','personal-touch')">
-                    <h3>Fun / Personal Touch</h3>
+                    <h4>Fun / Personal Touch</h4>
                 </div>
                 <div class="header-tab" id="pis-tab-7" onclick="areafunction('pis','messages')">
-                    <h3>Message Data</h3>
+                    <h4>Message Data</h4>
+                </div>
+                <div class="header-tab" id="pis-tab-8" onclick="areafunction('pis','profession')">
+                    <h4>Experiences</h4>
                 </div>
             </div> 
             <section id="personal-info" class="current-section">
@@ -313,16 +331,16 @@
                 </form>
             </section>
             <section id="contact-info">
-                    <div class="mega_box">
-                        <h3>Contact Information</h3>
-                        <div id="contact-list">
-                            <!-- Contact items will be dynamically loaded here -->
-                        </div>
+                <div class="mega_box">
+                    <h3>Contact Information</h3>
+                    <div id="contact-list">
+                        <!-- Contact items will be dynamically loaded here -->
                     </div>
-                <form id="contact-form">
-                    <input type="hidden" id="contact-person-id" value="1">
-                    <div class="mega_box">
-                        <h3>Add New Contact</h3>
+                </div>
+                <div class="mega_box">
+                    <h3>Add New Contact</h3>
+                    <form id="contact-form">
+                        <input type="hidden" id="contact-person-id" value="1">
                         <div class="box">
                             <label for="contact-type">Contact Type:</label>
                             <input type="text" id="contact-type" name="contact_type" required>                
@@ -331,87 +349,145 @@
                             <label for="contact-value">Contact Value:</label>  
                             <input type="text" id="contact-value" name="contact_value" required>    
                         </div>
-                    </div>                
-                    <button type="submit">Add Contact</button>
-                </form>
+                        <button type="submit">Add Contact</button>
+                    </form>
+                </div>
             </section>
             <section id="education">
-                <div id="education-list">
-                    <!-- Education items will be dynamically loaded here -->
+                <div class="mega_box">
+                    <h3>Educational Background</h3>
+                    <div id="education-list">
+                        <!-- Education items will be dynamically loaded here -->
+                    </div>
                 </div>
-                
-                <h3>Add New Education</h3>
-                <form id="education-form">
-                    <input type="hidden" id="education-person-id" value="1">
-                    
-                    <label for="institution-name">Institution Name:</label>
-                    <input type="text" id="institution-name" name="institution_name" required>
-                    
-                    <label for="degree">Degree:</label>
-                    <input type="text" id="degree" name="degree">
-                    
-                    <label for="field-of-study">Field of Study:</label>
-                    <input type="text" id="field-of-study" name="field_of_study">
-                    
-                    <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start_date">
-                    
-                    <label for="end-date">End Date:</label>
-                    <input type="date" id="end-date" name="end_date">
-                    
-                    <button type="submit">Add Education</button>
-                </form>
+                <div class="mega_box">
+                    <h3>Add New Education</h3>
+                    <form id="education-form">
+                        <input type="hidden" id="education-person-id" value="1">
+                        <div class="box">
+                            <label for="institution-name">Institution Name:</label>
+                            <input type="text" id="institution-name" name="institution_name" required>
+                        </div>
+                        <div class="box">
+                            <label for="degree">Degree:</label>
+                            <input type="text" id="degree" name="degree">
+                        </div>
+                        <div class="box">
+                            <label for="field-of-study">Field of Study:</label>
+                            <input type="text" id="field-of-study" name="field_of_study">
+                        </div>
+                        <div class="box">
+                            <label for="start-date">Start Date:</label>
+                            <input type="date" id="start-date" name="start_date">
+                        </div>
+                        <div class="box">
+                            <label for="end-date">End Date:</label>
+                            <input type="date" id="end-date" name="end_date">
+                        </div>
+                        <button type="submit">Add Education</button>
+                    </form>
+                </div>
             </section>
             <section id="skills">
-                <div id="skills-list">
-                    <!-- Skills will be dynamically loaded here -->
+                <div class="mega_box">
+                    <h3>Your Skills</h3>
+                    <div id="skills-list">
+                        <!-- Skills will be dynamically loaded here -->
+                    </div>
                 </div>
-                
-                <h3>Add New Skill</h3>
-                <form id="skills-form">
-                    <input type="hidden" id="skills-person-id" value="1">
-                    
-                    <label for="skill-name">Skill Name:</label>
-                    <input type="text" id="skill-name" name="skill_name" required>
-                    
-                    <label for="proficiency-level">Proficiency Level (1-10):</label>
-                    <input type="number" id="proficiency-level" name="proficiency_level" min="1" max="10" required>
-                    
-                    <button type="submit">Add Skill</button>
-                </form>
+                <div class="mega_box">
+                    <h3>Add New Skill</h3>
+                    <form id="skills-form">
+                        <input type="hidden" id="skills-person-id" value="1">
+                        <div class="box">
+                            <label for="skill-name">Skill Name:</label>
+                            <input type="text" id="skill-name" name="skill_name" required>
+                        </div>
+                        <div class="box">
+                            <label for="proficiency-level">Proficiency Level (1-10):</label>
+                            <input type="number" id="proficiency-level" name="proficiency_level" min="1" max="10" required>
+                        </div>
+                        <button type="submit">Add Skill</button>
+                    </form>
+                </div>
             </section>
             <section id="personal-touch">
-                <div id="personal-touch-list">
-                    <!-- Personal touch items will be dynamically loaded here -->
+                <div class="mega_box">
+                    <h3>Personal Touch Items</h3>
+                    <div id="personal-touch-list">
+                        <!-- Personal touch items will be dynamically loaded here -->
+                    </div>
                 </div>
-                
-                <h3>Add New Personal Touch</h3>
-                <form id="personal-touch-form">
-                    <input type="hidden" id="touch-person-id" value="1">
-                    
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" rows="4" required></textarea>
-                    
-                    <button type="submit">Add Personal Touch</button>
-                </form>
+                <div class="mega_box">
+                    <h3>Add New Personal Touch</h3>
+                    <form id="personal-touch-form">
+                        <input type="hidden" id="touch-person-id" value="1">
+                        <div class="box">
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" rows="4" required></textarea>
+                        </div>
+                        <button type="submit">Add Personal Touch</button>
+                    </form>
+                </div>
             </section>
             <section id="messages">
-                <div id="messages-list">
-                    <!-- Messages will be dynamically loaded here -->
+                <div class="mega_box">
+                    <h3>Existing Messages</h3>
+                    <div id="messages-list">
+                        <!-- Messages will be dynamically loaded here -->
+                    </div>
                 </div>
-                
-                <h3>Add New Message</h3>
-                <form id="messages-form">
-                    <input type="hidden" id="message-person-id" value="1">
-                    
-                    <label for="message-text">Message Text:</label>
-                    <textarea id="message-text" name="message_text" rows="4" required></textarea>
-                    
-                    <label for="message-type">Message Type:</label>
-                    <input type="number" id="message-type" name="message_type" required>
-                    
-                    <button type="submit">Add Message</button>
-                </form>
+                <!-- <div class="mega_box">
+                    <h3>Add New Message</h3>
+                    <form id="messages-form">
+                        <input type="hidden" id="message-person-id" value="1">
+                        <div class="box">
+                            <label for="message-text">Message Text:</label>
+                            <textarea id="message-text" name="message_text" rows="4" required></textarea>
+                        </div>
+                        <div class="box">
+                            <label for="message-type">Message Type:</label>
+                            <input type="number" id="message-type" name="message_type" required>
+                        </div>
+                        <button type="submit">Add Message</button>
+                    </form>
+                </div> -->
+            </section>
+            <section id="profession">
+                <div class="mega_box">
+                    <h3>Professional Experience</h3>
+                    <div id="profession-list">
+                        <!-- Experience items will be dynamically loaded here -->
+                    </div>
+                </div>
+                <div class="mega_box">
+                    <h3>Add New Experience</h3>
+                    <form id="profession-form">
+                        <input type="hidden" id="profession-person-id" value="1">
+                        <div class="box">
+                            <label for="job_title">Job Title:</label>
+                            <input type="text" id="job_title" name="job_title" required>
+                        </div>
+                        <div class="box">
+                            <label for="company_name">Company Name:</label>
+                            <input type="text" id="company_name" name="company_name">
+                        </div>
+                        <div class="box">
+                            <label for="prof_start_date">Start Date:</label>
+                            <input type="date" id="prof_start_date" name="start_date">
+                        </div>
+                        <div class="box">
+                            <label for="prof_end_date">End Date:</label>
+                            <input type="date" id="prof_end_date" name="end_date">
+                        </div>
+                        <div class="box">
+                            <label for="prof_is_current">
+                                <input type="checkbox" id="prof_is_current" name="is_current"> Current Position
+                            </label>
+                        </div>
+                        <button type="submit">Add Experience</button>
+                    </form>
+                </div>
             </section>
 
             <!-- Main Images excluded by request -->
@@ -419,13 +495,13 @@
         <div class="sections-background-container" id="project-managers-section">
             <div class="header-tab-handler">
                 <div class="header-tab current-tab" id="pms-tab-1" onclick="areafunction('pms','projects')">
-                    <h3>Manual Projects</h3>
+                    <h4>Manual Projects</h4>
                 </div>
                 <div class="header-tab" id="pms-tab-2" onclick="areafunction('pms','github-bind')">
-                    <h3>GitHub Account Binds</h3>
+                    <h4>GitHub Account Binds</h4>
                 </div>
-                <div class="header-tab" id="pms-tab-2" onclick="areafunction('pms','git-sync-settings')">
-                    <h3>Sync Settings</h3>
+                <div class="header-tab" id="pms-tab-3" onclick="areafunction('pms','git-sync-settings')">
+                    <h4>Sync Settings</h4>
                 </div>
             </div> 
             <section id="projects" class="current-section">
@@ -499,10 +575,10 @@
         <div class="sections-background-container" id="project-catalog-section">
             <div class="header-tab-handler">
                 <div class="header-tab current-tab" id="pcs-tab-1" onclick="areafunction('pcs','project-catalog')">
-                    <h3>Projects Catalog</h3>
+                    <h4>Projects Catalog</h4>
                 </div>
                 <div class="header-tab" id="pcs-tab-2" onclick="areafunction('pcs','github-projects')">
-                    <h3>GitHub Projects (Read-only)</h3>
+                    <h4>GitHub Projects (Read-only)</h4>
                 </div>
             </div> 
             <section id="project-catalog" class="current-section">
@@ -540,11 +616,13 @@
                                     const id = parseInt(btn.getAttribute('data-id'));
                                     if (act === 'edit'){
                                         // prefill manual edit form in the manager section
+                                        const today = new Date().toISOString().split('T')[0];
+                                        const editDate = btn.getAttribute('data-date') || today;
                                         document.querySelector('[data-target="project-managers"]').click();
                                         document.getElementById('manual-project-id').value = id;
-                                        document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name'));
-                                        document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc'));
-                                        document.getElementById('manual-project-date').value = btn.getAttribute('data-date');
+                                        document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name') || '');
+                                        document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc') || '');
+                                        document.getElementById('manual-project-date').value = editDate;
                                         document.getElementById('manual-project-visible').value = btn.getAttribute('data-vis') || 'public';
                                     } else if (act === 'del'){
                                         if (!confirm('Delete this manual project?')) return;
@@ -600,10 +678,12 @@
                                 const act = btn.getAttribute('data-act');
                                 const id = parseInt(btn.getAttribute('data-id')); 
                                 if (act === 'edit'){
+                                    const today = new Date().toISOString().split('T')[0];
+                                    const editDate = btn.getAttribute('data-date') || today;
                                     document.getElementById('manual-project-id').value = id;
-                                    document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name'));
-                                    document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc'));
-                                    document.getElementById('manual-project-date').value = btn.getAttribute('data-date');
+                                    document.getElementById('manual-project-name').value = decodeURIComponent(btn.getAttribute('data-name') || '');
+                                    document.getElementById('manual-project-desc').value = decodeURIComponent(btn.getAttribute('data-desc') || '');
+                                    document.getElementById('manual-project-date').value = editDate;
                                     document.getElementById('manual-project-visible').value = btn.getAttribute('data-vis') || 'public';
                                 } else if (act === 'del'){
                                     fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'manual_delete', project_id:id }) })
@@ -704,10 +784,11 @@
                         });
                         document.getElementById('manual-reset-btn').addEventListener('click', (e)=>{ e.preventDefault(); resetManual(); });
                         function resetManual(){
+                            const today = new Date().toISOString().split('T')[0];
                             document.getElementById('manual-project-id').value='';
                             document.getElementById('manual-project-name').value='';
                             document.getElementById('manual-project-desc').value='';
-                            document.getElementById('manual-project-date').value='';
+                            document.getElementById('manual-project-date').value=today;
                             document.getElementById('manual-project-visible').value='public';
                         }
 
@@ -742,6 +823,37 @@
                                 .finally(()=>{ btn.disabled=false; btn.textContent = prevText; });
                         });
 
+                        // Function to set default date
+                        function setDefaultDate() {
+                            const dateInput = document.getElementById('manual-project-date');
+                            if (dateInput && !dateInput.value) {
+                                const today = new Date().toISOString().split('T')[0];
+                                dateInput.value = today;
+                            }
+                        }
+
+                        // Set default date on page load
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', setDefaultDate);
+                        } else {
+                            setDefaultDate();
+                        }
+
+                        // Also set date when section becomes visible (using MutationObserver)
+                        const projectsSection = document.getElementById('projects');
+                        if (projectsSection) {
+                            const observer = new MutationObserver(function(mutations) {
+                                mutations.forEach(function(mutation) {
+                                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                                        if (projectsSection.classList.contains('current-section')) {
+                                            setDefaultDate();
+                                        }
+                                    }
+                                });
+                            });
+                            observer.observe(projectsSection, { attributes: true, attributeFilter: ['class'] });
+                        }
+
                         // Initial load
                         loadAll();
                     })();
@@ -755,20 +867,25 @@
                 </div>
             </div> 
             <section id="account" class="current-section">
-                <form id="account-form">
-                    <input type="hidden" id="account-person-id" value="1">
-                    
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
-                    
-                    <label for="password">New Password:</label>
-                    <input type="password" id="password" name="password">
-                    
-                    <label for="confirm-password">Confirm Password:</label>
-                    <input type="password" id="confirm-password" name="confirm_password">
-                    
-                    <button type="submit">Update Account</button>
-                </form>
+                <div class="mega_box">
+                    <h3>Account Settings</h3>
+                    <form id="account-form">
+                        <input type="hidden" id="account-person-id" value="1">
+                        <div class="box">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="box">
+                            <label for="password">New Password:</label>
+                            <input type="password" id="password" name="password">
+                        </div>
+                        <div class="box">
+                            <label for="confirm-password">Confirm Password:</label>
+                            <input type="password" id="confirm-password" name="confirm_password">
+                        </div>
+                        <button type="submit">Update Account</button>
+                    </form>
+                </div>
             </section>
         </div>
         <div class="sections-background-container" id="logs-history-section">

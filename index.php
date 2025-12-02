@@ -25,11 +25,11 @@
     while ($row_skill = $result_skills->fetch_assoc()) {
         $skills[] = $row_skill['skill_name'];
     }
-    // 3. profession -> job_title {fetch all job titles for the user}
+    // 3. experiences -> job_title {fetch all job titles for the user}
     $sql_profession = "SELECT job_title FROM profession WHERE id = ?";
     $stmt_profession = $conn->prepare($sql_profession);
     if (!$stmt_profession) {
-        // If the table doesn't exist, act like there are no professions
+        // If the table doesn't exist, act like there are no experiences
         $job_titles = [];
         $job_title = '';
     } else {

@@ -57,7 +57,7 @@ function areafunction(clustersec, trsection){
             allsection = ["profile-image" , "cv-files"];
             totaltab = allsection.length;
             for(let x = 1; x <= totaltab; x++){
-                alltab.push(clustersec+"tab"+x);
+                alltab.push(clustersec+"-tab-"+x);
             }
             body = document.getElementById(targetsection);
             switch(targetsection){
@@ -106,10 +106,10 @@ function areafunction(clustersec, trsection){
             break;
         case "pis":
             console.log("Accessing cluster: "+clustersec+"\nTargeting: "+trsection);
-            allsection = ["personal-info" , "address","contact-info","education","skills","personal-touch","messages"];
+            allsection = ["personal-info" , "address","contact-info","education","skills","personal-touch","messages","profession"];
             totaltab = allsection.length;
             for(let x = 1; x <= totaltab; x++){
-                alltab.push(clustersec+"tab"+x);
+                alltab.push(clustersec+"-tab-"+x);
             }
             body = document.getElementById(targetsection);
             switch(targetsection){
@@ -246,6 +246,25 @@ function areafunction(clustersec, trsection){
                         if(debuggmode)console.log("already on "+targetsection);
                     }
                     break;
+                case allsection[7]:
+                    tab = document.getElementById(alltab[8]);
+                    if (body && !body.classList.contains("current-section")){
+                        allsection.forEach(secId => {
+                            const secEl = document.getElementById(secId);
+                            if (secEl) secEl.classList.remove("current-section");
+                        });
+                        body.classList.add("current-section");
+                        alltab.forEach(tabId => {
+                            const tabEl = document.getElementById(tabId);
+                            if (tabEl) tabEl.classList.remove("current-tab");
+                        });
+                        if (tab) tab.classList.add("current-tab");
+                    } else if (!body) {
+                        if(debuggmode)console.log("target section element not found: "+targetsection);
+                    } else {
+                        if(debuggmode)console.log("already on "+targetsection);
+                    }
+                    break;
                 default:
                     console.log("invalid target section = "+trsection);
                     break;
@@ -256,7 +275,7 @@ function areafunction(clustersec, trsection){
             allsection = ["projects","github-bind","git-sync-settings"];
             totaltab = allsection.length;
             for(let x = 1; x <= totaltab; x++){
-                alltab.push(clustersec+"tab"+x);
+                alltab.push(clustersec+"-tab-"+x);
             }
             body = document.getElementById(targetsection);
             switch(targetsection){
@@ -327,7 +346,7 @@ function areafunction(clustersec, trsection){
             allsection = ["project-catalog","github-projects"];
             totaltab = allsection.length;
             for(let x = 1; x <= totaltab; x++){
-                alltab.push(clustersec+"tab"+x);
+                alltab.push(clustersec+"-tab-"+x);
             }
             body = document.getElementById(targetsection);
             switch(targetsection){
@@ -379,7 +398,7 @@ function areafunction(clustersec, trsection){
             allsection = ["account"];
             totaltab = allsection.length;
             for(let x = 1; x <= totaltab; x++){
-                alltab.push(clustersec+"tab"+x);
+                alltab.push(clustersec+"-tab-"+x);
             }
             body = document.getElementById(targetsection);
             switch(targetsection){
@@ -412,7 +431,7 @@ function areafunction(clustersec, trsection){
             allsection = ["log-history"];
             totaltab = allsection.length;
             for(let x = 1; x <= totaltab; x++){
-                alltab.push(clustersec+"tab"+x);
+                alltab.push(clustersec+"-tab-"+x);
             }
             body = document.getElementById(targetsection);
             switch(targetsection){
@@ -445,7 +464,7 @@ function areafunction(clustersec, trsection){
             allsection = ["profile-image" , "action-image"];
             totaltab = 2;
             for(let x = 1; x <= totaltab; x++){
-                alltab.push(clustersec+"tab"+x);
+                alltab.push(clustersec+"-tab-"+x);
             }
             let teseract = -1;
             for(let x = 0;x < allsection.length;x++){

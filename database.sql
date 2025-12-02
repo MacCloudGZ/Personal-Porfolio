@@ -148,12 +148,13 @@ CREATE TABLE main_images (
     image_id INT PRIMARY KEY AUTO_INCREMENT,
     id INT,
     image_path VARCHAR(255) NOT NULL,
+    current_user BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id) REFERENCES personal_data(id)
 );
 
-INSERT INTO main_images (id, image_path)
-VALUES (1, 'Properties/Images/Default_Profile.webp'),
-(1, 'Properties/Images/image-error404.webp');
+INSERT INTO main_images (id, image_path, current_user)
+VALUES (1, 'Properties/Images/Default_Profile.webp', TRUE),
+(1, 'Properties/Images/image-error404.webp', FALSE);
 
 CREATE TABLE file_manager (
     file_id INT PRIMARY KEY AUTO_INCREMENT,

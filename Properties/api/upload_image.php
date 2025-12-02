@@ -1,4 +1,8 @@
 <?php
+// Suppress any output that might break JSON
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
 session_start();
 header('Content-Type: application/json');
 
@@ -58,27 +62,42 @@ if (!move_uploaded_file($file['tmp_name'], $destPath)) {
 // Build relative path stored in DB
 $relativePath = 'Properties/Images/' . $filename;
 
-// Insert or update main_images for this user: we will set image_id=1 row to new path if exists
-// Note: per database.sql main_images has image_id AUTO_INCREMENT; existing code reads WHERE image_id=1.
-// We'll update image_id=1 if present; otherwise insert a new row and return its path.
-
-// Try to update image_id = 1
-$updated = false;
-$check = $conn->query('SELECT image_id FROM main_images WHERE image_id = 1 LIMIT 1');
-if ($check && $check->num_rows > 0) {
-    $stmt = $conn->prepare('UPDATE main_images SET id = ?, image_path = ? WHERE image_id = 1');
-    if ($stmt) {
-        $stmt->bind_param('is', $userId, $relativePath);
-        $updated = $stmt->execute();
+// Insert new image to main_images (no changes to existing images)
+// New images are inserted with current_user=FALSE by default
+try {
+    $stmt = $conn->prepare('INSERT INTO main_images (id, image_path, `current_user`) VALUES (?, ?, FALSE)');
+    if (!$stmt) {
+        // Clean up uploaded file if DB prepare fails
+        @unlink($destPath);
+        $errorMsg = $conn->error ?: 'Unknown database error';
+        fail('DB prepare failed: ' . $errorMsg, 500);
     }
-}
-
-if (!$updated) {
-$stmt = $conn->prepare('INSERT INTO main_images (id, image_path) VALUES (?, ?)');
-    if (!$stmt) fail('DB prepare failed', 500);
+    
     $stmt->bind_param('is', $userId, $relativePath);
     $ok = $stmt->execute();
-    if (!$ok) fail('DB insert failed', 500);
-}
+    
+    if (!$ok) {
+        // Clean up uploaded file if DB insert fails
+        @unlink($destPath);
+        $stmtError = $stmt->error ?: '';
+        $connError = $conn->error ?: '';
+        $errorMsg = 'DB insert failed';
+        if ($stmtError) $errorMsg .= ': ' . $stmtError;
+        if ($connError && $stmtError !== $connError) $errorMsg .= ' (DB: ' . $connError . ')';
+        fail($errorMsg, 500);
+    }
 
-echo json_encode(['success' => true, 'image_path' => $relativePath]);
+    $imageId = $conn->insert_id;
+    
+    if (!$imageId) {
+        // Clean up uploaded file if no insert_id
+        @unlink($destPath);
+        fail('Failed to get insert ID', 500);
+    }
+
+    echo json_encode(['success' => true, 'image_path' => $relativePath, 'image_id' => $imageId]);
+} catch (Exception $e) {
+    // Clean up uploaded file on exception
+    @unlink($destPath);
+    fail('Exception: ' . $e->getMessage(), 500);
+}

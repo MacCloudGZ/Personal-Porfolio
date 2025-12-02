@@ -404,12 +404,14 @@ document.addEventListener('DOMContentLoaded', () => {
         res.data.forEach(m => {
             const div = document.createElement('div');
             div.className = 'message-item';
-            div.innerHTML = `
-                <textarea>${m.message_text}</textarea>
-                <input type="number" value="${m.message_type}" disabled>
+            let html = `<textarea>${m.message_text}</textarea>`;
+            if(m.message_type === 1) html += `<input type="number" placeholder="Mini-Personal Portfolio" disabled>`;
+            if(m.message_type === 2) html += `<input type="number" placeholder="Main-Personal Portfolio" disabled>`;
+            html += `
                 <button data-act="update" data-type="${m.message_type}">Update</button>
                 <button data-act="delete" data-type="${m.message_type}">Delete</button>
             `;
+            div.innerHTML = html;
             msgList.appendChild(div);
         });
     };
@@ -438,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Profession CRUD
+    // Experiences CRUD
     const profList = document.getElementById('profession-list');
     const profForm = document.getElementById('profession-form');
     const loadProfession = async () => {
@@ -453,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <input value="${p.company_name || ''}">
                 <input type="date" value="${p.start_date || ''}">
                 <input type="date" value="${p.end_date || ''}">
-                <label><input type="checkbox" ${p.is_current ? 'checked' : ''}> Current</label>
+                <label><input type="checkbox" ${p.is_current ? 'checked' : ''}> Visible</label>
                 <button data-act="update" data-id="${p.profession_id}">Update</button>
                 <button data-act="delete" data-id="${p.profession_id}">Delete</button>
             `;
@@ -592,6 +594,140 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Profile Images Management
+    const profileImagesList = document.getElementById('profile-images-list');
+    
+    const loadProfileImages = async () => {
+        if (!profileImagesList) return;
+        try {
+            const res = await api({ entity: 'main_images', action: 'list', id: userId });
+            if (!res.success || !res.data) return;
+            
+            profileImagesList.innerHTML = '';
+            
+            if (res.data.length === 0) {
+                profileImagesList.innerHTML = '<p>No images uploaded yet. Upload an image to get started.</p>';
+                return;
+            }
+            
+            const imagesContainer = document.createElement('div');
+            imagesContainer.className = 'profile-images-container';
+            imagesContainer.style.display = 'grid';
+            imagesContainer.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
+            imagesContainer.style.gap = '1rem';
+            imagesContainer.style.marginTop = '1rem';
+            
+            res.data.forEach(img => {
+                // Handle MySQL BOOLEAN (0/1) conversion
+                const isCurrent = img.current_user === 1 || img.current_user === true || img.current_user === '1';
+                
+                const imgCard = document.createElement('div');
+                imgCard.className = 'profile-image-card';
+                imgCard.style.border = isCurrent ? '3px solid #4CAF50' : '1px solid #ccc';
+                imgCard.style.borderRadius = '8px';
+                imgCard.style.padding = '0.5rem';
+                imgCard.style.cursor = 'pointer';
+                imgCard.style.position = 'relative';
+                imgCard.style.backgroundColor = isCurrent ? '#e8f5e9' : '#fff';
+                
+                const imgElement = document.createElement('img');
+                imgElement.src = '../' + img.image_path;
+                imgElement.style.width = '100%';
+                imgElement.style.height = 'auto';
+                imgElement.style.borderRadius = '4px';
+                imgElement.style.display = 'block';
+                imgElement.alt = 'Profile Image ' + img.image_id;
+                
+                const currentBadge = document.createElement('div');
+                if (isCurrent) {
+                    currentBadge.textContent = 'Current';
+                    currentBadge.style.position = 'absolute';
+                    currentBadge.style.top = '0.5rem';
+                    currentBadge.style.right = '0.5rem';
+                    currentBadge.style.backgroundColor = '#4CAF50';
+                    currentBadge.style.color = 'white';
+                    currentBadge.style.padding = '0.25rem 0.5rem';
+                    currentBadge.style.borderRadius = '4px';
+                    currentBadge.style.fontSize = '0.75rem';
+                    currentBadge.style.fontWeight = 'bold';
+                }
+                
+                const actionsDiv = document.createElement('div');
+                actionsDiv.style.marginTop = '0.5rem';
+                actionsDiv.style.display = 'flex';
+                actionsDiv.style.gap = '0.5rem';
+                actionsDiv.style.justifyContent = 'center';
+                
+                if (!isCurrent) {
+                    const setCurrentBtn = document.createElement('button');
+                    setCurrentBtn.textContent = 'Set as Current';
+                    setCurrentBtn.style.padding = '0.5rem 1rem';
+                    setCurrentBtn.style.cursor = 'pointer';
+                    setCurrentBtn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        try {
+                            await api({ entity: 'main_images', action: 'set_current', id: userId, image_id: img.image_id });
+                            await loadProfileImages();
+                            alert('Profile image updated');
+                        } catch (err) {
+                            alert(err.message || 'Failed to set current image');
+                        }
+                    });
+                    actionsDiv.appendChild(setCurrentBtn);
+                }
+                
+                // Don't show delete button for image_id=1 (default) or image_id=2 (error handler)
+                if (img.image_id != 1 && img.image_id != 2) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.style.padding = '0.5rem 1rem';
+                    deleteBtn.style.cursor = 'pointer';
+                    deleteBtn.style.backgroundColor = '#f44336';
+                    deleteBtn.style.color = 'white';
+                    deleteBtn.style.border = 'none';
+                    deleteBtn.style.borderRadius = '4px';
+                    deleteBtn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        if (!confirm('Are you sure you want to delete this image?')) return;
+                        try {
+                            await api({ entity: 'main_images', action: 'delete', id: userId, image_id: img.image_id });
+                            await loadProfileImages();
+                            alert('Image deleted');
+                        } catch (err) {
+                            alert(err.message || 'Failed to delete image');
+                        }
+                    });
+                    actionsDiv.appendChild(deleteBtn);
+                }
+                
+                imgCard.appendChild(imgElement);
+                if (isCurrent) {
+                    imgCard.appendChild(currentBadge);
+                }
+                imgCard.appendChild(actionsDiv);
+                
+                // Click on card to set as current (if not already current)
+                if (!isCurrent) {
+                    imgCard.addEventListener('click', async () => {
+                        try {
+                            await api({ entity: 'main_images', action: 'set_current', id: userId, image_id: img.image_id });
+                            await loadProfileImages();
+                            alert('Profile image updated');
+                        } catch (err) {
+                            alert(err.message || 'Failed to set current image');
+                        }
+                    });
+                }
+                
+                imagesContainer.appendChild(imgCard);
+            });
+            
+            profileImagesList.appendChild(imagesContainer);
+        } catch (err) {
+            console.error('Error loading profile images:', err);
+        }
+    };
+
     // Initial loads
     loadCurrentData();
     loadAddresses();
@@ -601,7 +737,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTouches();
     loadMessages();
     loadProfession();
-
+    loadProfileImages();
+    
     // Image upload
     const imageForm = document.getElementById('image-upload-form');
     if (imageForm) {
@@ -617,10 +754,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(imageForm);
             try {
                 const res = await fetch('../Properties/api/upload_image.php', { method: 'POST', body: formData });
-                const data = await res.json().catch(() => ({}));
-                if (!res.ok || !data.success) throw new Error(data.message || 'Upload failed');
+                const text = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (parseErr) {
+                    console.error('JSON parse error:', parseErr);
+                    console.error('Response text:', text);
+                    throw new Error('Invalid response from server. Check console for details.');
+                }
+                
+                if (!res.ok || !data.success) {
+                    const errorMsg = data.message || `Upload failed (HTTP ${res.status})`;
+                    console.error('Upload error:', errorMsg, data);
+                    throw new Error(errorMsg);
+                }
+                
                 alert('Image uploaded successfully');
+                imageForm.reset();
+                await loadProfileImages();
             } catch (err) {
+                console.error('Upload exception:', err);
                 alert(err.message || 'Upload failed');
             }
         });

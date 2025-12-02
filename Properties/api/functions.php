@@ -115,7 +115,7 @@
                 }
                 break;
                 
-            case 6: // PROFESSION
+            case 6: // EXPERIENCES
                 $sql_profession = "SELECT job_title, company_name, start_date, end_date, is_current FROM profession WHERE id = ?";
                 $stmt_profession = $conn->prepare($sql_profession);
                 if ($stmt_profession) {
@@ -161,6 +161,11 @@
         return getTableData($conn, $user_id, $table_id);
     }
 
+    // Check if there are any experiences
+    function hasVisibleExperiences($box_info) {
+        return isset($box_info['professions']) && is_array($box_info['professions']) && !empty($box_info['professions']);
+    }
+
     // Determine a display title for a box based on known keys
     function getBoxTitle($box_info) {
         if (!is_array($box_info) || empty($box_info)) {
@@ -176,7 +181,7 @@
         if ($hasSkills) return 'SKILLS';
         if ($hasEducation) return 'EDUCATIONAL BACKGROUND';
         if ($hasDescriptions) return 'FUN / PERSONAL TOUCH';
-        if ($hasProfessions) return 'PROFESSION';
+        if ($hasProfessions) return 'EXPERIENCES';
         return 'INFO';
     }
 
@@ -205,13 +210,13 @@
                 $levelInt = is_numeric($levelRaw) ? (int)$levelRaw : 0;
 
                 if ($levelInt <= 0) {
-                    $iconHtml = '<svg role="img" aria-label="No skill" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>No skill</title><rect x="4" y="4" width="16" height="16" rx="3" fill="#ff4d4f"/></svg>';
+                    $iconHtml = "<svg role=\"img\" aria-label=\"No skill \" viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\"><title>No skill {$levelInt}</title><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\" fill=\"#ff4d4f\"/></svg>";
                 } elseif ($levelInt <= 5) {
-                    $iconHtml = '<svg role="img" aria-label="Bronze crown" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>Bronze crown</title><path d="M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z" fill="#cd7f32"/></svg>';
+                    $iconHtml = "<svg role=\"img\" aria-label=\"Bronze crown \" viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\"><title>Bronze crown {$levelInt}</title><path d=\"M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z\" fill=\"#cd7f32\"/></svg>";
                 } elseif ($levelInt <= 9) {
-                    $iconHtml = '<svg role="img" aria-label="Silver crown" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>Silver crown</title><path d="M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z" fill="#c0c0c0"/></svg>';
+                    $iconHtml = "<svg role=\"img\" aria-label=\"Silver crown \" viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\"><title>Silver crown {$levelInt}</title><path d=\"M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z\" fill=\"#c0c0c0\"/></svg>";
                 } else { // 10 or above
-                    $iconHtml = '<svg role="img" aria-label="Gold crown" viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><title>Gold crown</title><path d="M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z" fill="#ffd700"/></svg>';
+                    $iconHtml = "<svg role=\"img\" aria-label=\"Gold crown \" viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\"><title>Gold crown {$levelInt}</title><path d=\"M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z\" fill=\"#ffd700\"/></svg>";
                 }
 
                 echo "<tr><td>{$name}</td><th>-</th><td>{$iconHtml}</td></tr>";
@@ -220,15 +225,31 @@
 
         // education
         if (isset($box_info['education']) && is_array($box_info['education'])) {
+            usort($box_info['education'], function($a, $b) {
+            $endA = isset($a['end_date']) && $a['end_date'] !== '0000-00-00' ? strtotime($a['end_date']) : strtotime('9999-12-31');
+            $endB = isset($b['end_date']) && $b['end_date'] !== '0000-00-00' ? strtotime($b['end_date']) : strtotime('9999-12-31');
+            return $endB - $endA;
+            });
+            
             foreach ($box_info['education'] as $edu) {
-                $institution = isset($edu['institution_info']) ? htmlspecialchars($edu['institution_info']) : '';
-                $degree = isset($edu['degree']) ? htmlspecialchars($edu['degree']) : '';
-                $start = isset($edu['start_date']) ? htmlspecialchars($edu['start_date']) : '';
-                $end = isset($edu['end_date']) ? htmlspecialchars($edu['end_date']) : '';
-                echo "<tr><td>{$institution}</td></tr>";
-                echo "<tr><th>-</th><td>{$degree}</td></tr>";
-                $range = $start . ($end ? ' to ' . $end : '');
-                echo "<tr><th>-</th><td>{$range}</td></tr>";
+            $institution = isset($edu['institution_info']) ? htmlspecialchars($edu['institution_info']) : '';
+            $degree = isset($edu['degree']) ? htmlspecialchars($edu['degree']) : '';
+            $start = isset($edu['start_date']) ? htmlspecialchars($edu['start_date']) : '';
+            $end = isset($edu['end_date']) ? htmlspecialchars($edu['end_date']) : '';
+
+            if($institution !== '')echo "<tr><td>{$institution}</td></tr>";
+            if($degree !== '')echo "<tr><th>-</th><td>{$degree}</td></tr>";
+
+            if ($start) {
+                if ($end && $end !== '0000-00-00') {
+                $range = $start . ' to ' . $end;
+                } else {
+                $range = $start . ' (Present)';
+                }
+            } else {
+                $range = 'No start date available';
+            }
+            echo "<tr><th>-</th><td>{$range}</td></tr>";
             }
         }
 
@@ -240,18 +261,29 @@
             }
         }
 
-        // professions
+        // experiences
         if (isset($box_info['professions']) && is_array($box_info['professions'])) {
+            $profcounter = 0;
             foreach ($box_info['professions'] as $prof) {
-                $job = isset($prof['job_title']) ? htmlspecialchars($prof['job_title']) : '';
-                $company = isset($prof['company_name']) ? htmlspecialchars($prof['company_name']) : '';
-                $start = isset($prof['start_date']) ? htmlspecialchars($prof['start_date']) : '';
-                $end = isset($prof['end_date']) ? htmlspecialchars($prof['end_date']) : '';
-                $isCurrent = !empty($prof['is_current']);
-                echo "<tr><td>{$job}</td></tr>";
-                echo "<tr><th>-</th><td>{$company}</td></tr>";
-                $range = $start . ($end ? ' to ' . $end : ($isCurrent ? ' (Current)' : ''));
-                echo "<tr><th>-</th><td>{$range}</td></tr>";
+                $isVisible = !empty($prof['is_current']);
+                if (!$isVisible) {
+                    continue;
+                }
+                $profcounter++;
+                echo console.log($profcounter);
+                if($profcounter > 0) {
+                    $job = isset($prof['job_title']) ? htmlspecialchars($prof['job_title']) : '';
+                    $company = isset($prof['company_name']) ? htmlspecialchars($prof['company_name']) : '';
+                    $start = isset($prof['start_date']) ? htmlspecialchars($prof['start_date']) : '';
+                    $end = isset($prof['end_date']) ? htmlspecialchars($prof['end_date']) : '';
+                    echo "<tr><td>{$job}</td></tr>";
+                    echo "<tr><th>-</th><td>{$company}</td></tr>";
+                    if ($end === '0000-00-00') {
+                        $end = 'Present';
+                    }
+                    $range = $start . ($end ? ' to ' . $end : '');
+                    echo "<tr><th>-</th><td>{$range}</td></tr>";
+                }
             }
         }
 

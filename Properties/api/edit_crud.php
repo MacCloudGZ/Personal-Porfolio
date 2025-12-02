@@ -370,6 +370,66 @@
             echo json_encode(['success' => $ok]);
             exit;
 
+        case 'main_images':
+            if ($action === 'list') {
+                // List all images except image_id=2 (error handler)
+                // Include image_id=1 as default, exclude image_id=2
+                $stmt = $conn->prepare('SELECT * FROM main_images WHERE id=? AND image_id != 2 ORDER BY `current_user` DESC, image_id ASC');
+                $stmt->bind_param('i', $userId);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                $rows = $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
+                // Ensure image_id=1 is always included if it exists
+                $hasImage1 = false;
+                foreach ($rows as $row) {
+                    if ($row['image_id'] == 1) {
+                        $hasImage1 = true;
+                        break;
+                    }
+                }
+                // If image_id=1 doesn't exist in results but exists in DB, fetch it separately
+                if (!$hasImage1) {
+                    $check1 = $conn->prepare('SELECT * FROM main_images WHERE id=? AND image_id=1 LIMIT 1');
+                    $check1->bind_param('i', $userId);
+                    $check1->execute();
+                    $res1 = $check1->get_result();
+                    if ($res1 && $res1->num_rows > 0) {
+                        $row1 = $res1->fetch_assoc();
+                        array_unshift($rows, $row1); // Add to beginning
+                    }
+                }
+                echo json_encode(['success' => true, 'data' => $rows]);
+                exit;
+            }
+            if ($action === 'set_current') {
+                // Set one image as current (current_user=TRUE) and set all others to FALSE
+                $imageId = (int)$data['image_id'];
+                // First, set all images for this user to FALSE
+                $stmt = $conn->prepare('UPDATE main_images SET `current_user` = FALSE WHERE id = ?');
+                $stmt->bind_param('i', $userId);
+                $stmt->execute();
+                // Then, set the selected image to TRUE
+                $stmt = $conn->prepare('UPDATE main_images SET `current_user` = TRUE WHERE image_id = ? AND id = ?');
+                $stmt->bind_param('ii', $imageId, $userId);
+                $ok = $stmt->execute();
+                if ($ok) log_event('main_image_set_current', ['id' => $userId, 'image_id' => $imageId]);
+                echo json_encode(['success' => $ok]);
+                exit;
+            }
+            if ($action === 'delete') {
+                $imageId = (int)$data['image_id'];
+                // Don't allow deleting image_id=1 (default) or image_id=2 (error handler)
+                if ($imageId == 1) json_fail('Cannot delete default image (image_id=1)', 403);
+                if ($imageId == 2) json_fail('Cannot delete error handler image (image_id=2)', 403);
+                $stmt = $conn->prepare('DELETE FROM main_images WHERE image_id = ? AND id = ?');
+                $stmt->bind_param('ii', $imageId, $userId);
+                $ok = $stmt->execute();
+                if ($ok) log_event('main_image_delete', ['id' => $userId, 'image_id' => $imageId]);
+                echo json_encode(['success' => $ok]);
+                exit;
+            }
+            json_fail('Unsupported action', 405);
+
         default:
             json_fail('Unknown entity', 404);
     }
