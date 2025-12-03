@@ -161,9 +161,18 @@
         return getTableData($conn, $user_id, $table_id);
     }
 
-    // Check if there are any experiences
+    // Check if there are any visible experiences (is_current = true)
     function hasVisibleExperiences($box_info) {
-        return isset($box_info['professions']) && is_array($box_info['professions']) && !empty($box_info['professions']);
+        if (!isset($box_info['professions']) || !is_array($box_info['professions']) || empty($box_info['professions'])) {
+            return false;
+        }
+        // Check if any profession has is_current = true
+        foreach ($box_info['professions'] as $prof) {
+            if (!empty($prof['is_current'])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Determine a display title for a box based on known keys
@@ -263,25 +272,31 @@
 
         // experiences
         if (isset($box_info['professions']) && is_array($box_info['professions'])) {
-            $profcounter = 0;
             foreach ($box_info['professions'] as $prof) {
-                $isVisible = !empty($prof['is_current']);
-                if (!$isVisible) {
+                // Only show if is_current is true
+                $isCurrent = !empty($prof['is_current']);
+                if (!$isCurrent) {
                     continue;
                 }
-                $profcounter++;
-                echo console.log($profcounter);
-                if($profcounter > 0) {
-                    $job = isset($prof['job_title']) ? htmlspecialchars($prof['job_title']) : '';
-                    $company = isset($prof['company_name']) ? htmlspecialchars($prof['company_name']) : '';
-                    $start = isset($prof['start_date']) ? htmlspecialchars($prof['start_date']) : '';
-                    $end = isset($prof['end_date']) ? htmlspecialchars($prof['end_date']) : '';
+                
+                $job = isset($prof['job_title']) ? htmlspecialchars($prof['job_title']) : '';
+                $company = isset($prof['company_name']) ? htmlspecialchars($prof['company_name']) : '';
+                $start = isset($prof['start_date']) ? htmlspecialchars($prof['start_date']) : '';
+                $end = isset($prof['end_date']) ? htmlspecialchars($prof['end_date']) : '';
+                
+                if (!empty($job)) {
                     echo "<tr><td>{$job}</td></tr>";
+                }
+                if (!empty($company)) {
                     echo "<tr><th>-</th><td>{$company}</td></tr>";
-                    if ($end === '0000-00-00') {
-                        $end = 'Present';
+                }
+                if (!empty($start) || !empty($end)) {
+                    if ($end === '0000-00-00' || empty($end)) {
+                        $endLabel = 'Present';
+                    } else {
+                        $endLabel = $end;
                     }
-                    $range = $start . ($end ? ' to ' . $end : '');
+                    $range = $start . ($endLabel ? ' to ' . $endLabel : '');
                     echo "<tr><th>-</th><td>{$range}</td></tr>";
                 }
             }
