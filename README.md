@@ -2,7 +2,7 @@
 ```
 Personal project demonstrating a dynamic portfolio website.
 ```
-Project come from github you can view this project with its latest developmet in [https://github.com/MacCloudGZ/Personal-Porfolio](Github)
+Project come from github you can view this project with its latest developmet in [Github](https://github.com/MacCloudGZ/Personal-Porfolio)
 
 ## Website properties
 
