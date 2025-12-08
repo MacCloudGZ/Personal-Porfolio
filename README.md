@@ -1,11 +1,9 @@
 # Personal Portfolio
-
+```
 Personal project demonstrating a dynamic portfolio website.
 ```
-Project come from github you can view this project with its latest developmet in
+Project come from github you can view this project with its latest developmet in [https://github.com/MacCloudGZ/Personal-Porfolio](Github)
 
-[https://github.com/MacCloudGZ/Personal-Porfolio](url)
-```
 ## Website properties
 
 Default color palette used on the site:
