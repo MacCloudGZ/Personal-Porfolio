@@ -12,6 +12,11 @@ the default color pallets that is used in this website is:
 | grey             | #7C8685 |
 | lightish grey    | #AAACA1 |
 
+# Configure
+the default password setup is:
+Username : admin
+Passwordd : admin
+
 # table section
 Portfolio Table Data
 
