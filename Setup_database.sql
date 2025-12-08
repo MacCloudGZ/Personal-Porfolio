@@ -161,12 +161,9 @@ CREATE TABLE file_manager (
     id INT,
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(255) NOT NULL,
+    current_use BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id) REFERENCES personal_data(id)
 );
-
-INSERT INTO file_manager (id, file_name, file_path)
-VALUES (1, 'Resume.pdf', 'Properties/files/Resume.pdf');
-
 -- Project manager tables
 
 CREATE TABLE IF NOT EXISTS add_project_manual (

@@ -905,6 +905,46 @@ article{
             background-color: rgba(76, 175, 80, 0.4);
         }
 
+        .cv-item.current-file {
+            background-color: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+        }
+
+        .cv-item .current-badge {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        .cv-item .cv-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .cv-item .set-current-btn {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #2196F3;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .cv-item .set-current-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .cv-item .file-name {
+            color: #dfd9d9;
+        }
+
         /* Profile Images Container */
         .profile-images-container {
             display: grid;

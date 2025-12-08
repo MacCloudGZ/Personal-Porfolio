@@ -211,7 +211,7 @@
                     </form>
                 </div>
                 <div class="mega_box">
-                    <h3>Select Current Profile Image</h3>
+                    <h3>Manage CV Files</h3>
                     <div id="cv-list"></div>
                 </div>
             </section>

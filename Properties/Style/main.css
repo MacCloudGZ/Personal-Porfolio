@@ -5,6 +5,65 @@ body{
     font-family: 'Poppins', sans-serif;
     background: #362E2D;
 }
+
+/* Download CV Button Styling for 0/ pages */
+.download-sv {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 10px 0;
+}
+
+.download-sv button.cv {
+    height: 50px;
+    width: 300px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    transition: .5s;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.download-sv button.cv span {
+    display: inline-block;
+    transition: .5s;
+    color: #fff;
+}
+
+.download-sv button.cv svg {
+    display: none;
+    color: transparent;
+    transition: 1s;
+    width: 20px;
+    height: 20px;
+}
+
+.download-sv button.cv:hover {
+    border: solid 5px #E3311D;
+    transition: .5s;
+    cursor: pointer;
+    background-color: #000;
+}
+
+.download-sv button.cv:hover span {
+    display: none;
+    transition: .5s;
+}
+
+.download-sv button.cv:hover svg {
+    transition: 1s;
+    display: block;
+    color: #fff;
+}
 .background-container{
     position: relative;
     overflow: hidden;

@@ -1,4 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
+ var debug = false;    
+    // Session Timeout Handler - 10 minutes of inactivity
+    let idleTimer;
+    let min = 5;
+    let seconds = 0;
+    let totalSeconds = min * 60 + seconds;
+    const IDLE_TIMEOUT = totalSeconds * 1000; // convert to milliseconds
+    let idleExpiresAt = null;
+    (debug)?console.log("Session Set to:"+ (min !== 0 ? min + " minutes " : "") + seconds + " seconds"):null;
+    const msToTime = (ms) => {
+        const totalSeconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+    const resetIdleTimer = () => {
+        // Clear existing timer
+        if (idleTimer) {
+            clearTimeout(idleTimer);
+        }
+
+        // Set new expiry timestamp
+        idleExpiresAt = Date.now() + IDLE_TIMEOUT;
+
+        // Debug output: show idle time in console when debug === true
+        if (typeof debug !== 'undefined' && debug) {
+            console.log(`Idle timer reset. Expires in ${IDLE_TIMEOUT} ms (${msToTime(IDLE_TIMEOUT)}) at ${new Date(idleExpiresAt).toISOString()}`);
+        }
+
+        // Set new timer
+        idleTimer = setTimeout(async () => {
+            if (typeof debug !== 'undefined' && debug) {
+                console.log('Idle timer expired at', new Date().toISOString());
+            }
+
+            // Show warning message
+            alert('Your session has expired due to inactivity. You will be logged out.');
+
+            // Logout
+            try {
+                await fetch('../Properties/api/logout.php', { method: 'POST' });
+            } catch(e) {
+                console.error('Logout error:', e);
+            }
+
+            // Redirect to appropriate page
+            const url = new URL(window.location.href);
+            const qsFrom = url.searchParams.get('from');
+            const sessionFrom = (typeof window.__EDIT_ORIGIN__ !== 'undefined') ? window.__EDIT_ORIGIN__ : null;
+            const back = qsFrom || sessionFrom || 'Home';
+
+            if (back === 'Home') window.location.href = '../0/main/';
+            else if (back === 'Projects') window.location.href = '../0/projects/';
+            else if (back === 'Contacts') window.location.href = '../0/contacts/';
+            else window.location.href = '../0/main/';
+        }, IDLE_TIMEOUT);
+    };
+
+    // Track user activity events
+    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+    activityEvents.forEach(event => {
+        document.addEventListener(event, resetIdleTimer, { passive: true });
+    });
+
+    // Initialize the timer
+    resetIdleTimer();
+    
     // Floating Label Functionality
     const initFloatingLabels = () => {
         const boxes = document.querySelectorAll('.box');
@@ -56,6 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // guard: ensure logged in via session; rely on server to redirect if not
 
     const api = async (payload) => {
+        // Reset idle timer on API activity
+        resetIdleTimer();
+        
         const res = await fetch('../Properties/api/edit_crud.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -791,27 +862,101 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: userId })
             });
-            const data = await res.json();
-            if (!data.success) throw new Error(data.message || 'Failed to list files');
+            
+            if (!res.ok) {
+                // Handle HTTP errors
+                if (res.status === 403) {
+                    throw new Error('Access forbidden. Please log in again.');
+                }
+                throw new Error(`HTTP error: ${res.status} ${res.statusText}`);
+            }
+            
+            let data;
+            try {
+                data = await res.json();
+            } catch (parseError) {
+                const text = await res.text();
+                console.error('JSON parse error:', parseError, 'Response:', text);
+                throw new Error('Invalid response from server');
+            }
+            
+            if (!data.success) {
+                throw new Error(data.message || 'Failed to list files');
+            }
+            
             cvList.innerHTML = '';
-            // Show latest first with radio to choose active download
+            
+            if (!data.data || data.data.length === 0) {
+                cvList.innerHTML = '<p>No CV files uploaded yet. Upload a file to get started.</p>';
+                return;
+            }
+            
+            // Show files with current_use=1 first (already ordered by list_files.php)
             const wrapper = document.createElement('div');
             wrapper.className = 'cv-items';
-            data.data.forEach((f, idx) => {
+            data.data.forEach((f) => {
+                // Handle MySQL BOOLEAN (0/1) conversion
+                const isCurrent = f.current_use === 1 || f.current_use === true || f.current_use === '1';
+                
                 const row = document.createElement('div');
-                row.className = 'cv-item';
-                row.innerHTML = `
-                    <label>
-                        <input type="radio" name="cvChoice" value="${f.file_id}" ${idx === 0 ? 'checked' : ''}>
-                        ${f.file_name}
-                    </label>
-                    <a href="../Properties/api/download_cv.php?id=${userId}&file_id=${f.file_id}">Download</a>
-                `;
+                row.className = isCurrent ? 'cv-item current-file' : 'cv-item';
+                
+                const label = document.createElement('label');
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'cvChoice';
+                radio.value = f.file_id;
+                if (isCurrent) radio.checked = true;
+                
+                const fileName = document.createElement('span');
+                fileName.className = 'file-name';
+                fileName.textContent = f.file_name;
+                
+                label.appendChild(radio);
+                label.appendChild(fileName);
+                
+                if (isCurrent) {
+                    const currentBadge = document.createElement('span');
+                    currentBadge.className = 'current-badge';
+                    currentBadge.textContent = 'Current';
+                    label.appendChild(currentBadge);
+                }
+                
+                const rightDiv = document.createElement('div');
+                rightDiv.className = 'cv-actions';
+                
+                if (!isCurrent) {
+                    const setCurrentBtn = document.createElement('button');
+                    setCurrentBtn.className = 'set-current-btn';
+                    setCurrentBtn.textContent = 'Set as Current';
+                    setCurrentBtn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        try {
+                            await api({ entity: 'file_manager', action: 'set_current', id: userId, file_id: f.file_id });
+                            await loadCVs();
+                            alert('Current CV file updated');
+                        } catch (err) {
+                            alert(err.message || 'Failed to set current file');
+                        }
+                    });
+                    rightDiv.appendChild(setCurrentBtn);
+                }
+                
+                const downloadLink = document.createElement('a');
+                downloadLink.href = `../Properties/api/download_cv.php?id=${userId}&file_id=${f.file_id}`;
+                downloadLink.textContent = 'Download';
+                rightDiv.appendChild(downloadLink);
+                
+                row.appendChild(label);
+                row.appendChild(rightDiv);
                 wrapper.appendChild(row);
             });
             cvList.appendChild(wrapper);
         } catch (e) {
-            // ignore list errors
+            console.error('Error loading CV files:', e);
+            const errorMsg = e.message || 'Unknown error occurred';
+            cvList.innerHTML = `<p style="color: #ff6b6b; padding: 1rem;">Error loading CV files: ${errorMsg}. Please try again or refresh the page.</p>`;
         }
     };
 

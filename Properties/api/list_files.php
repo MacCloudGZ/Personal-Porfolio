@@ -17,7 +17,7 @@ if (!is_array($data)) { $data = $_POST; }
 
 $userId = isset($data['id']) ? (int)$data['id'] : 1;
 
-$stmt = $conn->prepare('SELECT file_id, file_name, file_path FROM file_manager WHERE id=? ORDER BY file_id DESC');
+$stmt = $conn->prepare('SELECT file_id, file_name, file_path, current_use FROM file_manager WHERE id=? ORDER BY current_use DESC, file_id DESC');
 $stmt->bind_param('i', $userId);
 $stmt->execute();
 $res = $stmt->get_result();
