@@ -217,6 +217,9 @@
                 $name = isset($skill['skill_name']) ? htmlspecialchars($skill['skill_name']) : '';
                 $levelRaw = isset($skill['proficiency_level']) ? $skill['proficiency_level'] : 0;
                 $levelInt = is_numeric($levelRaw) ? (int)$levelRaw : 0;
+                // Clamp level between 0 and 10
+                $levelInt = max(0, min(10, $levelInt));
+                $percentage = ($levelInt / 10) * 100;
 
                 if ($levelInt <= 0) {
                     $iconHtml = "<svg role=\"img\" aria-label=\"No skill \" viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\"><title>No skill {$levelInt}</title><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\" fill=\"#ff4d4f\"/></svg>";
@@ -228,7 +231,11 @@
                     $iconHtml = "<svg role=\"img\" aria-label=\"Gold crown \" viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\"><title>Gold crown {$levelInt}</title><path d=\"M12 2l2.9 6.3L22 9l-4.5 3.9L19 20 12 16.8 5 20l1.5-7.1L2 9l7.1-.7L12 2z\" fill=\"#ffd700\"/></svg>";
                 }
 
-                echo "<tr><td>{$name}</td><th>-</th><td>{$iconHtml}</td></tr>";
+                // Progress bar HTML
+                $progressBar = "<div class=\"skill-progress-container\"><div class=\"skill-progress-bar\" style=\"width: {$percentage}%\"></div></div>";
+                
+                echo "<tr class=\"skill-row\"><td class=\"skill-name-cell\">{$name}</td><th>-</th><td class=\"skill-icon-cell\">{$iconHtml}</td></tr>";
+                echo "<tr class=\"skill-progress-row\"><td colspan=\"3\" class=\"skill-progress-cell\">{$progressBar}</td></tr>";
             }
         }
 

@@ -166,3 +166,13 @@ function transition_editpage(origin){
     }, 1000);
     
 }
+
+function downloadCV(){
+    try{
+        // Download CV using current_use logic (no file_id needed, server will prioritize current_use=1)
+        window.location.href = '../../Properties/api/download_cv.php?id=1';
+    }catch(e){
+        console.error('Download CV error:', e);
+        window.location.href = '../../Properties/api/download_cv.php?id=1';
+    }
+}

@@ -69,7 +69,7 @@
         align-content: center;
         flex-wrap: wrap;
     }
-    .box-container div{
+    .box-container .box-section-header{
         font-size: 1.5rem;
         font-weight: bold;
         text-align: center;
@@ -92,7 +92,7 @@
         .box-container .table tbody tr{
             width: 100%;
             display: flex;
-                justify-content: center;
+                /* justify-content: center; */
                 align-items: center;
                 gap: 10px;
         }
@@ -110,7 +110,6 @@
 
 .box-container#b2 .table tbody tr td:last-child{
     width: 10px;
-    aspect-ratio: 1/1;
     padding: 0;
 }   
     .box-container#b2 .table tbody tr td:last-child svg{
@@ -131,3 +130,56 @@
         margin: auto;
         display: flex;
     }
+/* Skills Progress Bar Styling */
+.box-container#b2 .table tbody tr.skill-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.box-container#b2 .table tbody tr.skill-row .skill-name-cell {
+    color: white;
+    text-align: left;
+    flex: 1;
+}
+
+.box-container#b2 .table tbody tr.skill-row .skill-icon-cell {
+    width: auto;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.box-container#b2 .table tbody tr.skill-progress-row {
+    width: 100%;
+    aspect-ratio: unset;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.box-container#b2 .table tbody tr.skill-progress-row .skill-progress-cell {
+    width: 100%;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.skill-progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.box-container#b2 .table tbody tr.skill-progress-row .skill-progress-cell .skill-progress-container .skill-progress-bar {
+    padding: 1px 0;
+    height: 100%;
+    background-color: #E3311D;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+    min-width: 0;
+}

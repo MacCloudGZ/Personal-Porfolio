@@ -46,6 +46,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 var debuggmode = true;
+
+// Helper function to save header tab state
+function saveHeaderTabState(clusterSec, targetSection) {
+    try {
+        localStorage.setItem(`edit_active_${clusterSec}_tab`, targetSection);
+    } catch(e) {
+        if(debuggmode) console.log('Failed to save header tab state:', e);
+    }
+}
+
+// Helper function to restore header tab state
+function restoreHeaderTabState(clusterSec) {
+    try {
+        const saved = localStorage.getItem(`edit_active_${clusterSec}_tab`);
+        if (saved) {
+            // Check if the saved section exists
+            const sectionEl = document.getElementById(saved);
+            if (sectionEl) {
+                areafunction(clusterSec, saved);
+                return true;
+            }
+        }
+    } catch(e) {
+        if(debuggmode) console.log('Failed to restore header tab state:', e);
+    }
+    return false;
+}
+
 function areafunction(clustersec, trsection){
     const section = clustersec;
     const targetsection = trsection;
@@ -74,6 +102,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -93,6 +122,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -126,6 +156,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -145,6 +176,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -164,6 +196,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -183,6 +216,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -202,6 +236,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -221,6 +256,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -240,6 +276,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -259,6 +296,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -292,6 +330,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -311,6 +350,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -330,6 +370,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -363,6 +404,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -382,6 +424,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -415,6 +458,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -448,6 +492,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -489,6 +534,7 @@ function areafunction(clustersec, trsection){
                             if (tabEl) tabEl.classList.remove("current-tab");
                         });
                         if (tab) tab.classList.add("current-tab");
+                        saveHeaderTabState(clustersec, targetsection);
                     } else if (!body) {
                         if(debuggmode)console.log("target section element not found: "+targetsection);
                     } else {
@@ -505,3 +551,12 @@ function areafunction(clustersec, trsection){
             break;
     }
 }
+
+// Initialize header tabs on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Restore saved header tab states for each cluster
+    const clusters = ['fis', 'pis', 'pms', 'pcs', 'eas', 'lhs'];
+    clusters.forEach(cluster => {
+        restoreHeaderTabState(cluster);
+    });
+});

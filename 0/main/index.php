@@ -88,6 +88,14 @@
                     <?php } ?>
                 </table>
             </div>
+            <div class="download-sv">
+                <button class="cv" type="button" onclick="downloadCV()">
+                    <span>DOWNLOAD CV</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 3V13M10 13L6 9M10 13L14 9M4 17H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
         </article>
         <div class="loading-container" id="idle">
             <span class="loader"></span>
@@ -119,7 +127,7 @@
                 </div>
                 <?php if (!empty($box1_info)) { ?>
                 <div class="box-container" id="b1">
-                    <div><?php echo getBoxTitle($box1_info); ?></div>
+                    <div class="box-section-header"><?php echo getBoxTitle($box1_info); ?></div>
                     <hr>
                     <table class="table">
                         <?php renderBoxRows($box1_info); ?>
@@ -128,7 +136,7 @@
                 <?php } ?>
                 <?php if (!empty($box3_info)) { ?>
                 <div class="box-container" id="b2">
-                    <div><?php echo getBoxTitle($box3_info); ?></div>
+                    <div class="box-section-header"><?php echo getBoxTitle($box3_info); ?></div>
                     <hr>
                     <table class="table">
                         <?php renderBoxRows($box3_info); ?>
@@ -142,7 +150,7 @@
                 ?>
                 <div class="box-container" id="b3">
                     <?php if ($hasVisibleExperiences) { ?>
-                        <div><?php echo getBoxTitle($box2_info); ?></div>
+                        <div class="box-section-header"><?php echo getBoxTitle($box2_info); ?></div>
                         <hr>
                         <table class="table">
                             <?php renderBoxRows($box2_info); ?>
@@ -152,7 +160,7 @@
                     <br>
                     <?php } ?>
                     <?php if ($hasEducation) { ?>
-                        <div><?php echo getBoxTitle($box5_info); ?></div>
+                        <div class="box-section-header"><?php echo getBoxTitle($box5_info); ?></div>
                         <hr>
                         <table class="table">
                             <?php renderBoxRows($box5_info); ?>
@@ -160,7 +168,7 @@
                     <?php } ?>
                 </div>
                 <?php } ?>
-            </div>
+             </div>
         </section>
         <div class="edit_container" id="edit_container">
             <div class="edit-box">

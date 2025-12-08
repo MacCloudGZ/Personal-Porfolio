@@ -85,6 +85,14 @@
                     <?php } ?>
                 </table>
             </div>
+            <div class="download-sv">
+                <button class="cv" type="button" onclick="downloadCV()">
+                    <span>DOWNLOAD CV</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 3V13M10 13L6 9M10 13L14 9M4 17H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
         </article>
         <div class="loading-container" id="idle">
             <span class="loader"></span>

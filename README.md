@@ -1,69 +1,35 @@
-# Personal-Porfolio
-Personal Project as showing a my knowledge on making a dynamic portfolio
+# Personal Portfolio
 
-# Website properties
-the default color pallets that is used in this website is:
-| color            |"hex-color |
-| -----            | --------- |
-| red              | #FF0000 |
-| lightish red     | #E3311D |
-| black            | #050507 |
-| lightish-black   | #362E2D |
-| grey             | #7C8685 |
-| lightish grey    | #AAACA1 |
+Personal project demonstrating a dynamic portfolio website.
 
-# Configure
-the default password setup is:
-Username : admin
-Passwordd : admin
+## Website properties
 
-# table section
-Portfolio Table Data
+Default color palette used on the site:
 
-Personal Data Table
-| id  | firstname | lastname | middlename | Suffix | birthdate  | status |
-| :-- | --------- | -------- | ---------- | ------ | ---------  | -----: |
-| 1   |   Anon    |  nyms    |  Anonymost |  NULL  | 2000-01-01 | free-lancer |
+| Color           | Hex     |
+| --------------- | ------- |
+| Red             | #FF0000 |
+| Light Red       | #E3311D |
+| Black           | #050507 |
+| Dark Gray-Black | #362E2D |
+| Gray            | #7C8685 |
+| Light Gray      | #AAACA1 |
 
-status has 4 choices
-| choices |
-| ----------- |
-| employed |
-| free-lancer |
-| unemployed |
-| retired |
-Contact table <!--dynamic table-->
-<!-- an account can have more than one contacts depends on the user  -->
-| *id | contact-location | contact    |
-| :-- | :--------------: | -------    |
-|  1  |      01+         | 8473020029 |
-|  1  |      98+         | 9276827821 |
+## Setup
 
-Login table 
-| *id | username | password  |
-| :-- | -------- | --------  |
-|<id> |   anon   | ierjiajje |
+- Setup database: import or execute the SQL in `Setup_Database.sql` on your SQL server.
+- Current database: `CurrDatabase.sql` is a preconfigured snapshot. Use it if you prefer the existing data.
 
-Profile-Image Table
-| profile_img-locale | profile_id | image-part |
-| :--------- | -------- | ------- |
-| ex("/image/..") | <id> | 1 | 
-| ex("/image/..") | <id> | 2 | 
+Default credentials for the sample account:
 
-<!-- 1 is for the profile-->
-<!-- 2 is for the background profile -->
-Projects table <!--dynamic table-->
+```
+Username: admin
+Password: admin
+```
 
-| project-id | project_name | description | project_status | layout-type |
-| :--------- | ------------ | ----------- | -------------- | ----------: |
-|      1     |   testing    | loremepstum |   ongoing      |      3      |
-|      2     |   new data   | loremepstum |   completed    |      1      |
+CurrDatabase.sql account:
 
-project image table <!--dynamic table-->
-
-| *project-id | image-locale | layout |
-| ----------- | ------------ | ------ |
-|     1       | ex("/image/) |   1    |
-|     1       | ex("/image/) |   2    |
-|     1       | ex("/image/) |   3    |
-|     2       | ex("/image/) |   1    |
+```
+Username: admin
+Password: MacCloud
+```

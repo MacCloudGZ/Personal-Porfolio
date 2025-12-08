@@ -430,6 +430,24 @@
             }
             json_fail('Unsupported action', 405);
 
+        case 'file_manager':
+            if ($action === 'set_current') {
+                // Set one file as current (current_use=1) and set all others to 0
+                $fileId = (int)$data['file_id'];
+                // First, set all files for this user to 0
+                $stmt = $conn->prepare('UPDATE file_manager SET current_use = 0 WHERE id = ?');
+                $stmt->bind_param('i', $userId);
+                $stmt->execute();
+                // Then, set the selected file to 1
+                $stmt = $conn->prepare('UPDATE file_manager SET current_use = 1 WHERE file_id = ? AND id = ?');
+                $stmt->bind_param('ii', $fileId, $userId);
+                $ok = $stmt->execute();
+                if ($ok) log_event('file_manager_set_current', ['id' => $userId, 'file_id' => $fileId]);
+                echo json_encode(['success' => $ok]);
+                exit;
+            }
+            json_fail('Unsupported action', 405);
+
         default:
             json_fail('Unknown entity', 404);
     }
