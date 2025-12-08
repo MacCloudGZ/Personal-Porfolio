@@ -1,70 +1,92 @@
-# Personal-Porfolio
-Personal Project as showing a my knowledge on making a dynamic portfolio
+# Personal Portfolio
 
-# Website properties
-the default color pallets that is used in this website is:
-| color            |"hex-color |
-| -----            | --------- |
-| red              | #FF0000 |
-| lightish red     | #E3311D |
-| black            | #050507 |
-| lightish-black   | #362E2D |
-| grey             | #7C8685 |
-| lightish grey    | #AAACA1 |
+Personal project demonstrating a dynamic portfolio website.
 
-# Configure
-the default Credential Edit access is:
-Username : admin
-Passwordd : admin
+## Website properties
 
+Default color palette used on the site:
 
-# table section
-Portfolio Table Data
+| Color           | Hex     |
+| --------------- | ------- |
+| Red             | #FF0000 |
+| Light Red       | #E3311D |
+| Black           | #050507 |
+| Dark Gray-Black | #362E2D |
+| Gray            | #7C8685 |
+| Light Gray      | #AAACA1 |
 
-Personal Data Table
-| id  | firstname | lastname | middlename | Suffix | birthdate  | status |
-| :-- | --------- | -------- | ---------- | ------ | ---------  | -----: |
-| 1   |   Anon    |  nyms    |  Anonymost |  NULL  | 2000-01-01 | free-lancer |
+## Setup
 
-status has 4 choices
-| choices |
-| ----------- |
-| employed |
-| free-lancer |
-| unemployed |
-| retired |
-Contact table <!--dynamic table-->
-<!-- an account can have more than one contacts depends on the user  -->
-| *id | contact-location | contact    |
-| :-- | :--------------: | -------    |
-|  1  |      01+         | 8473020029 |
-|  1  |      98+         | 9276827821 |
+- Setup database: import or execute the SQL in `Setup_Database.sql` on your SQL server.
+- Current database: `CurrDatabase.sql` is a preconfigured snapshot. Use it if you prefer the existing data.
 
-Login table 
-| *id | username | password  |
-| :-- | -------- | --------  |
-|<id> |   anon   | ierjiajje |
+Default credentials for the sample account:
 
-Profile-Image Table
-| profile_img-locale | profile_id | image-part |
-| :--------- | -------- | ------- |
-| ex("/image/..") | <id> | 1 | 
-| ex("/image/..") | <id> | 2 | 
+```
+Username: admin
+Password: admin
+```
 
-<!-- 1 is for the profile-->
-<!-- 2 is for the background profile -->
-Projects table <!--dynamic table-->
+CurrDatabase.sql account:
 
-| project-id | project_name | description | project_status | layout-type |
-| :--------- | ------------ | ----------- | -------------- | ----------: |
-|      1     |   testing    | loremepstum |   ongoing      |      3      |
-|      2     |   new data   | loremepstum |   completed    |      1      |
+```
+Username: admin
+Password: MacCloud
+```
 
-project image table <!--dynamic table-->
+## Database tables
 
-| *project-id | image-locale | layout |
-| ----------- | ------------ | ------ |
-|     1       | ex("/image/) |   1    |
-|     1       | ex("/image/) |   2    |
-|     1       | ex("/image/) |   3    |
-|     2       | ex("/image/) |   1    |
+Notes:
+- IDs refer to primary keys.
+- Some tables are dynamic (one-to-many relationships).
+
+### PersonalData
+
+| id | firstname | lastname | middlename | suffix | birthdate   | status       |
+| --:| --------- | -------: | ---------: | ------ | ----------- | ------------:|
+| 1  | Anon      | Nyms     | Anonymost  | NULL   | 2000-01-01  | free-lancer  |
+
+Status choices:
+- employed
+- free-lancer
+- unemployed
+- retired
+
+### Contacts (one person can have multiple contacts)
+
+| id | contact_location | contact     |
+| --:| :---------------:| -----------:|
+| 1  | 01+              | 8473020029  |
+| 1  | 98+              | 9276827821  |
+
+### Login
+
+| id | username | password  |
+| --:| -------- | --------: |
+| 1  | anon     | ierjiajje |
+
+### ProfileImages
+
+| profile_img_locale | profile_id | image_part |
+| ------------------ | ---------: | ---------: |
+| /images/profile.jpg| 1          | 1          |
+| /images/bg.jpg     | 1          | 2          |
+
+Notes:
+- image_part: 1 = profile image, 2 = background/profile banner
+
+### Projects
+
+| project_id | project_name | description  | project_status | layout_type |
+| ---------: | ------------ | ------------ | -------------- | ----------: |
+| 1          | testing      | lorem ipsum  | ongoing        | 3           |
+| 2          | new data     | lorem ipsum  | completed      | 1           |
+
+### ProjectImages
+
+| project_id | image_locale   | layout |
+| ---------: | -------------- | -----: |
+| 1          | /images/p1-1.jpg | 1    |
+| 1          | /images/p1-2.jpg | 2    |
+| 1          | /images/p1-3.jpg | 3    |
+| 2          | /images/p2-1.jpg | 1    |

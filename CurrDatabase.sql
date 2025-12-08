@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2025 at 05:03 AM
+-- Generation Time: Dec 08, 2025 at 08:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -196,6 +196,7 @@ INSERT INTO `educational_background` (`education_id`, `id`, `institution_name`, 
 --
 -- Table structure for table `file_manager`
 --
+
 DROP TABLE IF EXISTS `file_manager`;
 CREATE TABLE IF NOT EXISTS `file_manager` (
   `file_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -205,15 +206,15 @@ CREATE TABLE IF NOT EXISTS `file_manager` (
   `current_use` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`file_id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `file_manager`
 --
 
 INSERT INTO `file_manager` (`file_id`, `id`, `file_name`, `file_path`, `current_use`) VALUES
-(1, 1, 'Resume.pdf', 'Properties/files/Resume.pdf', 1);
-
+(1, 1, 'Resume.pdf', 'Properties/files/Resume.pdf', 0),
+(2, 1, 'ModuleA_network_layout.pdf', 'Properties/files/ModuleA_network_layout.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -391,7 +392,8 @@ INSERT INTO `skills` (`skill_id`, `id`, `skill_name`, `proficiency_level`, `skil
 (2, 1, 'CSS', 10, 1),
 (3, 1, 'JavaScript', 10, 1),
 (4, 1, 'C++', 8, 1),
-(5, 1, 'Linux CLI', 3, 1);
+(5, 1, 'Linux CLI', 3, 1),
+(6, 1, 'PHP', 5, 1);
 
 -- --------------------------------------------------------
 
